@@ -5,12 +5,12 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { SettingsPage } from '../pages/settings/settings';
-<<<<<<< HEAD
+
 import { ViewScheduledEventPage } from '../pages/viewScheduledEvent/viewScheduledEvent';
-=======
+
 import { AboutPage} from '../pages/about/about';
 import { PlanEventPage } from '../pages/plan-event/plan-event';
->>>>>>> refs/remotes/origin/master
+
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -19,13 +19,12 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   declarations: [
     MyApp,
     HomePage,
-<<<<<<< HEAD
+
     ViewScheduledEventPage,
-    SettingsPage
-=======
+
     SettingsPage,
     AboutPage,
->>>>>>> refs/remotes/origin/master
+    PlanEventPage,
   ],
   imports: [
     BrowserModule,
@@ -35,13 +34,12 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   entryComponents: [
     MyApp,
     HomePage,
-<<<<<<< HEAD
+
     ViewScheduledEventPage,
-    SettingsPage
-=======
+
     SettingsPage,
     AboutPage,
->>>>>>> refs/remotes/origin/master
+    PlanEventPage,
   ],
   providers: [
     StatusBar,

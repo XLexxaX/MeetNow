@@ -7,6 +7,7 @@ import { SettingsPage } from '../pages/settings/settings';
 
 import { HomePage } from '../pages/home/home';
 import { AboutPage } from '../pages/about/about';
+import { PlanEventPage } from '../pages/plan-event/plan-event';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class MyApp {
     this.pages = [
       { title: 'Home', component: HomePage },
       { title: 'Einstellungen', component: SettingsPage },
+      { title: 'Event planen', component: PlanEventPage},
       { title: 'Über uns', component: AboutPage},
     ];
 
