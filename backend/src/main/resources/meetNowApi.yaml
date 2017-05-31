@@ -105,6 +105,13 @@ paths:
         - application/x-www-form-urlencoded
       produces:
         - application/json
+      parameters:
+        - in: formData
+          name: areaId
+          description: the id of the area which was entered
+          required: true
+          type: integer
+          format: int32
       responses:
         '405':
           description: Not in an area at the moment

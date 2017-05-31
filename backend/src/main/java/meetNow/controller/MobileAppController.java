@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MobileAppController {
 
 	@RequestMapping("/test")
-    public String greeting() {
+    public String greeting(String test) {
         return "OK";
     }
 
