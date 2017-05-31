@@ -1,7 +1,12 @@
+
+### ignore maven generated files ###
 target/
 !.mvn/wrapper/maven-wrapper.jar
 
-### STS ###
+### ignore swagger files ###
+gen/
+
+### STS & Eclipse ###
 .apt_generated
 .classpath
 .factorypath

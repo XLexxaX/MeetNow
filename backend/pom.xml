@@ -36,6 +36,26 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-joda</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -44,27 +64,72 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-<!-- 			<plugin> -->
-<!-- 				<groupId>io.swagger</groupId> -->
-<!-- 				<artifactId>swagger-codegen-maven-plugin</artifactId> -->
-<!-- 				<version>2.2.1</version> -->
-<!-- 				<executions> -->
-<!-- 					<execution> -->
-<!-- 						<goals> -->
-<!-- 							<goal>generate</goal> -->
-<!-- 						</goals> -->
-<!-- 						<configuration> -->
-<!-- 							<inputSpec>src/main/resources/meetNowApi.yaml</inputSpec> -->
-<!-- 							<language>java</language> -->
-<!-- 							<configOptions> -->
-<!-- 								<sourceFolder>src/gen/java/main</sourceFolder> -->
-<!-- 							</configOptions> -->
-<!-- 						</configuration> -->
-<!-- 					</execution> -->
-<!-- 				</executions> -->
-<!-- 			</plugin> -->
+			<plugin>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-codegen-maven-plugin</artifactId>
+				<version>2.2.2</version>
+				<configuration>
+					<output>gen</output>
+					<inputSpec>${basedir}/src/main/resources/api.yaml</inputSpec>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generateSourceCode</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<language>spring</language>
+							<apiPackage>api.api</apiPackage>
+							<modelPackage>api.model</modelPackage>
+							<configOptions>
+								<sourceFolder>src/java</sourceFolder>
+								<!-- <basePackage>com.sap.grc.wl.screening.gen</basePackage> -->
+								<!-- <invokerPackage>com.sap.grc.wl.screening.gen</invokerPackage> -->
+								<!-- <configPackage>com.sap.grc.wl.screening.gen.config</configPackage> -->
+								<interfaceOnly>true</interfaceOnly>
+								<java8>true</java8>
+								<library>spring-boot</library>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>io.swagger</groupId>
+										<artifactId>
+											swagger-codegen-maven-plugin
+										</artifactId>
+										<versionRange>
+											[${swagger-codegen-version},)
+										</versionRange>
+										<goals>
+											<goal>generate</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
-
-
 </project>
