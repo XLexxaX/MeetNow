@@ -17,6 +17,10 @@
       <ion-icon name="calendar" item-left></ion-icon>
       {{item.title}} angesetzt für {{item.startTime}} - {{item.endTime}} Uhr
 
+      <div class="item-note" item-right>
+        <ion-icon name="eye" item-right></ion-icon>
+      </div>
+
     </button>
   </ion-list>
 
@@ -35,6 +39,7 @@
       </div>
     </button>
   </ion-list>
+
   <div *ngIf="selectedItem" padding>
     You navigated here from <b>{{selectedItem.title}}</b>
   </div>
