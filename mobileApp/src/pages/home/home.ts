@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import {AboutPage} from '../about/about';
 import { ViewScheduledEventPage } from '../viewScheduledEvent/viewScheduledEvent';
 
 @Component({
@@ -7,9 +8,12 @@ import { ViewScheduledEventPage } from '../viewScheduledEvent/viewScheduledEvent
   templateUrl: 'home.html'
 })
 export class HomePage {
+
   selectedItem: any;
   plannedEvents: Array<{title: string, id: number}>;
   scheduledEvents: Array<{title: string, id: number, startTime: string, endTime: string}>;
+  aboutPage = AboutPage;
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     // If we navigated to this page, we will have an item available as a nav param
