@@ -1,6 +1,6 @@
 # Backend for the meetNow app
 Written in Java using [Spring Boot](https://projects.spring.io/spring-boot) and [swagger](http://swagger.io/). For more information about swagger 
-usage please refer to this [page](/src/main/resources/README.md).
+usage please refer to this [page](./src/main/resources/README.md).
 
 ## Setup Development Environment
 ### Maven
@@ -23,7 +23,7 @@ Open the Postam Plugin by pressing the `windows key` and typing "postman". Choos
 
 ## Local Testing
 Test your spring Application:
-- Eclipse: Open the MeetNowApplication.class and choose `Run`->`Run-As`->Java Application.
+- Eclipse: Open the MeetNowApplication.class and choose `Run`->`Run-As`->`Java Application`.
 - STS: Open the Spring Boot View and press the start button.
 
 After Startup, you can access the application via postman.
