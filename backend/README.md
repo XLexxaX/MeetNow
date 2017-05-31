@@ -32,7 +32,7 @@ After Startup, you can access the application via postman.
 1. Before you commit your changes to the github repository, always run a `mvn clean verify`. Only push to git if your build ended up with
 `BUILD SUCCESS`. (Only for the spring project! If you changed something regarding the mobile app, you don't need to run maven)
 2. Add your changes using your IDE or `git add filename`.
-3. Commit your local changes using your IDE or `git commit -m "your commit message".
+3. Commit your local changes using your IDE or `git commit -m "your commit message"`.
 4. Fetch updates from upstream using your IDE or `git fetch`.
 5. If there are updates, use `git rebase` to set your commit(s) on top of the remote commits.
 6. After a successfull rebase, push your changes to the remote repository using `git push`.
