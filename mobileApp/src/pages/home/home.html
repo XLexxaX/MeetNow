@@ -3,25 +3,31 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>List</ion-title>
+    <ion-title>Übersicht</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
 
   <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
+    <ion-list-header>
+      Stattfindende Ereignisse
+    </ion-list-header>
+    <button ion-item *ngFor="let item of scheduledEvents" (click)="itemTapped($event, item)">
       <ion-icon name="calendar" item-left></ion-icon>
-      {{item.title}}
-      <div class="item-note" item-right>
-        <ion-icon name="build" item-right></ion-icon>
-      </div>
+      {{item.title}} angesetzt für {{item.startTime}} - {{item.endTime}} Uhr
+
     </button>
   </ion-list>
 
 
   <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
+
+    <ion-list-header>
+      Geplante Ereignisse
+    </ion-list-header>
+
+    <button ion-item *ngFor="let item of plannedEvents" (click)="itemTapped($event, item)">
       <ion-icon name="calendar" item-left></ion-icon>
       {{item.title}}
       <div class="item-note" item-right>
