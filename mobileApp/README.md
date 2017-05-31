@@ -1,3 +1,8 @@
+## TODO Carmen or Alex update this page with necessary information how to setup the project
+
+
+
+
 This is a starter template for [Ionic](http://ionicframework.com/docs/) projects.
 
 ## How to use this template
