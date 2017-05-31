@@ -38,4 +38,6 @@
   <div *ngIf="selectedItem" padding>
     You navigated here from <b>{{selectedItem.title}}</b>
   </div>
+
+  <button [navPush]="aboutPage">Go To About</button>
 </ion-content>
