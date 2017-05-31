@@ -81,8 +81,8 @@
 						</goals>
 						<configuration>
 							<language>spring</language>
-							<apiPackage>api.api</apiPackage>
-							<modelPackage>api.model</modelPackage>
+							<apiPackage>swagger.api</apiPackage>
+							<modelPackage>swagger.model</modelPackage>
 							<configOptions>
 								<sourceFolder>src/java</sourceFolder>
 								<!-- <basePackage>com.sap.grc.wl.screening.gen</basePackage> -->

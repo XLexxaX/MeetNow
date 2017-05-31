@@ -9,7 +9,7 @@ info:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 host: to.be.determinated
-basePath: /v1
+basePath: /
 schemes:
   - http
 paths:
@@ -31,6 +31,12 @@ paths:
           schema:
             $ref: '#/definitions/Meeting'
       responses:
+        '200':
+          description: Creation successfull
+          schema:
+            type: integer
+            format: int32
+            description: the id of the newly created meeting
         '405':
           description: Validation Exception
     put:
@@ -50,6 +56,8 @@ paths:
           schema:
             $ref: '#/definitions/Meeting'
       responses:
+        '200':
+          description: Update successfull
         '403':
           description: 'Not Authorized, if you''re trying to update a meeting you don''t own'
         '405':
@@ -71,6 +79,8 @@ paths:
           schema:
             $ref: '#/definitions/Meeting'
       responses:
+        '200':
+          description: Deletion successfull
         '403':
           description: 'Not Authorized, if you''re trying to delete a meeting you don''t own'
         '405':
@@ -93,7 +103,9 @@ paths:
           type: integer
           format: int32
       responses:
-        '405':
+        '200':
+          description: Update successful
+        '400':
           description: Area not recognized
   /leaveArea:
     post:
@@ -113,8 +125,12 @@ paths:
           type: integer
           format: int32
       responses:
+        '200':
+          description: Update successful
         '405':
           description: Not in an area at the moment
+        '400':
+          description: Area not recognized
 definitions:
   Meeting:
     type: object
@@ -164,11 +180,9 @@ definitions:
           $ref: '#/definitions/Participant'
   Participant:
     type: object
-    required:
-      - id
     properties:
       id:
-        description: 'unique identifier, probably mail account? TODO'
+        description: 'unique identifier, TODO (mail or phone?)'
         type: string
       busyTimes:
         type: array
