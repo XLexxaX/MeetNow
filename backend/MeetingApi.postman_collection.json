@@ -1,0 +1,31 @@
+{
+	"variables": [],
+	"info": {
+		"name": "MeetingApi",
+		"_postman_id": "5d8c5871-9ab7-5d5c-8e7a-7edad2c56fdf",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Meeting",
+			"request": {
+				"url": "http://localhost:8080/meeting",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"ownerId\": 1,\r\n  \"reoccurrence\": \"daily\",\r\n  \"participants\": [\r\n    {\r\n      \"id\": \"string\",\r\n      \"busyTimes\": [\r\n        {\r\n          \"startTime\": \"string\",\r\n          \"duration\": \"string\"\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"groups\": [\r\n    {\r\n      \"id\": 1,\r\n      \"participants\": [\r\n        {\r\n          \"id\": \"string\",\r\n          \"busyTimes\": [\r\n            {\r\n              \"startTime\": \"string\",\r\n              \"duration\": \"string\"\r\n            }\r\n          ]\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"nextScheduled\": \"2017-06-01T14:14:35.768Z\",\r\n  \"areas\": [\r\n    {\r\n      \"longitude\": \"string\",\r\n      \"latitude\": \"string\",\r\n      \"radius\": 0\r\n    }\r\n  ]\r\n}"
+				},
+				"description": "create a new meeting"
+			},
+			"response": []
+		}
+	]
+}

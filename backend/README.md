@@ -45,7 +45,7 @@ Test your spring Application:
 - Eclipse: Open the MeetNowApplication.class and choose `Run`->`Run-As`->`Java Application`.
 - STS: Open the Spring Boot View and press the start button.
 
-After Startup, you can access the application via postman. You can import example requests as a collection by choosing `Import` and navigating to your project directory and choosing the `collection.json` file. This will probably updated regularly, so you might have to delete the collection and import it again.
+After Startup, you can access the application via postman. You can import example requests as a collection by choosing `Import` and navigating to your project directory and choosing the `MeetingApi.postman_collection.json` file. This will probably updated regularly, so you might have to delete the collection and import it again.
 
 ## Committing
 1. Before you commit your changes to the github repository, always run a `mvn clean verify`. Only push to git if your build ended up with
