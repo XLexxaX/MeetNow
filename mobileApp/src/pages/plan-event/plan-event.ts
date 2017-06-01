@@ -1,24 +1,60 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController  } from 'ionic-angular';
 
 /**
- * Generated class for the PlanEventPage page.
+ * This class designs the event planning page.
  *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
+ *
  */
 @IonicPage()
+
 @Component({
   selector: 'page-plan-event',
   templateUrl: 'plan-event.html',
+
 })
 export class PlanEventPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController) {
+
+
   }
+
+  openActionSheet(){
+    console.log('opening');
+    let actionsheet = this.actionSheetCtrl.create({
+      title:"Choose Album",
+      buttons:[{
+        text: 'Camera',
+        handler: () => {
+          alert("Camera Clicked");
+        }
+      },{
+        text: 'Gallery',
+        handler: function(){
+          alert("Gallery Clicked");
+        }
+      }]
+    });
+    actionsheet.present();
+  }
+
+
+  checkStatusEventCategoryIsSet(){
+
+    alert("working");
+  }
+
+
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PlanEventPage');
   }
+
+
+
+
 
 }

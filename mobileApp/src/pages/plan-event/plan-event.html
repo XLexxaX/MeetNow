@@ -12,21 +12,55 @@
 
   <ion-list>
 
-    <ion-item>
-      <ion-input type="text" placeholder="Name des Events"></ion-input>
-    </ion-item>
+  <ion-item>
+   <ion-input type="text" placeholder="Name des Events"></ion-input>
+  </ion-item>
+
+</ion-list>
 
 
-  </ion-list>
+  <ion-item id="listEventCategory" >
+    <ion-label>Kategorie</ion-label>
+    <ion-select [(ngModel)]="eventCategory" multiple="false" interface="action-sheet"
+                ng-init='checkStatus=false' ng-model='checkStatusEventCategoryIsSet'
+                ng-click='checkStatusEventCategoryIsSet()'>
+      <ion-option value="lunch">Mittagessen</ion-option>
+    <ion-option value="jourfix">Jourfix</ion-option>
+      <ion-option value="kaffee">Kaffee trinken</ion-option>
+     <!-- <ion-option *ngFor="let item of optionsListEventCategory" value="{{item.value}}" checked="{{item.checked}}">{{item.text}}</ion-option>-->
+    </ion-select>
+  </ion-item>
 
+
+
+
+
+
+  <ion-item id="listLocation" >
+    <ion-label>Treffpunkt</ion-label>
+    <ion-select [(ngModel)]="eventLocation" multiple="false" interface="action-sheet">
+     <ion-option value="walldorf">WDF</ion-option>
+      <ion-option value="rot">ROT</ion-option>
+      <ion-option value="berlin">BLN</ion-option>
+      <!-- <ion-option *ngFor="let item of optionsListEventCategory" value="{{item.value}}" checked="{{item.checked}}">{{item.text}}</ion-option>-->
+    </ion-select>
+  </ion-item>
 
 </ion-content>
 
-  <ion-content>
-    <ion-item-group>
-      <ion-item-divider color="light">A</ion-item-divider>
-      <ion-item>Angola</ion-item>
-      <ion-item>Argentina</ion-item>
-    </ion-item-group>
-  </ion-content>
+<!--<ion-content>-->
+  <!--<ion-item-group>-->
+    <!--<ion-item-divider color="light">A</ion-item-divider>-->
+    <!--<ion-item>Angola</ion-item>-->
+    <!--<ion-item>Argentina</ion-item>-->
+  <!--</ion-item-group>-->
+<!--</ion-content>-->
+
+
+
+
+
+
+
+
 
