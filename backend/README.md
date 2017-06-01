@@ -1,6 +1,6 @@
 # Backend for the meetNow app
 Written in Java using [Spring Boot](https://projects.spring.io/spring-boot) and [swagger](http://swagger.io/). For more information about swagger 
-usage please refer to this [page](./src/main/resources/README.md). Persistence is done with MongoDB.
+usage please refer to this [page](./src/main/resources/README.md). Persistence is done with [MongoDB](https://www.mongodb.com/).
 
 ## Setup Development Environment
 ### Maven
@@ -42,7 +42,7 @@ If you want to run the bat file now, you right-click and choose `Open-With`->`Sy
 ## Local Testing
 Before you can test your spring application, you have to start MongoDB as described [above](#mongodb). So you need to run your mongoStartUp.bat file. You don't need to restart mongoDb every time you restart your application, so you can just leave it open in the background.
 Test your spring Application:
-- Eclipse: Open the MeetNowApplication.class and choose `Run`->`Run-As`->`Java Application`.
+- Eclipse: Open the `BackendApplication` class and choose `Run`->`Run-As`->`Java Application`.
 - STS: Open the Spring Boot View and press the start button.
 
 After Startup, you can access the application via postman. You can import example requests as a collection by choosing `Import` and navigating to your project directory and choosing the `MeetingApi.postman_collection.json` file. This will probably updated regularly, so you might have to delete the collection and import it again.
