@@ -5,13 +5,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import meetNow.api.exceptions.ValidationException;
-import meetNow.meeting.MeetingManager;
+import meetNow.logic.MeetingProcessor;
 import swagger.model.Meeting;
 
 @RestController
@@ -33,19 +31,36 @@ public class MobileAppController {
 	private MeetingValidator validator;
 
 	@Autowired
-	private MeetingManager manager;
+	private MeetingProcessor manager;
 
 	@RequestMapping("/test")
 	public String testServerUp(String test) {
 		return "OK";
 	}
 
-	@RequestMapping(value = "/meeting", produces = { "application/json" }, consumes = {
+	@RequestMapping(value = "/meeting", consumes = { "application/json" }, produces = {
 			"application/json" }, method = RequestMethod.POST)
-	public ResponseEntity<Integer> addMeeting(@RequestBody Meeting meeting) throws ValidationException {
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody Map<String, String> addMeeting(@RequestBody Meeting meeting) throws ValidationException {
 		validateMeeting(meeting);
-		int id = manager.processNewMeeting();
-		return new ResponseEntity<Integer>(id, HttpStatus.OK);
+		String id = manager.processNewMeeting(meeting);
+		Map<String, String> responseBody = new HashMap<>();
+		responseBody.put("id", id);
+		return responseBody;
+	}
+
+	@RequestMapping(value = "/meeting", consumes = { "application/json" }, produces = {
+			"application/json" }, method = RequestMethod.PUT)
+	@ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+	public @ResponseBody Map<String, String> updateMeeting(@RequestBody Meeting meeting) throws ValidationException {
+		return null;
+	}
+
+	@RequestMapping(value = "/meeting", consumes = { "application/json" }, produces = {
+			"application/json" }, method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+	public @ResponseBody Map<String, String> deleteMeeting(@RequestBody Meeting meeting) throws ValidationException {
+		return null;
 	}
 
 	@ExceptionHandler(ValidationException.class)
@@ -53,17 +68,17 @@ public class MobileAppController {
 	public @ResponseBody Map<String, Object> handleIndexNotFoundException(ValidationException e) throws Exception {
 		HashMap<String, Object> result = new HashMap<>();
 		result.put("Validation failed", e.getMessage());
-//		throw new Exception("test");
 		return result;
 	}
 
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public @ResponseBody Map<String, Object> handleIndexNotFoundException(Exception e,
-			HttpServletRequest request, HttpServletResponse resp) {
-		logger.error("An internal server error occurred, request {} raised exception {}", request.getRequestURL(), e);
+	public @ResponseBody Map<String, Object> handleIndexNotFoundException(Exception e, HttpServletRequest request,
+			HttpServletResponse resp) {
+		logger.error("An internal server error occurred, request {} raised exception", request.getRequestURL());
+		logger.error("Exception: {}", e);
 		HashMap<String, Object> result = new HashMap<>();
-		result.put("error" , "An internal error occurred");
+		result.put("error", "An internal error occurred");
 		return result;
 	}
 

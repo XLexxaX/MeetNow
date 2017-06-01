@@ -31,11 +31,10 @@ paths:
           schema:
             $ref: '#/definitions/Meeting'
       responses:
-        '200':
+        '201':
           description: Creation successfull
           schema:
-            type: integer
-            format: int32
+            type: string
             description: the id of the newly created meeting
         '405':
           description: Validation Exception
@@ -58,7 +57,7 @@ paths:
       responses:
         '200':
           description: Update successfull
-        '403':
+        '401':
           description: 'Not Authorized, if you''re trying to update a meeting you don''t own'
         '405':
           description: Validation Exception
@@ -81,7 +80,7 @@ paths:
       responses:
         '200':
           description: Deletion successfull
-        '403':
+        '401':
           description: 'Not Authorized, if you''re trying to delete a meeting you don''t own'
         '405':
           description: Validation Exception
@@ -140,11 +139,9 @@ definitions:
     properties:
       id:
         description: unique identifier
-        type: integer
-        format: int32
+        type: string
       ownerId:
-        type: integer
-        format: int32
+        type: string
       reoccurrence:
         description: how often shall the meeting reoccur?
         type: string
@@ -172,8 +169,7 @@ definitions:
     properties:
       id:
         description: unique identifier
-        type: integer
-        format: int32
+        type: string
       participants:
         type: array
         items:

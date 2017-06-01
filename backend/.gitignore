@@ -13,3 +13,6 @@ gen/
 .project
 .settings
 .springBeans
+
+### mongoDB bat ###
+mongoStartUp.bat
