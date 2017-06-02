@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheetController  } from 'ionic-angular';
-
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams, ActionSheetController} from 'ionic-angular';
+import {Meeting} from '../../model/Meeting'
 /**
  * This class designs the event planning page.
  *
@@ -15,46 +15,38 @@ import { IonicPage, NavController, NavParams, ActionSheetController  } from 'ion
 })
 export class PlanEventPage {
 
-
+  newEvent: Meeting;
+  categories: Array<Meeting.CategoryEnum>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public actionSheetCtrl: ActionSheetController) {
 
+    this.newEvent = {
+      ownerId: "3",
+      reoccurrence: null,
+      name: "",
+      areas: [{}]
+    };
 
-  }
-
-  openActionSheet(){
-    console.log('opening');
-    let actionsheet = this.actionSheetCtrl.create({
-      title:"Choose Album",
-      buttons:[{
-        text: 'Camera',
-        handler: () => {
-          alert("Camera Clicked");
-        }
-      },{
-        text: 'Gallery',
-        handler: function(){
-          alert("Gallery Clicked");
-        }
-      }]
-    });
-    actionsheet.present();
+    this.categories = [ Meeting.CategoryEnum.Jourfix, Meeting.CategoryEnum.Meeting, Meeting.CategoryEnum.Coffeebreak]
   }
 
 
-  checkStatusEventCategoryIsSet(){
-
-    alert("working");
+   showSelectedEventLocation(eventLocation) {
+    this.newEvent.areas[0] = {
+      id: eventLocation
+    };
   }
 
-
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad PlanEventPage');
+  checkIfValuesAreSet() {
+    if (this.newEvent.name !== "" || this.newEvent.category !== null ||
+      this.newEvent.areas[0].id !== "") {
+      alert("Now page navigation should be triggered")
+    }
   }
 
-
-
+  /*  ionViewDidLoad() {
+   console.log('ionViewDidLoad PlanEventPage');
+   }*/
 
 
 }
