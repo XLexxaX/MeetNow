@@ -33,7 +33,7 @@
 
     <button ion-item *ngFor="let item of plannedEvents" (click)="itemTapped($event, item)">
       <ion-icon name="calendar" item-left></ion-icon>
-      {{item.title}}
+      {{item.reoccurrence}} {{item.name}}
       <div class="item-note" item-right>
         <ion-icon name="build" item-right></ion-icon>
       </div>

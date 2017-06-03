@@ -15,6 +15,8 @@ import { PlanEventPage } from '../pages/plan-event/plan-event';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { IonicStorageModule } from '@ionic/storage';
+import {MeetingApi} from '../gen/api/MeetingApi';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     HttpModule,
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -46,6 +49,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
+    MeetingApi,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
