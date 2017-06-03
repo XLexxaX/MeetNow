@@ -37,7 +37,7 @@ public class StandardMeetingValidator implements MeetingValidator {
 
 	private void checkGroups(List<Group> groups) throws ValidationException {
 		for (Group group : groups) {
-			String id = group.getId();
+			String id = group.getId()+"";
 			if (stringEmptyOrNull(id)) {
 				throw new ValidationException("Invalid group id: " + id);
 			}

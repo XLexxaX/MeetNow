@@ -11,7 +11,7 @@ public interface MeetingValidator {
 
 	void checkReoccurrance(ReoccurrenceEnum reoccurence) throws ValidationException;
 
-	void checkOwnerId(String id) throws ValidationException;
+	void checkOwnerId(String string) throws ValidationException;
 
 	void checkParticipantsAndGroups(List<Participant> participants, List<Group> groups) throws ValidationException;
 

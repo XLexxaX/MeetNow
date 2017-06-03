@@ -13,11 +13,3 @@ gen/
 .project
 .settings
 .springBeans
-
-### mongoDB bat ###
-mongoStartUp.bat
-
-##rsa keys###
-id_rsa
-id_rsa.pub
-/bin/

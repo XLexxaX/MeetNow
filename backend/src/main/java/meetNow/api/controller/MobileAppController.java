@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,7 @@ import meetNow.api.exceptions.ValidationException;
 import meetNow.logic.MeetingProcessor;
 import swagger.model.Meeting;
 
+@CrossOrigin
 @RestController
 public class MobileAppController {
 
@@ -38,7 +41,7 @@ public class MobileAppController {
 		return "OK";
 	}
 
-	@RequestMapping(value = "/meeting", consumes = { "application/json" }, produces = {
+	@RequestMapping(value = "/meeting", produces = { "application/json" }, consumes = {
 			"application/json" }, method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody Map<String, String> addMeeting(@RequestBody Meeting meeting) throws ValidationException {
@@ -83,7 +86,7 @@ public class MobileAppController {
 	}
 
 	private void validateMeeting(Meeting meeting) throws ValidationException {
-		validator.checkOwnerId(meeting.getOwnerId());
+		validator.checkOwnerId(meeting.getOwnerId()+"");
 		validator.checkReoccurrance(meeting.getReoccurrence());
 		validator.checkParticipantsAndGroups(meeting.getParticipants(), meeting.getGroups());
 	}

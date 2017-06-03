@@ -16,16 +16,7 @@ export class ViewScheduledEventPage {
   items: Array<any>;
 
   constructor(private navController: NavController, private restService: RESTService) {
-    this.restService.get('The Hobbit: An Unexpected Journey').subscribe(
-      data => {
-        this.items = data.results;
-        console.log(data);
-      },
-      err => {
-        console.log(err);
-      },
-      () => console.log('Movie Search Complete')
-    );
+    this.restService.get('The Hobbit: An Unexpected Journey');
   }
 
 }

@@ -1,0 +1,207 @@
+swagger: '2.0'
+info:
+  description: >-
+    This is the API for internal communication between the MeetNow app on mobile
+    devices and the backend
+  version: 1.0.0
+  title: MeetNow Internal Communication API
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: to.be.determinated
+basePath: /
+schemes:
+  - http
+paths:
+  /meeting:
+    post:
+      tags:
+        - meeting
+      summary: Submit a new meeting to the backends
+      operationId: addMeeting
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: meeting
+          description: Meeting that needs to be submitted to the backend
+          required: true
+          schema:
+            $ref: '#/definitions/Meeting'
+      responses:
+        '200':
+          description: Creation successfull
+          schema:
+            type: integer
+            format: int32
+            description: the id of the newly created meeting
+        '405':
+          description: Validation Exception
+    put:
+      tags:
+        - meeting
+      summary: Update an existing meeting
+      operationId: updateMeeting
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: meeting
+          description: Meeting which shall be updated
+          required: true
+          schema:
+            $ref: '#/definitions/Meeting'
+      responses:
+        '200':
+          description: Update successfull
+        '403':
+          description: 'Not Authorized, if you''re trying to update a meeting you don''t own'
+        '405':
+          description: Validation Exception
+    delete:
+      tags:
+        - meeting
+      summary: Remove an existing meeting
+      operationId: removeMeeting
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: meeting
+          description: Meeting which shall be deleted
+          required: true
+          schema:
+            $ref: '#/definitions/Meeting'
+      responses:
+        '200':
+          description: Deletion successfull
+        '403':
+          description: 'Not Authorized, if you''re trying to delete a meeting you don''t own'
+        '405':
+          description: Validation Exception
+  /enterArea:
+    post:
+      tags:
+        - area
+      summary: notify the backend that the client enters a defined area
+      operationId: enterArea
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: areaId
+          description: the id of the area which was entered
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Update successful
+        '400':
+          description: Area not recognized
+  /leaveArea:
+    post:
+      tags:
+        - area
+      summary: notify the backend that the client leaves a defined area
+      operationId: leaveArea
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: areaId
+          description: the id of the area which was entered
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Update successful
+        '405':
+          description: Not in an area at the moment
+        '400':
+          description: Area not recognized
+definitions:
+  Meeting:
+    type: object
+    required:
+      - reoccurrence
+      - ownerId
+    properties:
+      id:
+        description: unique identifier
+        type: integer
+        format: int32
+      ownerId:
+        type: integer
+        format: int32
+      reoccurrence:
+        description: how often shall the meeting reoccur?
+        type: string
+        enum:
+          - daily
+          - weekly
+          - monthly
+      participants:
+        type: array
+        items:
+          $ref: '#/definitions/Participant'
+      groups:
+        type: array
+        items:
+          $ref: '#/definitions/Group'
+      nextScheduled:
+        type: string
+        format: date-time
+      areas:
+        type: array
+        items:
+          $ref: '#/definitions/Area'
+  Group:
+    type: object
+    properties:
+      id:
+        description: unique identifier
+        type: integer
+        format: int32
+      participants:
+        type: array
+        items:
+          $ref: '#/definitions/Participant'
+  Participant:
+    type: object
+    properties:
+      id:
+        description: 'unique identifier, TODO (mail or phone?)'
+        type: string
+      busyTimes:
+        type: array
+        items:
+          properties:
+            startTime:
+              type: string
+              format: time
+            duration:
+              type: string
+              format: time
+  Area:
+    type: object
+    properties:
+      longitude:
+        type: string
+      latitude:
+        type: string
+      radius:
+        type: integer
+        format: int32
+        description: the radius of the area in meters
