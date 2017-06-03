@@ -17,6 +17,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule } from '@ionic/storage';
 import {MeetingApi} from '../gen/api/MeetingApi';
+import { Calendar } from '@ionic-native/calendar';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import {MeetingApi} from '../gen/api/MeetingApi';
     StatusBar,
     SplashScreen,
     MeetingApi,
+    Calendar,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

@@ -5,6 +5,7 @@ import { ViewScheduledEventPage } from '../viewScheduledEvent/viewScheduledEvent
 import {Meeting} from '../../gen/model/Meeting';
 import { Storage } from '@ionic/storage';
 import {MeetingApi} from '../../gen/api/MeetingApi';
+import { Calendar } from '@ionic-native/calendar';
 
 @Component({
   selector: 'page-home',
@@ -19,12 +20,23 @@ export class HomePage {
   aboutPage = AboutPage;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private meetingApi: MeetingApi, private storage: Storage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private meetingApi: MeetingApi, private storage: Storage, private calendar: Calendar) {
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedItem = navParams.get('item');
 
 
-
+    this.calendar.createEvent("hooo", "Mannheim", "no notes", new Date(2017, 1, 1, 15), new Date(2017, 1, 1, 16)).then(
+      (msg) => { console.log(msg); },
+      (err) => { console.log("errorr");console.log(err); }
+    );
+    this.calendar.findEvent("hooo", "Mannheim", "no notes", new Date(2017, 1, 1, 15), new Date(2017, 1, 1, 16)).then(
+      (msg) => { console.log(msg); },
+      (err) => { console.log("errorr2");console.log(err); }
+    );
+    this.calendar.findEvent("Fahrt Ahlen").then(
+      (msg) => { console.log(msg); alert(msg) },
+      (err) => { console.log("errorr3"); console.log(err); }
+    );
 
 
 
@@ -61,8 +73,6 @@ export class HomePage {
 
     this.getMeetingsFromStorage();
 
-    //ONLY FOR TEST PURPOSES!!!
-    this.storage.clear();
 
 
   }
@@ -89,11 +99,6 @@ export class HomePage {
       return data
     });
     console.log(res);
-    if (!res.closed) {
-      //set storage
-    } else {
-      //notify user??
-    }
 
     this.storage.set(meeting.id, JSON.stringify(meeting)).then(function success(res) {
     }, function error(res) {
