@@ -2,6 +2,13 @@ import {Http, Headers, RequestOptions} from '@angular/http';
 import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Observable';
 
+/**
+ * This is just a test class for testing the Backend-API;
+ * the actual API can be found in src/gen;
+ * However, the API should be called by one of the Services
+ * from the /services-folder. Here, further functionalities,
+ * like local storage methods are implemented.
+ * */
 export class RESTService {
 
   apiUrl: string;
