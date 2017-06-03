@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, ActionSheetController} from 'ionic-angular';
-import {Meeting} from '../../model/Meeting'
+import {Meeting} from '../../gen/model/Meeting'
 /**
  * This class designs the event planning page.
  *
@@ -27,7 +27,7 @@ export class PlanEventPage {
       areas: [{}]
     };
 
-    this.categories = [ Meeting.CategoryEnum.Jourfix, Meeting.CategoryEnum.Meeting, Meeting.CategoryEnum.Coffeebreak]
+    this.categories = [ Meeting.CategoryEnum.Jourfix, Meeting.CategoryEnum.Lunch, Meeting.CategoryEnum.Coffeebreak]
   }
 
 
@@ -43,10 +43,5 @@ export class PlanEventPage {
       alert("Now page navigation should be triggered")
     }
   }
-
-  /*  ionViewDidLoad() {
-   console.log('ionViewDidLoad PlanEventPage');
-   }*/
-
 
 }
