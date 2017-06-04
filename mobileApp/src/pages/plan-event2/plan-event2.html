@@ -1,0 +1,74 @@
+<!--
+  Generated template for the PlanEvent2Page page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Event planen - Schritt 2 </ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding>
+
+ <!-- Set reoccurrence -->
+
+  <ion-list radio-group [(ngModel)]="newEvent.reoccurrence">
+    <ion-list-header>
+      Wie oft?
+    </ion-list-header>
+
+      <ion-item>
+        <ion-label>Täglich </ion-label>
+        <ion-radio value="{{reoccurrence[0]}}" (ionSelect)="setReoccurenceAnswer(value)"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Einmal pro Woche </ion-label>
+        <ion-radio value="{{reoccurrence[1]}}" (ionSelect)="setReoccurenceAnswer(value)"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Einmal pro Monat </ion-label>
+        <ion-radio value="{{reoccurrence[2]}}" (ionSelect)="setReoccurenceAnswer(value)"></ion-radio>
+      </ion-item>
+
+
+  </ion-list>
+
+   <!-- Set time frame  -->
+
+  <ion-list radio-group >
+    <ion-list-header>
+      Wie lange?
+    </ion-list-header>
+
+    <ion-item>
+      <ion-label>15 Minuten</ion-label>
+      <ion-radio value="15Minutes" (ionSelect)="setTimeFrameAnswer(value)"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>30 Minuten</ion-label>
+      <ion-radio value="thirtyMinutes" (ionSelect)="setTimeFrameAnswer(value)"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>1 Stunde</ion-label>
+      <ion-radio value="oneHour" (ionSelect)="setTimeFrameAnswer(value)"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>2 Stunden</ion-label>
+      <ion-radio value="twoHours" (ionSelect)="setTimeFrameAnswer(value)"></ion-radio>
+    </ion-item>
+  </ion-list>
+
+<button ion-button (click)='callingNextPage()'>Weiter</button>
+</ion-content>
+
+
+

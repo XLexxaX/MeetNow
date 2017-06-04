@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, ActionSheetController} from 'ionic-angular';
 import {Meeting} from '../../gen/model/Meeting'
+import {PlanEvent2Page } from '../plan-event2/plan-event2';
 /**
  * This class designs the event planning page.
  *
@@ -40,8 +41,17 @@ export class PlanEventPage {
   checkIfValuesAreSet() {
     if (this.newEvent.name !== "" || this.newEvent.category !== null ||
       this.newEvent.areas[0].id !== "") {
-      alert("Now page navigation should be triggered")
+
     }
   }
+
+  callingNextPage(event, item){
+
+    this.navCtrl.push(PlanEvent2Page, {
+   //   thing1: this.newEvent
+     });
+  }
+
+
 
 }

@@ -11,6 +11,8 @@ import { ViewScheduledEventPage } from '../pages/viewScheduledEvent/viewSchedule
 
 import { AboutPage} from '../pages/about/about';
 import { PlanEventPage } from '../pages/plan-event/plan-event';
+import { PlanEvent2Page } from '../pages/plan-event2/plan-event2';
+import { PlanEvent3Page } from '../pages/plan-event3/plan-event3';
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -29,6 +31,8 @@ import { Calendar } from '@ionic-native/calendar';
     SettingsPage,
     AboutPage,
     PlanEventPage,
+    PlanEvent2Page,
+    PlanEvent3Page,
   ],
   imports: [
     HttpModule,
@@ -46,6 +50,8 @@ import { Calendar } from '@ionic-native/calendar';
     SettingsPage,
     AboutPage,
     PlanEventPage,
+    PlanEvent2Page,
+    PlanEvent3Page,
   ],
   providers: [
     StatusBar,

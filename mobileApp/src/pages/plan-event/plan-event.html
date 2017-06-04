@@ -13,7 +13,7 @@
   <ion-list>
 
   <ion-item>
-    <ion-label color="primary">Name des Events</ion-label>
+    <ion-label>Name des Events</ion-label>
    <ion-input type="text" placeholder="Name" value="" min=3 [(ngModel)]="newEvent.name"
              (blur)="checkIfValuesAreSet()"></ion-input>
   </ion-item>
@@ -46,6 +46,8 @@
 
     </ion-select>
   </ion-item>
+
+  <button ion-button (click)='callingNextPage()'>Weiter</button>
 
 </ion-content>
 
