@@ -1,4 +1,4 @@
-#Security
+# Security
 As our app processes confidential and personal data, we need to lay a strong focus on application security. This page discusses all the relevant aspects we need to keep in mind.
 
 ## Securing the requests against attackers
