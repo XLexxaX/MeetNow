@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import {AboutPage} from '../about/about';
 import { ViewScheduledEventPage } from '../viewScheduledEvent/viewScheduledEvent';
 import {Meeting} from '../../gen/model/Meeting';
+import {LocalMeeting} from '../../model/LocalMeeting';
 import { Storage } from '@ionic/storage';
 import {MeetingApi} from '../../gen/api/MeetingApi';
 import { Calendar } from '@ionic-native/calendar';
@@ -14,9 +15,8 @@ import { Calendar } from '@ionic-native/calendar';
 export class HomePage {
 
   selectedItem: any;
-  testmeeting: Meeting;
-  plannedEvents: Array<Meeting>;
-  scheduledEvents: Array<{title: string, id: number, startTime: string, endTime: string}>;
+  plannedEvents: Array<LocalMeeting>;
+  scheduledEvents: Array<LocalMeeting>;
   aboutPage = AboutPage;
 
 
@@ -25,90 +25,112 @@ export class HomePage {
     this.selectedItem = navParams.get('item');
 
 
-    this.calendar.createEvent("hooo", "Mannheim", "no notes", new Date(2017, 1, 1, 15), new Date(2017, 1, 1, 16)).then(
-      (msg) => { console.log(msg); },
-      (err) => { console.log("errorr");console.log(err); }
-    );
-    this.calendar.findEvent("hooo", "Mannheim", "no notes", new Date(2017, 1, 1, 15), new Date(2017, 1, 1, 16)).then(
-      (msg) => { console.log(msg); },
-      (err) => { console.log("errorr2");console.log(err); }
-    );
-    this.calendar.findEvent("Fahrt Ahlen").then(
-      (msg) => { console.log(msg); alert(msg) },
-      (err) => { console.log("errorr3"); console.log(err); }
-    );
 
 
 
-    this.scheduledEvents = [];
-    for (let i = 1; i <= 2; i++) {
-      this.scheduledEvents.push({
-        title: 'Ereignis ' + i,
-        id: i,
-        startTime: '10:00',
-        endTime: '11:00'
-      });
-    }
 
-
-    this.plannedEvents = [];
-    this.testmeeting = {
-      id:"0",
-      ownerId: "3",
-      reoccurrence: Meeting.ReoccurrenceEnum.Weekly,
-      name: "Testmeeting",
-      category: Meeting.CategoryEnum.Coffeebreak,
-      areas: [{}]
-    };
-    this.addMeeting(this.testmeeting);
-    this.testmeeting = {
-      id:"1",
-        ownerId: "3",
-      reoccurrence: Meeting.ReoccurrenceEnum.Monthly,
-      name: "AnotherMeeting",
-      category: Meeting.CategoryEnum.Lunch,
-      areas: [{}]
-    }
-    this.addMeeting(this.testmeeting);
-
-    this.getMeetingsFromStorage();
+    this.refreshMeetingsFromStorage();
 
 
 
   }
 
-  getMeetingsFromStorage() {
+  refreshMeetingsFromStorage() {
+    this.plannedEvents = [];
     this.storage.keys().then((keys) => {
-      console.log(keys)
+      console.log(keys);
       for (let i=0; i<keys.length; i++) {
 
-        this.storage.get(keys[i]).then((val) => {
-          this.plannedEvents.push(JSON.parse(val));
+        this.storage.get(keys[i]).then((data) => {
+          this.plannedEvents.push(JSON.parse(data));
         });
 
       }
 
     });
+
+    this.scheduledEvents = [];
+    for(let event of this.plannedEvents) {
+      if (event.calendarId != null) {
+        this.scheduledEvents.push(event);
+      }
+    }
   }
 
 
-  addMeeting(meeting: Meeting) {
+  addMeeting(localmeeting: LocalMeeting) {
 
-    var tmp_res = this.meetingApi.addMeeting(meeting);
-    var res = tmp_res.subscribe(data => {
-      return data
-    });
-    console.log(res);
+    var tmp_res = this.meetingApi.addMeeting(localmeeting.meeting);
+    var res = tmp_res.subscribe(
+      (data) => { return data; }
+      );
 
-    this.storage.set(meeting.id, JSON.stringify(meeting)).then(function success(res) {
+    this.storage.set(localmeeting.meeting.id, JSON.stringify(localmeeting)).then(function success(res) {
     }, function error(res) {
       //remove event on server.
     });
   }
 
   itemTapped(event, item) {
-    // That's right, we're pushing to ourselves!
     this.navCtrl.push(ViewScheduledEventPage);
+  }
+
+  testNewCalendarEntry() {
+    console.log("testNewCalendarEntry-function tapped.");
+    this.planEvent("0", new Date(2017, 6, 6, 15), new Date(2017, 6, 6, 16));
+  }
+  testNewEvent() {
+    let testmeeting: Meeting = {
+      id:"2",
+      ownerId: "3",
+      reoccurrence: Meeting.ReoccurrenceEnum.Weekly,
+      name: "Testmeeting",
+      category: Meeting.CategoryEnum.Coffeebreak,
+      areas: [{}]
+    };
+    let localtestmeeting: LocalMeeting = {
+      meeting: testmeeting
+    }
+    this.addMeeting(localtestmeeting);
+    testmeeting = {
+      id:"3",
+      ownerId: "3",
+      reoccurrence: Meeting.ReoccurrenceEnum.Monthly,
+      name: "AnotherMeeting",
+      category: Meeting.CategoryEnum.Lunch,
+      areas: [{}]
+    }
+    localtestmeeting = {
+      meeting: testmeeting
+    }
+    this.addMeeting(localtestmeeting);
+    this.refreshMeetingsFromStorage();
+  }
+
+  planEvent(eventId: string, startDate: Date, endDate: Date) {
+    for(let event of this.plannedEvents) {
+      if (eventId == event.meeting.id) {
+        this.calendar.createEvent("Testtermin", "Mannheim", "Keine Notizen", startDate, endDate).then(
+          (msg) => { console.log("Calendar operation message: " + msg); },
+          (err) => { console.log("Calendar operation error: " + err); }
+        );
+        this.calendar.findEvent("Testtermin", "Mannheim", "Keine Notizen", startDate, endDate).then(
+          (msg) => {
+            event.calendarId = msg+"";
+            event.startDate = startDate;
+            event.endDate = endDate;
+            this.scheduledEvents.push(event);
+          },
+          (err) => { console.log("Calendar operation error: " + err);
+            alert("Kein Termin im Kalender erstellt - Termin wird trotzdem hier im Kalender angezeigt.");
+            event.calendarId = "2150";
+            event.startDate = startDate;
+            event.endDate = endDate;
+            this.scheduledEvents.push(event); }
+        );
+        this.addMeeting(event);
+      }
+    }
   }
 
 }
