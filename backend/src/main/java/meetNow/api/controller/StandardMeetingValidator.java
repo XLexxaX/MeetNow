@@ -6,26 +6,38 @@ import org.springframework.stereotype.Component;
 
 import meetNow.api.exceptions.ValidationException;
 import swagger.model.Group;
+import swagger.model.Meeting;
 import swagger.model.Meeting.ReoccurrenceEnum;
 import swagger.model.Participant;
 
 @Component
 public class StandardMeetingValidator implements MeetingValidator {
+	
+	@Override
+	public void validateMeeting(Meeting meeting) throws ValidationException {
+		checkOwnerId(meeting.getOwnerId());
+		checkReoccurrance(meeting.getReoccurrence());
+		checkParticipantsAndGroups(meeting.getParticipants(), meeting.getGroups());
+	}
 
 	@Override
-	public void checkReoccurrance(ReoccurrenceEnum reoccurence) throws ValidationException {
+	public void validateMeetingId(String id) throws ValidationException {
+		if(stringEmptyOrNull(id)){
+			throw new ValidationException("Meeting id is not filled");
+		}
+	}
+
+	private void checkReoccurrance(ReoccurrenceEnum reoccurence) throws ValidationException {
 		if (reoccurence == null)
 			throw new ValidationException("Reoccurrence is not set");
 	}
 
-	@Override
-	public void checkOwnerId(String id) throws ValidationException {
+	private void checkOwnerId(String id) throws ValidationException {
 		if (stringEmptyOrNull(id)) // TODO, verify the request sender has this id
 			throw new ValidationException("Owner id is not valid");
 	}
 
-	@Override
-	public void checkParticipantsAndGroups(List<Participant> participants, List<Group> groups)
+	private void checkParticipantsAndGroups(List<Participant> participants, List<Group> groups)
 			throws ValidationException {
 		if (participants.size() == 0 && groups.size() == 0) {
 			throw new ValidationException(

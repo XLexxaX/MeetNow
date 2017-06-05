@@ -26,6 +26,46 @@
 				"description": "create a new meeting"
 			},
 			"response": []
+		},
+		{
+			"name": "Update Meeting",
+			"request": {
+				"url": "http://localhost:8080/meeting",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"59354bdf952fe81a5cf11d27\",\r\n  \"ownerId\": 1,\r\n  \"reoccurrence\": \"daily\",\r\n  \"participants\": [\r\n    {\r\n      \"id\": \"string\",\r\n      \"busyTimes\": [\r\n        {\r\n          \"startTime\": \"string\",\r\n          \"duration\": \"string\"\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"groups\": [\r\n    {\r\n      \"id\": 1,\r\n      \"participants\": [\r\n        {\r\n          \"id\": \"string\",\r\n          \"busyTimes\": [\r\n            {\r\n              \"startTime\": \"string\",\r\n              \"duration\": \"string\"\r\n            }\r\n          ]\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"nextScheduled\": \"2017-06-01T14:14:35.768Z\",\r\n  \"areas\": [\r\n    {\r\n      \"longitude\": \"string\",\r\n      \"latitude\": \"string\",\r\n      \"radius\": 0\r\n    }\r\n  ]\r\n}"
+				},
+				"description": "update a meeting"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Meeting",
+			"request": {
+				"url": "http://localhost:8080/meeting",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\":\"a\",\r\n  \"ownerId\": 1,\r\n  \"reoccurrence\": \"daily\",\r\n  \"participants\": [\r\n    {\r\n      \"id\": \"string\",\r\n      \"busyTimes\": [\r\n        {\r\n          \"startTime\": \"string\",\r\n          \"duration\": \"string\"\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"groups\": [\r\n    {\r\n      \"id\": 1,\r\n      \"participants\": [\r\n        {\r\n          \"id\": \"string\",\r\n          \"busyTimes\": [\r\n            {\r\n              \"startTime\": \"string\",\r\n              \"duration\": \"string\"\r\n            }\r\n          ]\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"nextScheduled\": \"2017-06-01T14:14:35.768Z\",\r\n  \"areas\": [\r\n    {\r\n      \"longitude\": \"string\",\r\n      \"latitude\": \"string\",\r\n      \"radius\": 0\r\n    }\r\n  ]\r\n}"
+				},
+				"description": "delete a meeting, id required"
+			},
+			"response": []
 		}
 	]
 }

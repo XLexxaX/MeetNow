@@ -9,8 +9,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class BackendApplicationTests {
 
+//	@Autowired
+//	MockMvc mvc;
+
 	@Test
-	public void contextLoads() {
+	public void contextLoads() throws Exception {
+//		MvcResult result = mvc.perform(post("/meeting")).andReturn();
+//		String meetingId = result.getResponse().getContentAsString();
 	}
 
 }

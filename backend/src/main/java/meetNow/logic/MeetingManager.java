@@ -2,40 +2,52 @@ package meetNow.logic;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
+import meetNow.dataaccess.repositories.MeetingRepository;
 import swagger.model.Meeting;
 
 @Component
 @RequestScope
 public class MeetingManager implements MeetingProcessor {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-	
-//	@Autowired
-//	private CustomerRepository repository;
+
+	@Autowired
+	private MeetingRepository repository;
 
 	@Override
 	public String processNewMeeting(Meeting meeting) {
-//		Customer customer = repository.save(new Customer("Carmen", "Rannefeld"));
-//		logger.info("Added new Customer: {}", customer);
-//		Customer testCustomer = repository.findOne(customer.id);
-//		logger.info("Found {}", testCustomer);
-		logger.info("processing Meeting {}", meeting);
-		return "A43232";
-	}
-
-		@Override
-	public boolean updateMeeting(Meeting meeting) {
-		// TODO Auto-generated method stub
-		return false;
+		meeting = repository.save(meeting);
+		logger.info("saved meeting {}", meeting);
+		return meeting.getId();
 	}
 
 	@Override
-	public boolean deleteMeeting(Meeting meeting) {
-		// TODO Auto-generated method stub
-		return false;
+	public void updateMeeting(Meeting meeting) throws MeetingNotFoundException {
+		Meeting oldMeeting = repository.findOne(meeting.getId());
+		if (oldMeeting == null) {
+			logger.warn("Tried to update meeting which does not exist, meeting: {}", meeting);
+			throw new MeetingNotFoundException(String.format("Meeting with id %s does not exist", meeting.getId()));
+		}
+		verifyAuthorization();
+		repository.save(meeting);
 	}
 
+	@Override
+	public void deleteMeeting(Meeting meeting) throws MeetingNotFoundException {
+		if (!repository.exists(meeting.getId())) {
+			throw new MeetingNotFoundException(String
+					.format("Meeting does not exist (id: %s), and therefore can not be deleted", meeting.getId()));
+		}
+		verifyAuthorization();
+		repository.delete(meeting);
+	}
+
+	private void verifyAuthorization() {
+		// TODO verify the user is allowed to change the meeting, otherwise
+		// throw not authorized or something
+	}
 }
