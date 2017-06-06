@@ -25,7 +25,16 @@ export class HomePage {
     this.selectedItem = navParams.get('item');
 
 
-
+    this.calendar.createCalendar('MyCalendar').then(
+      (msg) => { console.log(msg); },
+      (err) => { console.log(err); }
+    );
+    this.calendar.hasReadWritePermission().then((d) => {
+      if (!d)
+        this.calendar.requestReadWritePermission();
+    }, (d) => {
+      alert("Berechtigungen konnten nicht erlangt werden.")
+    } );
 
 
 
@@ -125,9 +134,13 @@ export class HomePage {
   }
 
   planEvent(eventId: string, startDate: Date, endDate: Date) {
+    console.log("event planned")
     for(let event of this.plannedEvents) {
       if (eventId == event.meeting.id) {
-        this.calendar.createEvent("Testtermin", "Mannheim", "Keine Notizen", startDate, endDate).then(
+
+
+
+        this.calendar.createEventWithOptions("Testtermin", "Mannheim", "Keine Notizen", startDate, endDate, this.calendar.getCalendarOptions()).then(
           (msg) => { console.log("Calendar operation message: " + msg); },
           (err) => { console.log("Calendar operation error: " + err); }
         );
