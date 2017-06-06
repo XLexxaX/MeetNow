@@ -50,7 +50,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!--swagger code generation -->
+		<!-- swagger code generation -->
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
@@ -59,10 +59,6 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-joda</artifactId>
-		</dependency>
-		<dependency> <!-- support for date time types -->
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>joda-time</groupId>
@@ -96,14 +92,14 @@
 						</goals>
 						<configuration>
 							<language>spring</language>
+							<library>spring-boot</library>
 							<output>gen</output>
 							<apiPackage>swagger.api</apiPackage>
 							<modelPackage>swagger.model</modelPackage>
 							<configOptions>
 								<sourceFolder>src/java</sourceFolder>
-								<interfaceOnly>true</interfaceOnly>
-								<java8>true</java8>
-								<library>spring-boot</library>
+								<interfaceOnly>true</interfaceOnly> <!-- don't generate the server -->
+								<dateLibrary>joda</dateLibrary>
 							</configOptions>
 						</configuration>
 					</execution>

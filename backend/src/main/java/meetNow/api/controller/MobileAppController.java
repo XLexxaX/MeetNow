@@ -10,16 +10,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import meetNow.api.exceptions.ValidationException;
+import meetNow.dataaccess.repositories.MeetingRepository;
 import meetNow.logic.CreateException;
 import meetNow.logic.MeetingNotFoundException;
 import meetNow.logic.MeetingProcessor;
@@ -36,6 +39,9 @@ public class MobileAppController {
 
 	@Autowired
 	private MeetingProcessor manager;
+	
+	@Autowired
+	private MeetingRepository repository;
 
 	@RequestMapping("/test")
 	public String testServerUp(String test) {
@@ -66,7 +72,20 @@ public class MobileAppController {
 		validator.validateMeetingId(meeting.getId());
 		manager.deleteMeeting(meeting);
 	}
-
+	
+	@RequestMapping(value = "/meeting", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public Meeting getMeeting(@RequestParam String id){
+		Meeting meeting =  repository.findOne(id);
+		return meeting;
+	}
+	
+	@RequestMapping(value= "/deleteAllMeetings", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteAll(){
+		repository.deleteAll();
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
 	@ExceptionHandler(MeetingNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public String handleMeetingNotFoundException(MeetingNotFoundException e) throws Exception {
@@ -83,8 +102,9 @@ public class MobileAppController {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public @ResponseBody String handleRuntimeExceptions(Exception e, HttpServletRequest request,
 			HttpServletResponse resp) {
-		logger.error("An internal server error occurred, request {} raised exception", request.getRequestURL());
-		logger.error("Exception: {}", e);
+		logger.error("An internal server error occurred while processing a request, method: {}, request {}, parameters", request.getMethod(), request.getRequestURL(),
+				request.getParameterMap());
+		logger.error("Exception: ", e);
 		return "An internal error occurred";
 	}
 
