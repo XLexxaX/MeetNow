@@ -61,14 +61,24 @@ export class HomePage {
   addMeeting(localmeeting: LocalMeeting) {
 
     var tmp_res = this.meetingApi.addMeeting(localmeeting.meeting);
-    var res = tmp_res.subscribe(
-      (data) => { return data; }
-      );
 
-    this.storage.set(localmeeting.meeting.id, JSON.stringify(localmeeting)).then(function success(res) {
-    }, function error(res) {
-      //remove event on server.
-    });
+      return tmp_res.subscribe(
+        (data) => {
+          //return data;
+          this.storage.set(localmeeting.meeting.id, JSON.stringify(localmeeting)).then((res) => {
+
+          })
+            .catch((res) => {
+              console.log("hihihi")
+              this.storage.set(localmeeting.meeting.id, JSON.stringify(localmeeting)).then((res) => {
+                alert("Meeting API not available.")
+              })
+              //remove event on server.
+            });
+        });
+
+
+
   }
 
   itemTapped(event, item) {
@@ -76,8 +86,7 @@ export class HomePage {
   }
 
   testNewCalendarEntry() {
-    console.log("testNewCalendarEntry-function tapped.");
-    this.planEvent("0", new Date(2017, 6, 6, 15), new Date(2017, 6, 6, 16));
+    this.planEvent("3", new Date(2017, 6, 6, 15), new Date(2017, 6, 6, 16));
   }
   testNewEvent() {
     let testmeeting: Meeting = {
@@ -92,6 +101,9 @@ export class HomePage {
       meeting: testmeeting
     }
     this.addMeeting(localtestmeeting);
+    this.storage.set(localtestmeeting.meeting.id, JSON.stringify(localtestmeeting)).then((res) => {
+
+    });
     testmeeting = {
       id:"3",
       ownerId: "3",
@@ -104,7 +116,12 @@ export class HomePage {
       meeting: testmeeting
     }
     this.addMeeting(localtestmeeting);
-    this.refreshMeetingsFromStorage();
+    this.storage.set(localtestmeeting.meeting.id, JSON.stringify(localtestmeeting)).then((res) => {
+      alert("Meeting API not available.")
+      this.refreshMeetingsFromStorage();
+    });
+
+   // this.refreshMeetingsFromStorage();
   }
 
   planEvent(eventId: string, startDate: Date, endDate: Date) {
