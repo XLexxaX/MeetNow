@@ -151,6 +151,9 @@ definitions:
           - jourfix
           - lunch
           - coffeebreak
+      duration:
+        description: how long will the meeting take? (in minutes)
+        type: integer
       reoccurrence:
         description: how often shall the meeting reoccur?
         type: string

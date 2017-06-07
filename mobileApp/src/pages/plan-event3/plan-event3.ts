@@ -16,29 +16,49 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class PlanEvent3Page {
 
   newEvent: Meeting;
-  items;
+  contacts;
+  selectedContacts;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.initializeItems();
-
-    this.newEvent = {
-      ownerId: "3",
-      reoccurrence: null,
-      name: "",
-      areas: [{}]
-    };
+    this.newEvent = navParams.get('meeting');
+    this.selectedContacts = [];
   }
 
   initializeItems() {
-    this.items = [
-      'Anna Huber',
-      'Carlo Müller',
-      'Daniel Obert',
-      'Gertrude Pohl',
+    this.contacts = [
+      {name: 'Anna Huber', value: false},
+      {name: 'Carlo Müller', value: false},
+      {name: 'Daniel Obert', value: false},
+      {name: 'Gertrude Pohl',value: false}
     ];
   }
 
+  getItems(ev: any) {
+    // Reset items back to all of the items
+    this.initializeItems();
 
+    // set val to the value of the searchbar
+    let val = ev.target.value;
+
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.contacts = this.contacts.filter((item) => {
+        return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+  }
+
+  addSelectedContactToList(){
+    this.selectedContacts = this.contacts.filter((item) => {
+        return item.value;
+    })
+  }
+
+  removeParticipant(participant){
+    //TODO how to remove particpant in ionic
+    console.log(participant);
+  }
 
 }
 

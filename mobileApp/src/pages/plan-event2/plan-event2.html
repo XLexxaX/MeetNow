@@ -25,15 +25,15 @@
 
       <ion-item>
         <ion-label>Täglich </ion-label>
-        <ion-radio value="{{reoccurrence[0]}}" (ionSelect)="setReoccurenceAnswer(value)"></ion-radio>
+        <ion-radio value="{{reoccurrences[0]}}"></ion-radio>
       </ion-item>
       <ion-item>
         <ion-label>Einmal pro Woche </ion-label>
-        <ion-radio value="{{reoccurrence[1]}}" (ionSelect)="setReoccurenceAnswer(value)"></ion-radio>
+        <ion-radio value="{{reoccurrences[1]}}"></ion-radio>
       </ion-item>
       <ion-item>
         <ion-label>Einmal pro Monat </ion-label>
-        <ion-radio value="{{reoccurrence[2]}}" (ionSelect)="setReoccurenceAnswer(value)"></ion-radio>
+        <ion-radio value="{{reoccurrences[2]}}"></ion-radio>
       </ion-item>
 
 
@@ -41,29 +41,29 @@
 
    <!-- Set time frame  -->
 
-  <ion-list radio-group >
+  <ion-list radio-group [(ngModel)]="newEvent.duration">
     <ion-list-header>
       Wie lange?
     </ion-list-header>
 
     <ion-item>
       <ion-label>15 Minuten</ion-label>
-      <ion-radio value="15Minutes" (ionSelect)="setTimeFrameAnswer(value)"></ion-radio>
+      <ion-radio value="{{durations[0]}}" (ionSelect)="setTimeFrameAnswer(value)"></ion-radio>
     </ion-item>
 
     <ion-item>
       <ion-label>30 Minuten</ion-label>
-      <ion-radio value="thirtyMinutes" (ionSelect)="setTimeFrameAnswer(value)"></ion-radio>
+      <ion-radio value="{{durations[1]}}" (ionSelect)="setTimeFrameAnswer(value)"></ion-radio>
     </ion-item>
 
     <ion-item>
       <ion-label>1 Stunde</ion-label>
-      <ion-radio value="oneHour" (ionSelect)="setTimeFrameAnswer(value)"></ion-radio>
+      <ion-radio value="{{durations[2]}}" (ionSelect)="setTimeFrameAnswer(value)"></ion-radio>
     </ion-item>
 
     <ion-item>
       <ion-label>2 Stunden</ion-label>
-      <ion-radio value="twoHours" (ionSelect)="setTimeFrameAnswer(value)"></ion-radio>
+      <ion-radio value="{{durations[3]}}" (ionSelect)="setTimeFrameAnswer(value)"></ion-radio>
     </ion-item>
   </ion-list>
 

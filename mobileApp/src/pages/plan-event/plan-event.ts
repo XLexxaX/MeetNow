@@ -48,7 +48,7 @@ export class PlanEventPage {
   callingNextPage(event, item){
 
     this.navCtrl.push(PlanEvent2Page, {
-   //   thing1: this.newEvent
+      meeting: this.newEvent
      });
   }
 
