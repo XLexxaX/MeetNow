@@ -15,7 +15,6 @@ import {PlanEvent3Page} from '../plan-event3/plan-event3';
 export class PlanEvent2Page {
 
   newEvent: Meeting;
-  categories: Array<Meeting.CategoryEnum>;
   reoccurrences: Array<Meeting.ReoccurrenceEnum>;
   durations: Array<number>;
 
@@ -25,7 +24,13 @@ export class PlanEvent2Page {
     this.durations = [15, 30, 60, 120];
   }
 
-  callingNextPage(event, item) {
+  checkIfValuesAreSet(){
+    if(this.newEvent.reoccurrence !== undefined && this.newEvent.duration !== undefined){
+      this.callingNextPage();
+    }
+  }
+
+  callingNextPage() {
 
     this.navCtrl.push(PlanEvent3Page, {
       meeting: this.newEvent

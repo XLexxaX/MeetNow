@@ -18,26 +18,14 @@
 
   <h4><p> Wer soll beim Treffen dabei sein?</p></h4>
 
-<!--  <ion-list no-lines>
-
-    <ion-item>
-      <ion-row>
-      &lt;!&ndash;<ion-label>{{item.name}}</ion-label>
-      <button ion-button icon-only value="{{item.name}}" (click)="removeParticipant(value)">
-        <ion-icon name="delete"></ion-icon>
-      </button>&ndash;&gt;
-      <button *ngFor="let item of selectedContacts" ion-button round icon-right>{{item.name}}
-        <ion-icon name="close"></ion-icon>
-      </button>
-      </ion-row>
-    </ion-item>
-  </ion-list>-->
-
   <ion-grid fixed>
-    <ion-row align-items-center>
-      <button *ngFor="let item of selectedContacts" ion-button round icon-right>{{item.name}}
-        <ion-icon name="close"></ion-icon>
-      </button>
+    <ion-row align-items-start>
+      <ion-col align-self-start>
+        <button *ngFor="let item of selectedContacts" ion-button round icon-right small
+                (click)="removeParticipant($event)">{{item.name}}
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </ion-col>
     </ion-row>
   </ion-grid>
 
@@ -45,9 +33,16 @@
   <ion-list>
     <ion-item *ngFor="let contact of contacts">
       <ion-label>{{contact.name}}</ion-label>
-      <ion-checkbox [(ngModel)]="contact.value" (ionChange)="addSelectedContactToList($event)"></ion-checkbox>
+      <ion-checkbox [(ngModel)]="contact.value" (ionChange)="addSelectedContactsToList($event)"></ion-checkbox>
     </ion-item>
   </ion-list>
+
+
+  <ion-fab bottom center *ngIf="meetingSaveable">
+    <button ion-fab color="secondary"  (tap)="saveMeeting()">
+      <ion-icon name="checkmark"></ion-icon>
+    </button>
+  </ion-fab>
 
 </ion-content>
 

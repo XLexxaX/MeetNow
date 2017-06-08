@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, ActionSheetController} from 'ionic-angular';
 import {Meeting} from '../../gen/model/Meeting'
-import {PlanEvent2Page } from '../plan-event2/plan-event2';
+import {PlanEvent2Page} from '../plan-event2/plan-event2';
 /**
  * This class designs the event planning page.
  *
@@ -28,30 +28,28 @@ export class PlanEventPage {
       areas: [{}]
     };
 
-    this.categories = [ Meeting.CategoryEnum.Jourfix, Meeting.CategoryEnum.Lunch, Meeting.CategoryEnum.Coffeebreak]
+    this.categories = [Meeting.CategoryEnum.Jourfix, Meeting.CategoryEnum.Lunch, Meeting.CategoryEnum.Coffeebreak]
   }
 
 
-   showSelectedEventLocation(eventLocation) {
+  showSelectedEventLocation(eventLocation) {
     this.newEvent.areas[0] = {
       id: eventLocation
     };
   }
 
   checkIfValuesAreSet() {
-    if (this.newEvent.name !== "" || this.newEvent.category !== null ||
-      this.newEvent.areas[0].id !== "") {
-
+    if (this.newEvent.name !== "" && this.newEvent.category !== undefined &&
+      this.newEvent.areas[0].id !== undefined) {
+      this.callingNextPage();
     }
   }
 
-  callingNextPage(event, item){
-
+  callingNextPage() {
     this.navCtrl.push(PlanEvent2Page, {
       meeting: this.newEvent
-     });
+    });
   }
-
 
 
 }

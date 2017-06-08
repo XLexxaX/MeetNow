@@ -18,7 +18,7 @@
 
  <!-- Set reoccurrence -->
 
-  <ion-list radio-group [(ngModel)]="newEvent.reoccurrence">
+  <ion-list radio-group [(ngModel)]="newEvent.reoccurrence" (ionChange)="checkIfValuesAreSet()">
     <ion-list-header>
       Wie oft?
     </ion-list-header>
@@ -48,22 +48,22 @@
 
     <ion-item>
       <ion-label>15 Minuten</ion-label>
-      <ion-radio value="{{durations[0]}}" (ionSelect)="setTimeFrameAnswer(value)"></ion-radio>
+      <ion-radio value="{{durations[0]}}" (ionSelect)="checkIfValuesAreSet()"></ion-radio>
     </ion-item>
 
     <ion-item>
       <ion-label>30 Minuten</ion-label>
-      <ion-radio value="{{durations[1]}}" (ionSelect)="setTimeFrameAnswer(value)"></ion-radio>
+      <ion-radio value="{{durations[1]}}" (ionSelect)="checkIfValuesAreSet()"></ion-radio>
     </ion-item>
 
     <ion-item>
       <ion-label>1 Stunde</ion-label>
-      <ion-radio value="{{durations[2]}}" (ionSelect)="setTimeFrameAnswer(value)"></ion-radio>
+      <ion-radio value="{{durations[2]}}" (ionSelect)="checkIfValuesAreSet()"></ion-radio>
     </ion-item>
 
     <ion-item>
       <ion-label>2 Stunden</ion-label>
-      <ion-radio value="{{durations[3]}}" (ionSelect)="setTimeFrameAnswer(value)"></ion-radio>
+      <ion-radio value="{{durations[3]}}" (ionSelect)="checkIfValuesAreSet()"></ion-radio>
     </ion-item>
   </ion-list>
 

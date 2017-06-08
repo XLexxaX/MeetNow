@@ -33,7 +33,7 @@ export class HomePage {
       if (!d)
         this.calendar.requestReadWritePermission();
     }, (d) => {
-      alert("Berechtigungen konnten nicht erlangt werden.")
+      //alert("Berechtigungen konnten nicht erlangt werden.")
     } );
 
 

@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { Meeting } from '../../gen/model/Meeting'
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {Meeting} from '../../gen/model/Meeting'
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 
 /**
  * Generated class for the PlanEvent3Page page.
@@ -16,27 +16,35 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class PlanEvent3Page {
 
   newEvent: Meeting;
+  initialContacts;
   contacts;
   selectedContacts;
+  meetingSaveable: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.initializeItems();
+    this.initializeContacts();
+    this.resetSearchResults();
     this.newEvent = navParams.get('meeting');
     this.selectedContacts = [];
+    this.meetingSaveable = false;
   }
 
-  initializeItems() {
+  initializeContacts(){
+
+  }
+
+  resetSearchResults() {
     this.contacts = [
       {name: 'Anna Huber', value: false},
       {name: 'Carlo Müller', value: false},
       {name: 'Daniel Obert', value: false},
-      {name: 'Gertrude Pohl',value: false}
+      {name: 'Gertrude Pohl', value: false}
     ];
   }
 
   getItems(ev: any) {
     // Reset items back to all of the items
-    this.initializeItems();
+    this.resetSearchResults();
 
     // set val to the value of the searchbar
     let val = ev.target.value;
@@ -49,15 +57,26 @@ export class PlanEvent3Page {
     }
   }
 
-  addSelectedContactToList(){
+  addSelectedContactsToList() {
     this.selectedContacts = this.contacts.filter((item) => {
-        return item.value;
+      return item.value;
     })
+    this.meetingSaveable = this.selectedContacts.length > 0;
   }
 
-  removeParticipant(participant){
-    //TODO how to remove particpant in ionic
-    console.log(participant);
+  removeParticipant($event) {
+    let button = $event.target;
+    let text = button.innerText.trim();
+    this.contacts.filter((item) => {
+      return (text.toLowerCase().indexOf(item.name.toLowerCase()) > -1);
+    }).forEach((item) => {
+      item.value = false;
+    })
+    this.addSelectedContactsToList();
+  }
+
+  saveMeeting(){
+    //TODO: do something with this.newEvent and navigate to meeting overview page
   }
 
 }
