@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {Meeting} from '../../gen/model/Meeting'
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {Contacts, Contact, ContactField, ContactName} from '@ionic-native/contacts';
 
 /**
  * Generated class for the PlanEvent3Page page.
@@ -12,70 +13,48 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
 @Component({
   selector: 'page-plan-event3',
   templateUrl: 'plan-event3.html',
+  providers: [Contacts]
 })
 export class PlanEvent3Page {
 
   newEvent: Meeting;
-  initialContacts;
-  contacts;
-  selectedContacts;
-  meetingSaveable: boolean;
+  allContacts;
+  searchQuery: string = "";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.initializeContacts();
-    this.resetSearchResults();
+  constructor(public navCtrl: NavController, public navParams: NavParams, private contacts: Contacts) {
     this.newEvent = navParams.get('meeting');
-    this.selectedContacts = [];
-    this.meetingSaveable = false;
+    this.initializeContacts();
   }
 
-  initializeContacts(){
-
-  }
-
-  resetSearchResults() {
-    this.contacts = [
+  initializeContacts() {
+    this.allContacts = [
       {name: 'Anna Huber', value: false},
       {name: 'Carlo Müller', value: false},
       {name: 'Daniel Obert', value: false},
       {name: 'Gertrude Pohl', value: false}
     ];
+    this.contacts.find(['name']).then(
+      (allContacts: Contact[]) => {
+        console.log(allContacts);
+        allContacts.forEach((contact) => {
+          //TODO push contacts in page format into this.allContacts
+          this.allContacts.push({
+            name: contact.name,
+            value: false
+          });
+        });
+      },
+      (error: any) => console.error(error)
+    );
   }
 
-  getItems(ev: any) {
-    // Reset items back to all of the items
-    this.resetSearchResults();
-
-    // set val to the value of the searchbar
-    let val = ev.target.value;
-
-    // if the value is an empty string don't filter the items
-    if (val && val.trim() != '') {
-      this.contacts = this.contacts.filter((item) => {
-        return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
-    }
+  checkContactSelected() {
+    return this.allContacts.filter((item) => {
+        return item.value;
+      }).length > 0;
   }
 
-  addSelectedContactsToList() {
-    this.selectedContacts = this.contacts.filter((item) => {
-      return item.value;
-    })
-    this.meetingSaveable = this.selectedContacts.length > 0;
-  }
-
-  removeParticipant($event) {
-    let button = $event.target;
-    let text = button.innerText.trim();
-    this.contacts.filter((item) => {
-      return (text.toLowerCase().indexOf(item.name.toLowerCase()) > -1);
-    }).forEach((item) => {
-      item.value = false;
-    })
-    this.addSelectedContactsToList();
-  }
-
-  saveMeeting(){
+  saveMeeting() {
     //TODO: do something with this.newEvent and navigate to meeting overview page
   }
 

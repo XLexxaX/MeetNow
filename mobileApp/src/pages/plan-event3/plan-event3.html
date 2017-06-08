@@ -21,25 +21,31 @@
   <ion-grid fixed>
     <ion-row align-items-start>
       <ion-col align-self-start>
-        <button *ngFor="let item of selectedContacts" ion-button round icon-right small
-                (click)="removeParticipant($event)">{{item.name}}
+        <ng-container *ngFor="let item of allContacts">
+        <button *ngIf="item.value" ion-button round icon-right small
+                (click)="item.value = false">{{item.name}}
           <ion-icon name="close"></ion-icon>
         </button>
+        </ng-container>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+  <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="getItems($event)"></ion-searchbar>
   <ion-list>
-    <ion-item *ngFor="let contact of contacts">
-      <ion-label>{{contact.name}}</ion-label>
-      <ion-checkbox [(ngModel)]="contact.value" (ionChange)="addSelectedContactsToList($event)"></ion-checkbox>
-    </ion-item>
+    <ng-container *ngFor="let contact of allContacts">
+      <ng-container *ngIf="contact.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1">
+        <ion-item>
+          <ion-label>{{contact.name}}</ion-label>
+          <ion-checkbox [(ngModel)]="contact.value"></ion-checkbox>
+        </ion-item>
+      </ng-container>
+    </ng-container>
   </ion-list>
 
 
-  <ion-fab bottom center *ngIf="meetingSaveable">
-    <button ion-fab color="secondary"  (tap)="saveMeeting()">
+  <ion-fab bottom center *ngIf="checkContactSelected()">
+    <button ion-fab color="secondary" (tap)="saveMeeting()">
       <ion-icon name="checkmark"></ion-icon>
     </button>
   </ion-fab>
