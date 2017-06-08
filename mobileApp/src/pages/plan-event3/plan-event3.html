@@ -22,16 +22,16 @@
     <ion-row align-items-start>
       <ion-col align-self-start>
         <ng-container *ngFor="let item of allContacts">
-        <button *ngIf="item.value" ion-button round icon-right small
-                (click)="item.value = false">{{item.name}}
-          <ion-icon name="close"></ion-icon>
-        </button>
+          <button *ngIf="item.value" ion-button round icon-right small
+                  (click)="item.value = false">{{item.name}}
+            <ion-icon name="close"></ion-icon>
+          </button>
         </ng-container>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="getItems($event)"></ion-searchbar>
+  <ion-searchbar [(ngModel)]="searchQuery"></ion-searchbar>
   <ion-list>
     <ng-container *ngFor="let contact of allContacts">
       <ng-container *ngIf="contact.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1">

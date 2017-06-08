@@ -39,7 +39,7 @@ export class PlanEvent3Page {
         allContacts.forEach((contact) => {
           //TODO push contacts in page format into this.allContacts
           this.allContacts.push({
-            name: contact.name,
+            name: contact.displayName,
             value: false
           });
         });
