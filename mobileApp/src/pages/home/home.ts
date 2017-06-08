@@ -44,26 +44,26 @@ export class HomePage {
 
   }
 
+
   refreshMeetingsFromStorage() {
     this.plannedEvents = [];
+    this.scheduledEvents = [];
+
     this.storage.keys().then((keys) => {
-      console.log(keys);
+
       for (let i=0; i<keys.length; i++) {
-
         this.storage.get(keys[i]).then((data) => {
-          this.plannedEvents.push(JSON.parse(data));
+          let event: LocalMeeting = JSON.parse(data);
+          this.plannedEvents.push(event);
+          if (event.calendarId != undefined) {
+            this.calendar.findEvent(event.meeting.name, undefined, undefined, undefined, undefined).then((d) => {
+              this.scheduledEvents.push(event);
+            });
+          }
         });
-
       }
 
     });
-
-    this.scheduledEvents = [];
-    for(let event of this.plannedEvents) {
-      if (event.calendarId != null) {
-        this.scheduledEvents.push(event);
-      }
-    }
   }
 
 
@@ -78,7 +78,6 @@ export class HomePage {
 
           })
             .catch((res) => {
-              console.log("hihihi")
               this.storage.set(localmeeting.meeting.id, JSON.stringify(localmeeting)).then((res) => {
                 alert("Meeting API not available.")
               })
@@ -95,46 +94,48 @@ export class HomePage {
   }
 
   testNewCalendarEntry() {
-    this.planEvent("3", new Date(2017, 6, 6, 15), new Date(2017, 6, 6, 16));
+    this.planEvent("3", new Date(2017, 5, 6, 15), new Date(2017, 5, 6, 16));
   }
   testNewEvent() {
-    let testmeeting: Meeting = {
-      id:"2",
-      ownerId: "3",
-      reoccurrence: Meeting.ReoccurrenceEnum.Weekly,
-      name: "Testmeeting",
-      category: Meeting.CategoryEnum.Coffeebreak,
-      areas: [{}]
-    };
-    let localtestmeeting: LocalMeeting = {
-      meeting: testmeeting
-    }
-    this.addMeeting(localtestmeeting);
-    this.storage.set(localtestmeeting.meeting.id, JSON.stringify(localtestmeeting)).then((res) => {
+    if (this.plannedEvents.length==0) {
+      let testmeeting: Meeting = {
+        id: "2",
+        ownerId: "3",
+        reoccurrence: Meeting.ReoccurrenceEnum.Weekly,
+        name: "Testmeeting",
+        category: Meeting.CategoryEnum.Coffeebreak,
+        areas: [{}]
+      };
+      let localtestmeeting: LocalMeeting = {
+        meeting: testmeeting
+      }
+      this.addMeeting(localtestmeeting);
+      this.storage.set(localtestmeeting.meeting.id, JSON.stringify(localtestmeeting)).then((res) => {
 
-    });
-    testmeeting = {
-      id:"3",
-      ownerId: "3",
-      reoccurrence: Meeting.ReoccurrenceEnum.Monthly,
-      name: "AnotherMeeting",
-      category: Meeting.CategoryEnum.Lunch,
-      areas: [{}]
-    }
-    localtestmeeting = {
-      meeting: testmeeting
-    }
-    this.addMeeting(localtestmeeting);
-    this.storage.set(localtestmeeting.meeting.id, JSON.stringify(localtestmeeting)).then((res) => {
-      alert("Meeting API not available.")
+      });
+      testmeeting = {
+        id: "3",
+        ownerId: "3",
+        reoccurrence: Meeting.ReoccurrenceEnum.Monthly,
+        name: "AnotherMeeting",
+        category: Meeting.CategoryEnum.Lunch,
+        areas: [{}]
+      }
+      localtestmeeting = {
+        meeting: testmeeting
+      }
+      this.addMeeting(localtestmeeting);
+      this.storage.set(localtestmeeting.meeting.id, JSON.stringify(localtestmeeting)).then((res) => {
+        alert("Meeting API not available.")
+        this.refreshMeetingsFromStorage();
+      });
+    } else {
       this.refreshMeetingsFromStorage();
-    });
+    }
 
-   // this.refreshMeetingsFromStorage();
   }
 
   planEvent(eventId: string, startDate: Date, endDate: Date) {
-    console.log("event planned")
     for(let event of this.plannedEvents) {
       if (eventId == event.meeting.id) {
 
@@ -144,21 +145,27 @@ export class HomePage {
           (msg) => { console.log("Calendar operation message: " + msg); },
           (err) => { console.log("Calendar operation error: " + err); }
         );
-        this.calendar.findEvent("Testtermin", "Mannheim", "Keine Notizen", startDate, endDate).then(
+        this.calendar.findEvent("Testtermin", "Mannheim", undefined, undefined, undefined).then(
           (msg) => {
+            console.log(msg)
             event.calendarId = msg+"";
             event.startDate = startDate;
             event.endDate = endDate;
+            event.location = "Mannheim";
             this.scheduledEvents.push(event);
+            this.storage.set(event.meeting.id, JSON.stringify(event)).then((res) => {
+            })
           },
           (err) => { console.log("Calendar operation error: " + err);
-            alert("Kein Termin im Kalender erstellt - Termin wird trotzdem hier im Kalender angezeigt.");
+            alert("Kein Termin im Kalender erstellt - Termin wird hier trotzdem temporär angezeigt.");
             event.calendarId = "2150";
             event.startDate = startDate;
             event.endDate = endDate;
+            event.location = "Mannheim";
             this.scheduledEvents.push(event); }
         );
-        this.addMeeting(event);
+
+
       }
     }
   }

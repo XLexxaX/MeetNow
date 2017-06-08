@@ -14,9 +14,10 @@
     <ion-list-header>
       Termine
     </ion-list-header>
-    <button ion-item *ngFor="let item of scheduledEvents" (click)="itemTapped($event, item)" class="item item-text-wrap">
+    <button ion-item *ngFor="let item of scheduledEvents" (click)="itemTapped($event, item)" class="item item-text-wrap" text-wrap>
       <ion-icon name="calendar" item-left></ion-icon>
-      {{item.meeting.name}} angesetzt für {{item.startDate}} - {{item.endDate}} Uhr
+      {{item.meeting.name}} angesetzt für {{item.startDate  | date : "dd.MM.y HH:mm"}} Uhr - {{item.endDate | date : "HH:mm"}} Uhr
+
 
       <div class="item-note" item-right>
         <ion-icon name="eye" item-right></ion-icon>
@@ -33,8 +34,8 @@
     </ion-list-header>
 
     <button ion-item *ngFor="let item of plannedEvents" (click)="itemTapped($event, item)">
-      <ion-icon name="calendar" item-left></ion-icon>
-      <!--{{item.meeting.reoccurrence}} {{item.meeting.name}}-->
+
+      {{item.meeting.reoccurrence}} {{item.meeting.name}}
       <div class="item-note" item-right>
         <ion-icon name="build" item-right></ion-icon>
       </div>

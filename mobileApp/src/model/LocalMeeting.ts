@@ -7,4 +7,5 @@ export interface LocalMeeting {
   calendarId?: string;
   startDate?: Date;
   endDate?: Date;
+  location?: string;
 }
