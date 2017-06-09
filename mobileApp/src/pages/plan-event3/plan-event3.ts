@@ -18,34 +18,53 @@ import {Contacts, Contact, ContactField, ContactName} from '@ionic-native/contac
 export class PlanEvent3Page {
 
   newEvent: Meeting;
-  allContacts;
+  allContacts = [];
   searchQuery: string = "";
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private contacts: Contacts) {
     this.newEvent = navParams.get('meeting');
+    this.newEvent.participants = [];
     this.initializeContacts();
   }
 
   initializeContacts() {
-    this.allContacts = [
-      {name: 'Anna Huber', value: false},
-      {name: 'Carlo Müller', value: false},
-      {name: 'Daniel Obert', value: false},
-      {name: 'Gertrude Pohl', value: false}
-    ];
-    this.contacts.find(['name']).then(
-      (allContacts: Contact[]) => {
-        console.log(allContacts);
-        allContacts.forEach((contact) => {
-          //TODO push contacts in page format into this.allContacts
-          this.allContacts.push({
-            name: contact.displayName,
-            value: false
+    this.contacts.find(['name'], {hasPhoneNumber: true})
+      .then(
+        (allContacts: Contact[]) => {
+          console.log(allContacts);
+          allContacts = allContacts.filter((contact) => {
+            let hasPhoneNumber = false;
+            contact.phoneNumbers.forEach((phoneNumber) => {
+              if (phoneNumber.type === "mobile") {
+                hasPhoneNumber = true;
+              }
+            })
+            return hasPhoneNumber;
           });
-        });
-      },
-      (error: any) => console.error(error)
-    );
+
+          allContacts.forEach((contact) => {
+            let phoneNumbers = [];
+           contact.phoneNumbers.forEach((phoneNumber) => {
+              phoneNumbers.push(phoneNumber.value);
+            });
+            this.allContacts.push({
+              name: contact.displayName,
+              value: false,
+              phoneNumbers : phoneNumbers
+            });
+          });
+        },
+        (error: any) => {
+          console.error(error);
+          console.log("using some sample contacts");
+          this.allContacts = [
+            {name: 'Anna Huber', value: false, phoneNumbers: ['0800']},
+            {name: 'Carlo Müller', value: false, phoneNumbers: ['0801']},
+            {name: 'Daniel Obert', value: false, phoneNumbers: ['0802']},
+            {name: 'Gertrude Pohl', value: false, phoneNumbers: ['0803']}
+          ];
+        }
+      );
   }
 
   checkContactSelected() {
@@ -55,7 +74,18 @@ export class PlanEvent3Page {
   }
 
   saveMeeting() {
-    //TODO: do something with this.newEvent and navigate to meeting overview page
+
+    //add participants to this.newEvent
+    this.allContacts.filter((item) => {
+      return item.value;
+    }).forEach((item) => {
+      this.newEvent.participants.push({
+        phoneNumbers: item.phoneNumbers,
+        name: item.name,
+      })
+    });
+
+    //TODO ALEX: do something with this.newEvent and navigate to meeting overview page
   }
 
 }

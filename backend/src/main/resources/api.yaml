@@ -189,19 +189,24 @@ definitions:
   Participant:
     type: object
     properties:
-      id:
-        description: 'unique identifier, TODO (mail or phone?)'
+      name:
+        description: full name of the participant
         type: string
-      busyTimes:
+      phoneNumbers:
+        description: all phone numbers of a participant
         type: array
         items:
-          properties:
-            startTime:
-              type: string
-              format: time
-            duration:
-              type: string
-              format: time
+          type: string
+#      busyTimes:
+#        type: array
+#        items:
+#          properties:
+#            startTime:
+#              type: string
+#              format: time
+#            duration:
+#              type: string
+#              format: time
   Area:
     type: object
     properties:
