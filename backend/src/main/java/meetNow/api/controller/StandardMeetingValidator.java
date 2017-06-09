@@ -70,9 +70,9 @@ public class StandardMeetingValidator implements MeetingValidator {
 	}
 
 	private void checkParticipant(Participant participant) throws ValidationException {
-		String id = participant.getName();
-		if (stringEmptyOrNull(id)) {
-			throw new ValidationException("Invalid participant id: " + id);
+		String name = participant.getName();
+		if (stringEmptyOrNull(name)) {
+			throw new ValidationException("Invalid participant name: " + name);
 		}
 	}
 	
