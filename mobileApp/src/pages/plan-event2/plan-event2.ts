@@ -25,7 +25,7 @@ export class PlanEvent2Page {
   }
 
   checkIfValuesAreSet(){
-    if(this.newEvent.reoccurrence !== undefined && this.newEvent.duration !== undefined){
+    if(this.newEvent.reoccurrence !== null && this.newEvent.duration !== undefined){
       this.callingNextPage();
     }
   }
