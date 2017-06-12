@@ -2,6 +2,10 @@ import {Component} from '@angular/core';
 import {Meeting} from '../../gen/model/Meeting'
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {Contacts, Contact, ContactField, ContactName} from '@ionic-native/contacts';
+import {LocalMeeting} from '../../model/LocalMeeting';
+import {HomePage} from '../home/home';
+import { Storage } from '@ionic/storage';
+import {MeetingApi} from '../../services/MeetingApi';
 
 /**
  * Generated class for the PlanEvent3Page page.
@@ -21,7 +25,7 @@ export class PlanEvent3Page {
   allContacts = [];
   searchQuery: string = "";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private contacts: Contacts) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private contacts: Contacts, private meetingApi: MeetingApi, private storage: Storage) {
     this.newEvent = navParams.get('meeting');
     this.newEvent.participants = [];
     this.initializeContacts();
@@ -85,7 +89,30 @@ export class PlanEvent3Page {
       })
     });
 
-    //TODO ALEX: do something with this.newEvent and navigate to meeting overview page
+  console.log(this.newEvent)
+
+    let newLocalEvent: LocalMeeting = {meeting: this.newEvent};
+
+    var tmp_res = this.meetingApi.addMeeting(newLocalEvent.meeting);
+
+    tmp_res.subscribe(
+      (succ) => {
+        //return data;
+        console.log(succ);
+        this.storage.set(succ, JSON.stringify(newLocalEvent)).then((res) => {
+          this.navCtrl.push(HomePage);
+
+        })
+      },
+    (err) => {
+      this.storage.set("3", JSON.stringify(newLocalEvent)).then((res) => {
+        alert("Keine Verbindung zum Server möglich - Andere Teilnehmer erhalten keine Einladung.")
+        this.navCtrl.push(HomePage);
+      })
+    });
+
+
+
   }
 
 }

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
 import {RESTService} from '../../services/RESTService';
+import {LocalMeeting} from '../../model/LocalMeeting';
 
 
 @Component({
@@ -13,10 +14,12 @@ import {RESTService} from '../../services/RESTService';
 
 export class ViewScheduledEventPage {
 
-  items: Array<any>;
+  item: LocalMeeting;
 
-  constructor(private navController: NavController, private restService: RESTService) {
-    this.restService.get('The Hobbit: An Unexpected Journey');
+  constructor(private navController: NavController, public navParams: NavParams, private restService: RESTService) {
+
+    this.item = this.navParams.get('meeting');
+console.log(this.item.meeting.participants);
   }
 
 }

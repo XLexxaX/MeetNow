@@ -5,7 +5,7 @@ import { ViewScheduledEventPage } from '../viewScheduledEvent/viewScheduledEvent
 import {Meeting} from '../../gen/model/Meeting';
 import {LocalMeeting} from '../../model/LocalMeeting';
 import { Storage } from '@ionic/storage';
-import {MeetingApi} from '../../gen/api/MeetingApi';
+import {MeetingApi} from '../../services/MeetingApi';
 import { Calendar } from '@ionic-native/calendar';
 
 @Component({
@@ -22,6 +22,8 @@ export class HomePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private meetingApi: MeetingApi, private storage: Storage, private calendar: Calendar) {
     // If we navigated to this page, we will have an item available as a nav param
+
+
     this.selectedItem = navParams.get('item');
 
 
@@ -67,72 +69,16 @@ export class HomePage {
   }
 
 
-  addMeeting(localmeeting: LocalMeeting) {
 
-    var tmp_res = this.meetingApi.addMeeting(localmeeting.meeting);
-
-      return tmp_res.subscribe(
-        (data) => {
-          //return data;
-          this.storage.set(localmeeting.meeting.id, JSON.stringify(localmeeting)).then((res) => {
-
-          })
-            .catch((res) => {
-              this.storage.set(localmeeting.meeting.id, JSON.stringify(localmeeting)).then((res) => {
-                alert("Meeting API not available.")
-              })
-              //remove event on server.
-            });
-        });
-
-
-
-  }
 
   itemTapped(event, item) {
-    this.navCtrl.push(ViewScheduledEventPage);
+    this.navCtrl.push(ViewScheduledEventPage, {
+      meeting: item
+    });
   }
 
   testNewCalendarEntry() {
     this.planEvent("3", new Date(2017, 5, 6, 15), new Date(2017, 5, 6, 16));
-  }
-  testNewEvent() {
-    if (this.plannedEvents.length==0) {
-      let testmeeting: Meeting = {
-        id: "2",
-        ownerId: "3",
-        reoccurrence: Meeting.ReoccurrenceEnum.Weekly,
-        name: "Testmeeting",
-        category: Meeting.CategoryEnum.Coffeebreak,
-        areas: [{}]
-      };
-      let localtestmeeting: LocalMeeting = {
-        meeting: testmeeting
-      }
-      this.addMeeting(localtestmeeting);
-      this.storage.set(localtestmeeting.meeting.id, JSON.stringify(localtestmeeting)).then((res) => {
-
-      });
-      testmeeting = {
-        id: "3",
-        ownerId: "3",
-        reoccurrence: Meeting.ReoccurrenceEnum.Monthly,
-        name: "AnotherMeeting",
-        category: Meeting.CategoryEnum.Lunch,
-        areas: [{}]
-      }
-      localtestmeeting = {
-        meeting: testmeeting
-      }
-      this.addMeeting(localtestmeeting);
-      this.storage.set(localtestmeeting.meeting.id, JSON.stringify(localtestmeeting)).then((res) => {
-        alert("Meeting API not available.")
-        this.refreshMeetingsFromStorage();
-      });
-    } else {
-      this.refreshMeetingsFromStorage();
-    }
-
   }
 
   planEvent(eventId: string, startDate: Date, endDate: Date) {

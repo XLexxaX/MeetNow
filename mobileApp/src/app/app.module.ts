@@ -18,7 +18,7 @@ import { PlanEvent3Page } from '../pages/plan-event3/plan-event3';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule } from '@ionic/storage';
-import {MeetingApi} from '../gen/api/MeetingApi';
+import {MeetingApi} from '../services/MeetingApi';
 import { Calendar } from '@ionic-native/calendar';
 
 @NgModule({

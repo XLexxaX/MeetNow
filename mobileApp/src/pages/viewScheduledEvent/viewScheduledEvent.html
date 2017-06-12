@@ -3,10 +3,49 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Übersicht</ion-title>
+    <ion-title>Detailansicht</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content class="home" padding>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col col-6><b>Name des Meetings:</b></ion-col>
+      <ion-col col-6>{{item.meeting.name}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6><b>Eigentümer - ID:</b></ion-col>
+      <ion-col col-6>{{item.meeting.ownerId}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6><b>Kategorie:</b></ion-col>
+      <ion-col col-6>{{item.meeting.category}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6><b>Dauer:</b></ion-col>
+      <ion-col col-6>{{item.meeting.duration}} Minuten</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6><b>Häufigkeit:</b></ion-col>
+      <ion-col col-6>{{item.meeting.reoccurrence}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6><b>Teilnehmer:</b></ion-col>
+        <ion-col col-6>
+          <p *ngFor="let person of item.meeting.participants">
+          {{person.name}}
+          </p>
+        </ion-col>
+    </ion-row>
+    <ion-row *ngIf="item.meeting.groups != undefined">
+      <ion-col col-6><b>Gruppe:</b></ion-col>
+      <ion-col col-6>{{item.meeting.groups}}</ion-col>
+    </ion-row>
+    <ion-row *ngIf="item.meeting.nextScheduled != undefined">
+      <ion-col col-6><b>Nächster, angesetzter Termin:</b></ion-col>
+      <ion-col col-6>{{item.meeting.nextScheduled}}</ion-col>
+    </ion-row>
+  </ion-grid>
 
 </ion-content>
