@@ -3,17 +3,29 @@ page-plan-event {
   .flexbox {
     display: flex;
     flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: stretch;
     align-content: stretch;
-    height: 100%
+    height: 100%;
   }
 
   .flexbox-item-no-grow {
     flex: 0 1 auto;
-    align-self: auto
+    align-self: auto;
   }
 
   .flexbox-item-grow {
     flex: 1 1 auto;
-    align-self: stretch
+    align-self: stretch;
+  }
+
+  .flexbox-item-no-grow-bottom {
+    flex: 0 1 auto;
+    align-self: center;
+  }
+
+  .button-free-space {
+    padding-top: 50px;
   }
 }

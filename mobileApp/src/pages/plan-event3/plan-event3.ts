@@ -4,7 +4,7 @@ import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {Contacts, Contact, ContactField, ContactName} from '@ionic-native/contacts';
 import {LocalMeeting} from '../../model/LocalMeeting';
 import {HomePage} from '../home/home';
-import { Storage } from '@ionic/storage';
+import {Storage} from '@ionic/storage';
 import {MeetingApi} from '../../services/MeetingApi';
 
 /**
@@ -48,13 +48,13 @@ export class PlanEvent3Page {
 
           allContacts.forEach((contact) => {
             let phoneNumbers = [];
-           contact.phoneNumbers.forEach((phoneNumber) => {
+            contact.phoneNumbers.forEach((phoneNumber) => {
               phoneNumbers.push(phoneNumber.value);
             });
             this.allContacts.push({
               name: contact.displayName,
               value: false,
-              phoneNumbers : phoneNumbers
+              phoneNumbers: phoneNumbers
             });
           });
         },
@@ -89,7 +89,7 @@ export class PlanEvent3Page {
       })
     });
 
-  console.log(this.newEvent)
+    console.log(this.newEvent)
 
     let newLocalEvent: LocalMeeting = {meeting: this.newEvent};
 
@@ -114,7 +114,6 @@ export class PlanEvent3Page {
       this.navCtrl.setRoot(HomePage);
 
     });
-
 
   }
 

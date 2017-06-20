@@ -172,10 +172,8 @@ definitions:
       nextScheduled:
         type: string
         format: date-time
-      areas:
-        type: array
-        items:
-          $ref: '#/definitions/Area'
+      area:
+        $ref: '#/definitions/Area'
   Group:
     type: object
     properties:
@@ -210,8 +208,6 @@ definitions:
   Area:
     type: object
     properties:
-      id:
-        type: string
       longitude:
         type: string
       latitude:

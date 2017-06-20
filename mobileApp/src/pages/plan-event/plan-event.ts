@@ -11,8 +11,6 @@ import {
   MarkerOptions,
   Marker, Circle
 } from '@ionic-native/google-maps';
-// import {Http, Headers} from '@angular/http';
-import 'rxjs/add/operator/map';
 
 /**
  * This class designs the event planning page.
@@ -47,7 +45,7 @@ export class PlanEventPage {
       ownerId: "3",
       reoccurrence: null,
       name: "",
-      areas: [{}]
+      area: {}
     };
 
     this.categories = [Meeting.CategoryEnum.Jourfix, Meeting.CategoryEnum.Lunch, Meeting.CategoryEnum.Coffeebreak]
@@ -58,7 +56,6 @@ export class PlanEventPage {
   }
 
   loadMap() {
-
     // create a new map by passing HTMLElement
     let element: HTMLElement = document.getElementById('map');
 
@@ -72,29 +69,17 @@ export class PlanEventPage {
         console.log('Map is ready!');
         that.initializeEventListeners();
         //Now you can add elements to the map like the marker
-        let startingPosition: LatLng = new LatLng(43.0741904, -89.3809802);
+        let startingPosition: LatLng = new LatLng(49.474163, 8.534974);
 
         // create CameraPosition
         let position: CameraPosition = {
           target: startingPosition,
-          zoom: 1000,
+          zoom: 10,
           tilt: 0
         };
 
         // move the map's camera to position
         that.map.moveCamera(position);
-
-        // create new marker
-        // let markerOptions: MarkerOptions = {
-        //   position: startingPosition,
-        //   title: 'Ionic'
-        // };
-        //
-        // //const marker: Marker =
-        // that.map.addMarker(markerOptions)
-        //   .then((marker: Marker) => {
-        //     marker.showInfoWindow();
-        //   });
       }
     );
 
@@ -120,7 +105,7 @@ export class PlanEventPage {
     );
 
     this.events.subscribe('menu:opened', () => {
-     this.disableMap();
+      this.disableMap();
     });
 
     this.events.subscribe('menu:closed', () => {
@@ -128,13 +113,13 @@ export class PlanEventPage {
     });
   }
 
-  enableMap(){
+  enableMap() {
     if (this.map) {
       this.map.setClickable(true);
     }
   }
 
-  disableMap(){
+  disableMap() {
     if (this.map) {
       this.map.setClickable(false);
     }
@@ -158,15 +143,15 @@ export class PlanEventPage {
       });
 
     //TODO make number in API
-    this.newEvent.areas[0] = {
+    this.newEvent.area = {
       longitude: data.lng + "",
       latitude: data.lat + "",
     }
   }
 
-  onSliderChange(){
+  onSliderChange() {
     this.circle.setRadius(this.meetingAreaRadius);
-    this.newEvent.areas[0].radius = this.meetingAreaRadius;
+    this.newEvent.area.radius = this.meetingAreaRadius;
   }
 
   createCircleAroundLocation(loc: LatLng) {
@@ -242,6 +227,5 @@ export class PlanEventPage {
   ionViewWillLeave() {
     this.map.remove();
   }
-
 
 }

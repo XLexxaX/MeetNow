@@ -43,12 +43,18 @@
       </ion-list>
     </div>
     <div #map id="map" class="flexbox-item-grow"></div>
+
+    <div class="flexbox-item-no-grow-bottom" *ngIf="checkIfValuesAreSet()">
+      <!--<div class="button-free-space"></div>-->
+      <!--<ion-fab bottom center>-->
+      <button ion-fab color="secondary" (tap)="callNextPage()">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+      <!--</ion-fab>-->
+    </div>
   </div>
 
-  <ion-fab bottom center *ngIf="sliderEnabled && checkIfValuesAreSet()">
-    <button ion-fab color="secondary" (tap)="callNextPage()">
-      <ion-icon name="arrow-dropright-circle"></ion-icon>
-    </button>
-  </ion-fab>
+  <!--ngIf="sliderEnabled && checkIfValuesAreSet()-->
+
 
 </ion-content>
