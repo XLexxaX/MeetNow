@@ -10,60 +10,45 @@
 
 <ion-content padding>
 
-  <ion-list>
+  <div class="flexbox">
+    <div class="flexbox-item-no-grow">
+      <ion-list>
+        <ion-item>
+          <ion-label>Name des Events</ion-label>
+          <ion-input type="text" placeholder="Name" value="" min=3 [(ngModel)]="newEvent.name"
+                     (blur)="checkIfValuesAreSet()"></ion-input>
+        </ion-item>
+        <ion-item id="listEventCategory">
+          <ion-label>Kategorie</ion-label>
+          <ion-select [(ngModel)]="newEvent.category" multiple="false" interface="action-sheet"
+                      (ionChange)="enableMap()" (ionCancel)="enableMap()" (click)="disableMap()">
+            <ion-option value="{{categories[1]}}">Mittagessen</ion-option>
+            <ion-option value="{{categories[0]}}">Jourfix</ion-option>
+            <ion-option value="{{categories[2]}}">Kaffee trinken</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+      <ion-list-header>
+        Lege den Radius fest...
+        <ion-badge item-end>{{meetingAreaRadius}}</ion-badge>
+      </ion-list-header>
+      <ion-list>
+        <ion-item>
+          <ion-range debounce="200" [disabled]="!sliderEnabled" (ionChange)="onSliderChange()" min="0" max="2000"
+                     pin="true" [(ngModel)]="meetingAreaRadius">
+            <ion-icon small range-left name="radio-button-on"></ion-icon>
+            <ion-icon big range-right name="radio-button-on"></ion-icon>
+          </ion-range>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div #map id="map" class="flexbox-item-grow"></div>
+  </div>
 
-  <ion-item>
-    <ion-label>Name des Events</ion-label>
-   <ion-input type="text" placeholder="Name" value="" min=3 [(ngModel)]="newEvent.name"
-             (blur)="checkIfValuesAreSet()"></ion-input>
-  </ion-item>
-
-</ion-list>
-
-
-  <ion-item id="listEventCategory" >
-    <ion-label>Kategorie</ion-label>
-    <ion-select [(ngModel)]="newEvent.category" multiple="false" interface="action-sheet"
-               (ionChange)="checkIfValuesAreSet()">
-      <ion-option value="{{categories[1]}}" >Mittagessen</ion-option>
-    <ion-option value="{{categories[0]}}" >Jourfix</ion-option>
-      <ion-option value="{{categories[2]}}">Kaffee trinken</ion-option>
-      </ion-select>
-  </ion-item>
-
-
-
-
-
-
-  <ion-item id="listLocation" >
-    <ion-label>Treffpunkt</ion-label>
-    <ion-select [(ngModel)]="newEvent.areas[0].id" multiple="false" interface="action-sheet"
-      (ionChange)="checkIfValuesAreSet()">
-     <ion-option value="walldorf">WDF</ion-option>
-      <ion-option value="rot">ROT</ion-option>
-      <ion-option value="berlin">BLN</ion-option>
-
-    </ion-select>
-  </ion-item>
-
-  <button ion-button (click)='callingNextPage()'>Weiter</button>
+  <ion-fab bottom center *ngIf="sliderEnabled && checkIfValuesAreSet()">
+    <button ion-fab color="secondary" (tap)="callNextPage()">
+      <ion-icon name="arrow-dropright-circle"></ion-icon>
+    </button>
+  </ion-fab>
 
 </ion-content>
-
-<!--<ion-content>-->
-  <!--<ion-item-group>-->
-    <!--<ion-item-divider color="light">A</ion-item-divider>-->
-    <!--<ion-item>Angola</ion-item>-->
-    <!--<ion-item>Argentina</ion-item>-->
-  <!--</ion-item-group>-->
-<!--</ion-content>-->
-
-
-
-
-
-
-
-
-

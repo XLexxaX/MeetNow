@@ -20,6 +20,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule } from '@ionic/storage';
 import {MeetingApi} from '../services/MeetingApi';
 import { Calendar } from '@ionic-native/calendar';
+import { GoogleMaps } from '@ionic-native/google-maps'
+
+import {MapsTestPage} from '../pages/maps-test/maps-test'
+import { GeocodingServiceProvider } from '../providers/geocoding-service/geocoding-service';
 
 @NgModule({
   declarations: [
@@ -33,6 +37,8 @@ import { Calendar } from '@ionic-native/calendar';
     PlanEventPage,
     PlanEvent2Page,
     PlanEvent3Page,
+
+    MapsTestPage
   ],
   imports: [
     HttpModule,
@@ -52,13 +58,17 @@ import { Calendar } from '@ionic-native/calendar';
     PlanEventPage,
     PlanEvent2Page,
     PlanEvent3Page,
+
+    MapsTestPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     MeetingApi,
     Calendar,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    GoogleMaps,
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    GeocodingServiceProvider
   ]
 })
 export class AppModule {}

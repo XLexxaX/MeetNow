@@ -1,13 +1,14 @@
-import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import {Component, ViewChild} from '@angular/core';
+import {Nav, Platform, Events} from 'ionic-angular';
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
 
-import { SettingsPage } from '../pages/settings/settings';
+import {SettingsPage} from '../pages/settings/settings';
 
-import { HomePage } from '../pages/home/home';
-import { AboutPage } from '../pages/about/about';
-import { PlanEventPage } from '../pages/plan-event/plan-event';
+import {HomePage} from '../pages/home/home';
+import {AboutPage} from '../pages/about/about';
+import {PlanEventPage} from '../pages/plan-event/plan-event';
+import {MapsTestPage} from '../pages/maps-test/maps-test'
 
 
 @Component({
@@ -19,18 +20,20 @@ export class MyApp {
 
   rootPage: any = HomePage;
 
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{ title: string, component: any }>;
 
   aboutPage = AboutPage;
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public events: Events) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'Einstellungen', component: SettingsPage },
-      { title: 'Event planen', component: PlanEventPage},
-      { title: 'Über uns', component: AboutPage},
+      {title: 'Home', component: HomePage},
+      {title: 'Einstellungen', component: SettingsPage},
+      {title: 'Event planen', component: PlanEventPage},
+      {title: 'Über uns', component: AboutPage},
+      {title: 'Google Maps', component: MapsTestPage}
     ];
 
   }
@@ -48,5 +51,13 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
+  }
+
+  menuClosed() {
+    this.events.publish('menu:closed', '');
+  }
+
+  menuOpened() {
+    this.events.publish('menu:opened', '');
   }
 }
