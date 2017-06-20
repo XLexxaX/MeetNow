@@ -23,7 +23,6 @@ import { Calendar } from '@ionic-native/calendar';
 import { GoogleMaps } from '@ionic-native/google-maps'
 
 import {MapsTestPage} from '../pages/maps-test/maps-test'
-import { GeocodingServiceProvider } from '../providers/geocoding-service/geocoding-service';
 
 @NgModule({
   declarations: [
@@ -68,7 +67,6 @@ import { GeocodingServiceProvider } from '../providers/geocoding-service/geocodi
     Calendar,
     GoogleMaps,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    GeocodingServiceProvider
   ]
 })
 export class AppModule {}
