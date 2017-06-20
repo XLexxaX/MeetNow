@@ -45,7 +45,7 @@
     <div #map id="map" class="flexbox-item-grow"></div>
   </div>
 
-  <ion-fab bottom center *ngIf="sliderEnabled && checkIfValuesAreSet()">
+  <ion-fab bottom center> <!-- *ngIf="sliderEnabled && checkIfValuesAreSet()">-->
     <button ion-fab color="secondary" (tap)="callNextPage()">
       <ion-icon name="arrow-dropright-circle"></ion-icon>
     </button>

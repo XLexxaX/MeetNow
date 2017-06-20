@@ -37,11 +37,16 @@ export class HomePage {
     }, (d) => {
       //alert("Berechtigungen konnten nicht erlangt werden.")
     } );
+    var d1 = new Date("June 21, 2017 08:00:00");
+    var d2 = new Date("June 21, 2017 16:00:00");
+    this.calendar.findEvent(null, null, null, d1, d2).then(
+      (succ) => {console.log(succ);},
+      (err) => {}
+    );
 
 
 
     this.refreshMeetingsFromStorage();
-
 
 
   }

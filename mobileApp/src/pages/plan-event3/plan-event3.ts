@@ -96,21 +96,24 @@ export class PlanEvent3Page {
     var tmp_res = this.meetingApi.addMeeting(newLocalEvent.meeting);
 
     tmp_res.subscribe(
-      (succ) => {
+      (succ: Object) => {
         //return data;
-        console.log(succ);
-        this.storage.set(succ, JSON.stringify(newLocalEvent)).then((res) => {
-          this.navCtrl.push(HomePage);
+
+        let event_id: string = JSON.parse(JSON.stringify(succ)).id;
+
+        this.storage.set(event_id, JSON.stringify(newLocalEvent)).then((res) => {
+
+          this.navCtrl.setRoot(HomePage);
 
         })
       },
     (err) => {
-      this.storage.set("3", JSON.stringify(newLocalEvent)).then((res) => {
-        alert("Keine Verbindung zum Server möglich - Andere Teilnehmer erhalten keine Einladung.")
-        this.navCtrl.push(HomePage);
-      })
-    });
 
+      alert("Keine Verbindung zum Server möglich - Andere Teilnehmer erhalten keine Einladung.")
+
+      this.navCtrl.setRoot(HomePage);
+
+    });
 
 
   }
