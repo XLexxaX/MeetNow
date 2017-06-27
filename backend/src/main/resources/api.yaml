@@ -38,6 +38,24 @@ paths:
             description: the id of the newly created meeting
         '405':
           description: Validation Exception
+    get:
+      tags:
+        - meeting
+      summary: Check whether a meeting exists
+      operationId: getMeeting
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: id
+          description: ID of Meeting which shall exist
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Meeting id not found
     put:
       tags:
         - meeting

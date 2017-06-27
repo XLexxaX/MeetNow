@@ -103,7 +103,6 @@ export class HomePage {
         this.storage.get(keys[i]).then((data) => {
           let event: LocalMeeting = JSON.parse(data);
           this.plannedEvents.push(event);
-          console.log(event)
           if (event.calendarId != undefined) {
             this.calendar.findEvent(event.meeting.name, undefined, undefined, undefined, undefined).then((d) => {
               this.scheduledEvents.push(event);
