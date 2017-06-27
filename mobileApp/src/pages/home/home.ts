@@ -39,15 +39,56 @@ export class HomePage {
     } );
     var d1 = new Date("June 21, 2017 08:00:00");
     var d2 = new Date("June 21, 2017 16:00:00");
-    this.calendar.findEvent(null, null, null, d1, d2).then(
-      (succ) => {console.log(succ);},
-      (err) => {}
-    );
+    this.calculateFreeTimes(d1,d2);
 
 
 
     this.refreshMeetingsFromStorage();
 
+
+  }
+
+  /*Returns a two-dimensional array with all free times according to the phone's calendar.*/
+  calculateFreeTimes(start: Date, end: Date) {
+    return this.calendar.listEventsInRange(start, end).then(
+      (succ) => {
+        console.log(start)
+        var freetimes = [[start, end]];
+        for (var i = 0; i < succ.length; i++) {
+
+
+          let tmp_start: Date = new Date(succ[i].dtstart);
+          let tmp_end: Date = new Date(succ[i].dtend);
+
+          //special case: the event wraps the whole time slot to be checked.
+          if (tmp_start <= start && tmp_end >= end) {
+            console.log("wtf")
+            return [];
+          }
+
+          if (tmp_start >= start) {
+            freetimes[freetimes.length-1][1] = tmp_start;
+
+            if (tmp_end < end) {
+              freetimes.push([tmp_end, end]);
+            } //otherwise do nothing.
+
+          } else {
+            if (freetimes[freetimes.length-1][1] < tmp_end) {
+              freetimes[freetimes.length - 1] = [tmp_end, end];
+              console.log("sfasdf")
+            }
+
+          }
+
+
+
+        }
+        console.log(freetimes);
+        return freetimes;
+      },
+      (err) => {console.log("something went wrong when calculating free times."); return [];}
+    );
 
   }
 
