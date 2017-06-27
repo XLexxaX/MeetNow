@@ -10,7 +10,6 @@ import {AboutPage} from '../pages/about/about';
 import {PlanEventPage} from '../pages/plan-event/plan-event';
 import {MapsTestPage} from '../pages/maps-test/maps-test'
 
-
 @Component({
   templateUrl: 'app.html'
 })

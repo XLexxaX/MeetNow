@@ -47,7 +47,6 @@ export class PlanEventPage {
       name: "",
       area: {}
     };
-
     this.categories = [Meeting.CategoryEnum.Jourfix, Meeting.CategoryEnum.Lunch, Meeting.CategoryEnum.Coffeebreak]
   }
 
@@ -60,13 +59,14 @@ export class PlanEventPage {
     let element: HTMLElement = document.getElementById('map');
 
     this.map = this.googleMaps.create(element);
-
+    console.log(this.map.getLicenseInfo());
     // listen to MAP_READY event
     // You must wait for this event to fire before adding something to the map or modifying it in anyway
     let that = this;
     this.map.one(GoogleMapsEvent.MAP_READY).then(
       () => {
         console.log('Map is ready!');
+        that.map.getLicenseInfo().then((info) => console.log(info));
         that.initializeEventListeners();
         //Now you can add elements to the map like the marker
         let startingPosition: LatLng = new LatLng(49.474163, 8.534974);
@@ -144,8 +144,8 @@ export class PlanEventPage {
 
     //TODO make number in API
     this.newEvent.area = {
-      longitude: data.lng + "",
-      latitude: data.lat + "",
+      longitude: data.lng,
+      latitude: data.lat,
     }
   }
 

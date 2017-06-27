@@ -6,6 +6,7 @@ import {LocalMeeting} from '../../model/LocalMeeting';
 import {HomePage} from '../home/home';
 import {Storage} from '@ionic/storage';
 import {MeetingApi} from '../../services/MeetingApi';
+import {Geofence} from '@ionic-native/geofence';
 
 /**
  * Generated class for the PlanEvent3Page page.
@@ -25,7 +26,9 @@ export class PlanEvent3Page {
   allContacts = [];
   searchQuery: string = "";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private contacts: Contacts, private meetingApi: MeetingApi, private storage: Storage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private contacts: Contacts,
+              private meetingApi: MeetingApi, private storage: Storage, private geofence: Geofence) {
+    this.geofence.initialize();
     this.newEvent = navParams.get('meeting');
     this.newEvent.participants = [];
     this.initializeContacts();
@@ -94,6 +97,28 @@ export class PlanEvent3Page {
     let newLocalEvent: LocalMeeting = {meeting: this.newEvent};
 
     var tmp_res = this.meetingApi.addMeeting(newLocalEvent.meeting);
+    this.newEvent.area.id = this.guid();
+    let fence = {
+      id: this.newEvent.area.id, //any unique ID
+      latitude: this.newEvent.area.latitude, //center of geofence radius
+      longitude: this.newEvent.area.latitude,
+      radius: this.newEvent.area.radius, //radius to edge of geofence in meters
+      transitionType: 3 //BOTH --> means enter and leave
+    }
+
+    this.geofence.addOrUpdate(fence).then(
+      () => console.log('Geofence added'),
+      (err) => console.log('Geofence failed to add')
+    );
+
+    this.geofence.onTransitionReceived().subscribe((geofences) => {
+      if(geofences){
+        geofences.forEach((geofence) => {
+          console.log("Transitation received");
+          console.log("Geofence");
+        })
+      }
+    });
 
     tmp_res.subscribe(
       (succ: Object) => {
@@ -107,14 +132,21 @@ export class PlanEvent3Page {
 
         })
       },
-    (err) => {
+      (err) => {
 
-      alert("Keine Verbindung zum Server möglich - Andere Teilnehmer erhalten keine Einladung.")
+        alert("Keine Verbindung zum Server möglich - Andere Teilnehmer erhalten keine Einladung.")
 
-      this.navCtrl.setRoot(HomePage);
+        this.navCtrl.setRoot(HomePage);
 
+      });
+
+  }
+
+  private guid(){
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+      return v.toString(16);
     });
-
   }
 
 }

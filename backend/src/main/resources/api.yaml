@@ -8,7 +8,7 @@ info:
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-host: to.be.determinated
+host: http://141.72.191.151:8080
 basePath: /
 schemes:
   - http
@@ -208,10 +208,12 @@ definitions:
   Area:
     type: object
     properties:
+      id:
+        type: string
       longitude:
-        type: string
+        type: number
       latitude:
-        type: string
+        type: number
       radius:
         type: integer
         format: int32

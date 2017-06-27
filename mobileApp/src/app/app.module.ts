@@ -21,6 +21,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import {MeetingApi} from '../services/MeetingApi';
 import { Calendar } from '@ionic-native/calendar';
 import { GoogleMaps } from '@ionic-native/google-maps'
+import {Geofence} from "@ionic-native/geofence";
 
 import {MapsTestPage} from '../pages/maps-test/maps-test'
 
@@ -66,6 +67,7 @@ import {MapsTestPage} from '../pages/maps-test/maps-test'
     MeetingApi,
     Calendar,
     GoogleMaps,
+    Geofence,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
   ]
 })

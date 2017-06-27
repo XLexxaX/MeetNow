@@ -24,3 +24,4 @@ mongoStartUp.bat
 id_rsa
 id_rsa.pub
 /bin/
+/private_key.ppk
