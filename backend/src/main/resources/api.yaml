@@ -8,7 +8,7 @@ info:
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-host: http://141.72.191.151:8080
+host: 141.72.191.151:8080
 basePath: /
 schemes:
   - http

@@ -21,7 +21,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"ownerId\": 1,\r\n  \"reoccurrence\": \"daily\",\r\n  \"participants\": [\r\n    {\r\n      \"id\": \"string\",\r\n      \"busyTimes\": [\r\n        {\r\n          \"startTime\": \"string\",\r\n          \"duration\": \"string\"\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"groups\": [\r\n    {\r\n      \"id\": 1,\r\n      \"participants\": [\r\n        {\r\n          \"id\": \"string\",\r\n          \"busyTimes\": [\r\n            {\r\n              \"startTime\": \"string\",\r\n              \"duration\": \"string\"\r\n            }\r\n          ]\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"nextScheduled\": \"2017-06-01T14:14:35.768Z\",\r\n  \"areas\": [\r\n    {\r\n      \"longitude\": \"string\",\r\n      \"latitude\": \"string\",\r\n      \"radius\": 0\r\n    }\r\n  ]\r\n}"
+					"raw": "{\r\n  \"ownerId\": 1,\r\n  \"reoccurrence\": \"daily\",\r\n  \"participants\": [\r\n    {\r\n      \"phoneNumbers\" : [\"012821\"],\r\n      \"name\": \"this is a name\",\r\n      \"busyTimes\": [\r\n        {\r\n          \"startTime\": \"string\",\r\n          \"duration\": \"string\"\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"nextScheduled\": \"2017-06-01T14:14:35.768Z\",\r\n  \"areas\": \r\n  {\r\n\t\"longitude\": \"string\",\r\n\t\"latitude\": \"string\",\r\n\t\"radius\": 0\r\n  }\r\n}"
 				},
 				"description": "create a new meeting"
 			},
@@ -64,6 +64,65 @@
 					"raw": "{\r\n  \"id\":\"a\",\r\n  \"ownerId\": 1,\r\n  \"reoccurrence\": \"daily\",\r\n  \"participants\": [\r\n    {\r\n      \"id\": \"string\",\r\n      \"busyTimes\": [\r\n        {\r\n          \"startTime\": \"string\",\r\n          \"duration\": \"string\"\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"groups\": [\r\n    {\r\n      \"id\": 1,\r\n      \"participants\": [\r\n        {\r\n          \"id\": \"string\",\r\n          \"busyTimes\": [\r\n            {\r\n              \"startTime\": \"string\",\r\n              \"duration\": \"string\"\r\n            }\r\n          ]\r\n        }\r\n      ]\r\n    }\r\n  ],\r\n  \"nextScheduled\": \"2017-06-01T14:14:35.768Z\",\r\n  \"areas\": [\r\n    {\r\n      \"longitude\": \"string\",\r\n      \"latitude\": \"string\",\r\n      \"radius\": 0\r\n    }\r\n  ]\r\n}"
 				},
 				"description": "delete a meeting, id required"
+			},
+			"response": []
+		},
+		{
+			"name": "FindMeeting",
+			"request": {
+				"url": {
+					"raw": "http://localhost:8080/meeting?id=5936e86e996bf5294cd37228",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"meeting"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "5936e86e996bf5294cd37228",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\":\"5936e679996bf51048b58c2a\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteAllMeetings",
+			"request": {
+				"url": "http://localhost:8080/deleteAllMeetings",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
 			},
 			"response": []
 		}
