@@ -125,7 +125,7 @@ export class PlanEvent3Page {
         //return data;
 
         let event_id: string = JSON.parse(JSON.stringify(succ)).id;
-
+        newLocalEvent.meeting.id = event_id;
         this.storage.set(event_id, JSON.stringify(newLocalEvent)).then((res) => {
 
           this.navCtrl.setRoot(HomePage);

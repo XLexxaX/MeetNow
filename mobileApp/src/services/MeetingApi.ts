@@ -28,7 +28,7 @@ import { Configuration }                                     from '../gen/config
 @Injectable()
 export class MeetingApi {
 
-    protected basePath = 'http://localhost:8080';
+    protected basePath = 'http://141.72.191.151:8080';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
 
@@ -68,7 +68,7 @@ export class MeetingApi {
                 if (response.status === 204) {
                     return undefined;
                 } else {
-                    return response.json();
+                  return response.status;
                 }
             });
     }
