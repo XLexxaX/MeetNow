@@ -22,6 +22,7 @@ import {MeetingApi} from '../services/MeetingApi';
 import { Calendar } from '@ionic-native/calendar';
 import { GoogleMaps } from '@ionic-native/google-maps'
 import {Geofence} from "@ionic-native/geofence";
+import {Onesignal} from"@ionic-native/onesignal";
 
 import {MapsTestPage} from '../pages/maps-test/maps-test'
 
@@ -68,6 +69,7 @@ import {MapsTestPage} from '../pages/maps-test/maps-test'
     Calendar,
     GoogleMaps,
     Geofence,
+    Onesignal,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
   ]
 })

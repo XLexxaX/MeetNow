@@ -35,6 +35,16 @@ export class MyApp {
       {title: 'Google Maps', component: MapsTestPage}
     ];
 
+    var notificationOpenedCallback = function(jsonData) {
+      alert('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+    };
+
+    window["plugins"].OneSignal
+      .startInit("2e7109e7-d60a-4723-9a51-0edac1fa6e94", "277400593026")
+      .handleNotificationOpened(notificationOpenedCallback)
+      .endInit();
+
+
   }
 
   initializeApp() {
