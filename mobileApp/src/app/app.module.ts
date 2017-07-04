@@ -24,8 +24,6 @@ import { GoogleMaps } from '@ionic-native/google-maps'
 import {Geofence} from "@ionic-native/geofence";
 import {Onesignal} from"@ionic-native/onesignal";
 
-import {MapsTestPage} from '../pages/maps-test/maps-test'
-
 @NgModule({
   declarations: [
     MyApp,
@@ -38,8 +36,6 @@ import {MapsTestPage} from '../pages/maps-test/maps-test'
     PlanEventPage,
     PlanEvent2Page,
     PlanEvent3Page,
-
-    MapsTestPage
   ],
   imports: [
     HttpModule,
@@ -58,9 +54,7 @@ import {MapsTestPage} from '../pages/maps-test/maps-test'
     AboutPage,
     PlanEventPage,
     PlanEvent2Page,
-    PlanEvent3Page,
-
-    MapsTestPage
+    PlanEvent3Page
   ],
   providers: [
     StatusBar,

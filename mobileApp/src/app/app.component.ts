@@ -8,7 +8,6 @@ import {SettingsPage} from '../pages/settings/settings';
 import {HomePage} from '../pages/home/home';
 import {AboutPage} from '../pages/about/about';
 import {PlanEventPage} from '../pages/plan-event/plan-event';
-import {MapsTestPage} from '../pages/maps-test/maps-test'
 
 @Component({
   templateUrl: 'app.html'
@@ -32,7 +31,6 @@ export class MyApp {
       {title: 'Einstellungen', component: SettingsPage},
       {title: 'Event planen', component: PlanEventPage},
       {title: 'Über uns', component: AboutPage},
-      {title: 'Google Maps', component: MapsTestPage}
     ];
 
     var notificationOpenedCallback = function(jsonData) {

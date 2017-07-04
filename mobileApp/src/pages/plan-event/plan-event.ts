@@ -142,7 +142,6 @@ export class PlanEventPage {
         this.createCircleAroundLocation(data);
       });
 
-    //TODO make number in API
     this.newEvent.area = {
       longitude: data.lng,
       latitude: data.lat,
