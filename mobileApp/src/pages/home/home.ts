@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
 import {AboutPage} from '../about/about';
-import { ViewScheduledEventPage } from '../viewScheduledEvent/viewScheduledEvent';
+import {ViewScheduledEventPage} from '../viewScheduledEvent/viewScheduledEvent';
 import {Meeting} from '../../gen/model/Meeting';
 import {LocalMeeting} from '../../model/LocalMeeting';
-import { Storage } from '@ionic/storage';
+import {Storage} from '@ionic/storage';
 import {MeetingApi} from '../../services/MeetingApi';
-import { Calendar } from '@ionic-native/calendar';
+import {Calendar} from '@ionic-native/calendar';
 
 @Component({
   selector: 'page-home',
@@ -25,22 +25,32 @@ export class HomePage {
 
 
     this.selectedItem = navParams.get('item');
-
+    if (this.selectedItem) {
+      var bgGeo = (<any>window).BackgroundGeolocation;
+      bgGeo.getGeofences(function(geofences){
+        console.log(geofences);
+      }, function(err){
+        console.log(err)
+      });
+    }
 
     this.calendar.createCalendar('MyCalendar').then(
-      (msg) => { console.log(msg); },
-      (err) => { console.log(err); }
+      (msg) => {
+        console.log(msg);
+      },
+      (err) => {
+        console.log(err);
+      }
     );
     this.calendar.hasReadWritePermission().then((d) => {
       if (!d)
         this.calendar.requestReadWritePermission();
     }, (d) => {
       //alert("Berechtigungen konnten nicht erlangt werden.")
-    } );
+    });
     var d1 = new Date("June 21, 2017 08:00:00");
     var d2 = new Date("June 21, 2017 16:00:00");
-    this.calculateFreeTimes(d1,d2);
-
+    this.calculateFreeTimes(d1, d2);
 
 
     this.refreshMeetingsFromStorage();
@@ -67,14 +77,14 @@ export class HomePage {
           }
 
           if (tmp_start >= start) {
-            freetimes[freetimes.length-1][1] = tmp_start;
+            freetimes[freetimes.length - 1][1] = tmp_start;
 
             if (tmp_end < end) {
               freetimes.push([tmp_end, end]);
             } //otherwise do nothing.
 
           } else {
-            if (freetimes[freetimes.length-1][1] < tmp_end) {
+            if (freetimes[freetimes.length - 1][1] < tmp_end) {
               freetimes[freetimes.length - 1] = [tmp_end, end];
               console.log("sfasdf")
             }
@@ -82,12 +92,14 @@ export class HomePage {
           }
 
 
-
         }
         console.log(freetimes);
         return freetimes;
       },
-      (err) => {console.log("something went wrong when calculating free times."); return [];}
+      (err) => {
+        console.log("something went wrong when calculating free times.");
+        return [];
+      }
     );
 
   }
@@ -99,7 +111,7 @@ export class HomePage {
 
     this.storage.keys().then((keys) => {
 
-      for (let i=0; i<keys.length; i++) {
+      for (let i = 0; i < keys.length; i++) {
         this.storage.get(keys[i]).then((data) => {
           let event: LocalMeeting = JSON.parse(data);
           this.plannedEvents.push(event);
@@ -115,8 +127,6 @@ export class HomePage {
   }
 
 
-
-
   itemTapped(event, item) {
     this.navCtrl.push(ViewScheduledEventPage, {
       meeting: item
@@ -128,19 +138,22 @@ export class HomePage {
   }
 
   planEvent(eventId: string, startDate: Date, endDate: Date) {
-    for(let event of this.plannedEvents) {
+    for (let event of this.plannedEvents) {
       if (eventId == event.meeting.id) {
 
 
-
         this.calendar.createEventWithOptions("Testtermin", "Mannheim", "Keine Notizen", startDate, endDate, this.calendar.getCalendarOptions()).then(
-          (msg) => { console.log("Calendar operation message: " + msg); },
-          (err) => { console.log("Calendar operation error: " + err); }
+          (msg) => {
+            console.log("Calendar operation message: " + msg);
+          },
+          (err) => {
+            console.log("Calendar operation error: " + err);
+          }
         );
         this.calendar.findEvent("Testtermin", "Mannheim", undefined, undefined, undefined).then(
           (msg) => {
             console.log(msg)
-            event.calendarId = msg+"";
+            event.calendarId = msg + "";
             event.startDate = startDate;
             event.endDate = endDate;
             event.location = "Mannheim";
@@ -148,13 +161,15 @@ export class HomePage {
             this.storage.set(event.meeting.id, JSON.stringify(event)).then((res) => {
             })
           },
-          (err) => { console.log("Calendar operation error: " + err);
+          (err) => {
+            console.log("Calendar operation error: " + err);
             alert("Kein Termin im Kalender erstellt - Termin wird hier trotzdem temporär angezeigt.");
             event.calendarId = "2150";
             event.startDate = startDate;
             event.endDate = endDate;
             event.location = "Mannheim";
-            this.scheduledEvents.push(event); }
+            this.scheduledEvents.push(event);
+          }
         );
 
 

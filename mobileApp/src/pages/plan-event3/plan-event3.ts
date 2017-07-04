@@ -6,7 +6,6 @@ import {LocalMeeting} from '../../model/LocalMeeting';
 import {HomePage} from '../home/home';
 import {Storage} from '@ionic/storage';
 import {MeetingApi} from '../../services/MeetingApi';
-import {Geofence} from '@ionic-native/geofence';
 
 /**
  * Generated class for the PlanEvent3Page page.
@@ -27,8 +26,7 @@ export class PlanEvent3Page {
   searchQuery: string = "";
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private contacts: Contacts,
-              private meetingApi: MeetingApi, private storage: Storage, private geofence: Geofence) {
-    this.geofence.initialize();
+              private meetingApi: MeetingApi, private storage: Storage) {
     this.newEvent = navParams.get('meeting');
     this.newEvent.participants = [];
     this.initializeContacts();
@@ -81,7 +79,6 @@ export class PlanEvent3Page {
   }
 
   saveMeeting() {
-
     //add participants to this.newEvent
     this.allContacts.filter((item) => {
       return item.value;
@@ -98,6 +95,24 @@ export class PlanEvent3Page {
 
     var tmp_res = this.meetingApi.addMeeting(newLocalEvent.meeting);
     this.newEvent.area.id = this.guid();
+
+    // if(platform.is("cordova")){
+      var bgGeo = (<any>window).BackgroundGeolocation;
+      bgGeo.addGeofence({
+        identifier: this.newEvent.area.id,
+        radius: this.newEvent.area.radius,
+        latitude: this.newEvent.area.latitude,
+        longitude: this.newEvent.area.longitude,
+        notifyOnEntry: true,
+        notifyOnExit: true,
+        notifyOnDwell: false
+      }, function() {
+        console.log("Successfully added geofence");
+      }, function(error) {
+        console.warn("Failed to add geofence", error);
+      });
+
+    // }
     // let fence = {
     //   id: this.newEvent.area.id, //any unique ID
     //   latitude: this.newEvent.area.latitude, //center of geofence radius
@@ -123,21 +138,15 @@ export class PlanEvent3Page {
     tmp_res.subscribe(
       (succ: Object) => {
         //return data;
-
         let event_id: string = JSON.parse(JSON.stringify(succ)).id;
         newLocalEvent.meeting.id = event_id;
         this.storage.set(event_id, JSON.stringify(newLocalEvent)).then((res) => {
-
           this.navCtrl.setRoot(HomePage);
-
         })
       },
       (err) => {
-
         alert("Keine Verbindung zum Server möglich - Andere Teilnehmer erhalten keine Einladung.")
-
         this.navCtrl.setRoot(HomePage);
-
       });
 
   }

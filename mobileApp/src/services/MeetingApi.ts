@@ -211,4 +211,116 @@ export class MeetingApi {
         return this.http.request(path, requestOptions);
     }
 
+
+  /**
+   * notify the backend that the client leaves a defined area
+   *
+   * @param areaId the id of the area which was entered
+   */
+  public leaveArea(areaId: number, extraHttpRequestParams?: any): Observable<{}> {
+    return this.leaveAreaWithHttpInfo(areaId, extraHttpRequestParams)
+      .map((response: Response) => {
+        if (response.status === 204) {
+          return undefined;
+        } else {
+          return response.json();
+        }
+      });
+  }
+
+
+  /**
+   * notify the backend that the client enters a defined area
+   *
+   * @param areaId the id of the area which was entered
+   */
+  public enterAreaWithHttpInfo(areaId: number, extraHttpRequestParams?: any): Observable<Response> {
+    const path = this.basePath + `/enterArea`;
+
+    let queryParameters = new URLSearchParams();
+    let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+    let formParams = new URLSearchParams();
+
+    // verify required parameter 'areaId' is not null or undefined
+    if (areaId === null || areaId === undefined) {
+      throw new Error('Required parameter areaId was null or undefined when calling enterArea.');
+    }
+    // to determine the Content-Type header
+    let consumes: string[] = [
+      'application/x-www-form-urlencoded'
+    ];
+
+    // to determine the Accept header
+    let produces: string[] = [
+      'application/json'
+    ];
+
+    headers.set('Content-Type', 'application/x-www-form-urlencoded');
+
+    if (areaId !== undefined) {
+      formParams.set('areaId', <any>areaId);
+    }
+
+    let requestOptions: RequestOptionsArgs = new RequestOptions({
+      method: RequestMethod.Post,
+      headers: headers,
+      body: formParams.toString(),
+      search: queryParameters
+    });
+
+    // https://github.com/swagger-api/swagger-codegen/issues/4037
+    if (extraHttpRequestParams) {
+      requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+    }
+
+    return this.http.request(path, requestOptions);
+  }
+
+  /**
+   * notify the backend that the client leaves a defined area
+   *
+   * @param areaId the id of the area which was entered
+   */
+  public leaveAreaWithHttpInfo(areaId: number, extraHttpRequestParams?: any): Observable<Response> {
+    const path = this.basePath + `/leaveArea`;
+
+    let queryParameters = new URLSearchParams();
+    let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+    let formParams = new URLSearchParams();
+
+    // verify required parameter 'areaId' is not null or undefined
+    if (areaId === null || areaId === undefined) {
+      throw new Error('Required parameter areaId was null or undefined when calling leaveArea.');
+    }
+    // to determine the Content-Type header
+    let consumes: string[] = [
+      'application/x-www-form-urlencoded'
+    ];
+
+    // to determine the Accept header
+    let produces: string[] = [
+      'application/json'
+    ];
+
+    headers.set('Content-Type', 'application/x-www-form-urlencoded');
+
+    if (areaId !== undefined) {
+      formParams.set('areaId', <any>areaId);
+    }
+
+    let requestOptions: RequestOptionsArgs = new RequestOptions({
+      method: RequestMethod.Post,
+      headers: headers,
+      body: formParams.toString(),
+      search: queryParameters
+    });
+
+    // https://github.com/swagger-api/swagger-codegen/issues/4037
+    if (extraHttpRequestParams) {
+      requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+    }
+
+    return this.http.request(path, requestOptions);
+  }
+
 }

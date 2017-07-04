@@ -66,7 +66,6 @@ export class PlanEventPage {
     this.map.one(GoogleMapsEvent.MAP_READY).then(
       () => {
         console.log('Map is ready!');
-        that.map.getLicenseInfo().then((info) => console.log(info));
         that.initializeEventListeners();
         //Now you can add elements to the map like the marker
         let startingPosition: LatLng = new LatLng(49.474163, 8.534974);
@@ -95,7 +94,6 @@ export class PlanEventPage {
         clearTimeout(this.mapPressedTimeout);
         this.mapPressedTimeout = setTimeout(function () {
           that.createMarkerAtLocation(data);
-          console.log("function called");
         }, 100)
       },
 
@@ -160,7 +158,7 @@ export class PlanEventPage {
 
     this.map.addCircle({
       center: loc,
-      radius: 500,
+      radius: this.meetingAreaRadius,
       strokeColor: '#FF0000',
       strokeWidth: 5,
       fillColor: '#F78181'
