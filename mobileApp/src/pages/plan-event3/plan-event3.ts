@@ -30,7 +30,6 @@ export class PlanEvent3Page {
   _OneSignal: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private contacts: Contacts,
-
               private meetingApi: MeetingApi, private storage: Storage, private oneSignal: OneSignal) {
     this.newEvent = navParams.get('meeting');
     this.newEvent.participants = [];
