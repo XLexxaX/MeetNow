@@ -22,7 +22,7 @@ import {MeetingApi} from '../services/MeetingApi';
 import { Calendar } from '@ionic-native/calendar';
 import { GoogleMaps } from '@ionic-native/google-maps'
 import {Geofence} from "@ionic-native/geofence";
-import {Onesignal} from"@ionic-native/onesignal";
+import {OneSignal} from"@ionic-native/onesignal";
 
 @NgModule({
   declarations: [
@@ -63,7 +63,7 @@ import {Onesignal} from"@ionic-native/onesignal";
     Calendar,
     GoogleMaps,
     Geofence,
-    Onesignal,
+    OneSignal,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
   ]
 })
