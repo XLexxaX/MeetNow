@@ -6,6 +6,9 @@ import {LocalMeeting} from '../../model/LocalMeeting';
 import {HomePage} from '../home/home';
 import {Storage} from '@ionic/storage';
 import {MeetingApi} from '../../services/MeetingApi';
+import {Geofence} from '@ionic-native/geofence';
+import {OneSignal} from '@ionic-native/onesignal';
+import {global} from '../../services/GlobalVariables';
 
 /**
  * Generated class for the PlanEvent3Page page.
@@ -24,12 +27,15 @@ export class PlanEvent3Page {
   newEvent: Meeting;
   allContacts = [];
   searchQuery: string = "";
+  _OneSignal: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private contacts: Contacts,
-              private meetingApi: MeetingApi, private storage: Storage) {
+
+              private meetingApi: MeetingApi, private storage: Storage, private oneSignal: OneSignal) {
     this.newEvent = navParams.get('meeting');
     this.newEvent.participants = [];
     this.initializeContacts();
+    this._OneSignal = oneSignal;
   }
 
   initializeContacts() {
@@ -141,11 +147,43 @@ export class PlanEvent3Page {
         let event_id: string = JSON.parse(JSON.stringify(succ)).id;
         newLocalEvent.meeting.id = event_id;
         this.storage.set(event_id, JSON.stringify(newLocalEvent)).then((res) => {
+
+
+          var notificationObj = { contents: {en: "You are participant in a new event."},
+            include_player_ids: [global.myPlayerId]};
+
+          window["plugins"].postNotification(notificationObj,
+            function(successResponse) {
+              console.log("Notification Post Success:", successResponse);
+            },
+            function (failedResponse) {
+              console.log("Notification Post Failed: ", failedResponse);
+              alert("Notification Post Failed:\n" + JSON.stringify(failedResponse));
+            }
+          )
+
           this.navCtrl.setRoot(HomePage);
         })
       },
       (err) => {
         alert("Keine Verbindung zum Server möglich - Andere Teilnehmer erhalten keine Einladung.")
+
+
+        //Das hier muss noch raus -- aber erstmal zum Test
+        var notificationObj = { contents: {en: "message body"},
+          include_player_ids: ["0472c5a9-88f5-4489-89ad-0658c1391e3d"]};
+
+        this._OneSignal.postNotification(notificationObj,
+          function(successResponse) {
+            console.log("Notification Post Success:", successResponse);
+          },
+          function (failedResponse) {
+            console.log("Notification Post Failed: ", failedResponse);
+            alert("Notification Post Failed:\n" + JSON.stringify(failedResponse));
+          }
+        )
+        //bis hierher
+
         this.navCtrl.setRoot(HomePage);
       });
 

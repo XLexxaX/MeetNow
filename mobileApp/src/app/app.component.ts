@@ -8,6 +8,7 @@ import {SettingsPage} from '../pages/settings/settings';
 import {HomePage} from '../pages/home/home';
 import {AboutPage} from '../pages/about/about';
 import {PlanEventPage} from '../pages/plan-event/plan-event';
+import {global} from '../services/GlobalVariables';
 
 import {MeetingApi} from '../services/MeetingApi';
 
@@ -41,6 +42,11 @@ export class MyApp {
       var notificationOpenedCallback = function (jsonData) {
         alert('notificationOpenedCallback: ' + JSON.stringify(jsonData));
       };
+
+      window["plugins"].OneSignal.getIds((id) => {
+        console.log(id.userId);
+        global.myPlayerId = id.userId;
+      });
 
       window["plugins"].OneSignal
         .startInit("2e7109e7-d60a-4723-9a51-0edac1fa6e94", "277400593026")
