@@ -1,6 +1,14 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import {
+  GoogleMaps,
+  GoogleMap,
+  GoogleMapsEvent,
+  LatLng,
+  CameraPosition,
+  MarkerOptions,
+  Marker, Circle
+} from '@ionic-native/google-maps';
 /**
  * Generated class for the AboutPage page.
  *
@@ -14,7 +22,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class AboutPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,   private googleMaps: GoogleMaps,) {
+    GoogleMap
   }
 
   ionViewDidLoad() {
