@@ -9,6 +9,7 @@ import {HomePage} from '../pages/home/home';
 import {AboutPage} from '../pages/about/about';
 import {PlanEventPage} from '../pages/plan-event/plan-event';
 
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -33,16 +34,17 @@ export class MyApp {
       {title: 'Über uns', component: AboutPage},
     ];
 
-    var notificationOpenedCallback = function(jsonData) {
-      alert('notificationOpenedCallback: ' + JSON.stringify(jsonData));
-    };
+    if (this.platform.is('cordova')) {
+      var notificationOpenedCallback = function (jsonData) {
+        alert('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+      };
 
-    window["plugins"].OneSignal
-      .startInit("2e7109e7-d60a-4723-9a51-0edac1fa6e94", "277400593026")
-      .handleNotificationOpened(notificationOpenedCallback)
-      .endInit();
+      window["plugins"].OneSignal
+        .startInit("2e7109e7-d60a-4723-9a51-0edac1fa6e94", "277400593026")
+        .handleNotificationOpened(notificationOpenedCallback)
+        .endInit();
 
-
+    }
   }
 
   initializeApp() {
