@@ -3,7 +3,7 @@
     <name>MeetNow</name>
     <description>An app for smart meeting organization.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://141.72.140.87:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
     <allow-navigation href="http://192.168.0.101:8100" />
@@ -81,7 +81,6 @@
     <plugin name="cordova-plugin-console" spec="1.0.5" />
     <plugin name="cordova-plugin-contacts" spec="^2.3.1" />
     <plugin name="cordova-plugin-device" spec="1.1.4" />
-    <plugin name="cordova-plugin-geofence" spec="^0.7.0" />
     <plugin name="cordova-plugin-googlemaps" spec="^1.4.0">
         <variable name="API_KEY_FOR_ANDROID" value="AIzaSyBIOzJoSFRptcx0csUTiUKVk5KM0YkhDdA" />
     </plugin>
@@ -91,4 +90,8 @@
     <plugin name="cordova-sqlite-storage" spec="~2.0.4" />
     <plugin name="ionic-plugin-keyboard" spec="~2.2.1" />
     <plugin name="onesignal-cordova-plugin" spec="^2.1.2" />
+    <plugin name="cordova-plugin-mauron85-background-geolocation" spec="^2.2.5">
+        <variable name="ACCOUNT_TYPE" value="$PACKAGE_NAME.account" />
+        <variable name="CONTENT_AUTHORITY" value="$PACKAGE_NAME" />
+    </plugin>
 </widget>

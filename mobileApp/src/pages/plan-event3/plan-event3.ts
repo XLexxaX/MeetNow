@@ -98,27 +98,27 @@ export class PlanEvent3Page {
 
     var tmp_res = this.meetingApi.addMeeting(newLocalEvent.meeting);
     this.newEvent.area.id = this.guid();
-    let fence = {
-      id: this.newEvent.area.id, //any unique ID
-      latitude: this.newEvent.area.latitude, //center of geofence radius
-      longitude: this.newEvent.area.latitude,
-      radius: this.newEvent.area.radius, //radius to edge of geofence in meters
-      transitionType: 3 //BOTH --> means enter and leave
-    }
-
-    this.geofence.addOrUpdate(fence).then(
-      () => console.log('Geofence added'),
-      (err) => console.log('Geofence failed to add')
-    );
-
-    this.geofence.onTransitionReceived().subscribe((geofences) => {
-      if(geofences){
-        geofences.forEach((geofence) => {
-          console.log("Transitation received");
-          console.log("Geofence");
-        })
-      }
-    });
+    // let fence = {
+    //   id: this.newEvent.area.id, //any unique ID
+    //   latitude: this.newEvent.area.latitude, //center of geofence radius
+    //   longitude: this.newEvent.area.latitude,
+    //   radius: this.newEvent.area.radius, //radius to edge of geofence in meters
+    //   transitionType: 3 //BOTH --> means enter and leave
+    // }
+    //
+    // this.geofence.addOrUpdate(fence).then(
+    //   () => console.log('Geofence added'),
+    //   (err) => console.log('Geofence failed to add')
+    // );
+    //
+    // this.geofence.onTransitionReceived().subscribe((geofences) => {
+    //   if(geofences){
+    //     geofences.forEach((geofence) => {
+    //       console.log("Transitation received");
+    //       console.log("Geofence");
+    //     })
+    //   }
+    // });
 
     tmp_res.subscribe(
       (succ: Object) => {
