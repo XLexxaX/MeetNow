@@ -31,7 +31,7 @@ export class MyApp {
       {title: 'Home', component: HomePage},
       {title: 'Einstellungen', component: SettingsPage},
       {title: 'Event planen', component: PlanEventPage},
-      {title: 'Über uns', component: AboutPage},
+      {title: 'Lizenzen', component: AboutPage},
     ];
 
     if (this.platform.is('cordova')) {
