@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.annotation.RequestScope;
 
 import meetNow.dataaccess.repositories.MeetingRepository;
@@ -18,10 +19,15 @@ public class MeetingManager implements MeetingProcessor {
 	@Autowired
 	private MeetingRepository repository;
 
+//	@Autowired
+//	private RestTemplate template;
+	
 	@Override
 	public String processNewMeeting(Meeting meeting) {
 		meeting = repository.save(meeting);
 		logger.info("saved meeting {}", meeting);
+		//TODO use template to send message to oneSignal
+		//template.postForObject(url, request, responseType, uriVariables)
 		return meeting.getId();
 	}
 

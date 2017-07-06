@@ -3,13 +3,14 @@
     <name>MeetNow</name>
     <description>An app for smart meeting organization.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.1.4:8100" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
     <allow-navigation href="http://192.168.0.101:8100" />
     <allow-navigation href="http://192.168.0.102:8100" />
     <allow-navigation href="http://141.72.140.87:8100" />
     <allow-navigation href="http://141.72.150.132:8100" />
+    <allow-navigation href="http://192.168.1.4:8100" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />

@@ -323,4 +323,59 @@ export class MeetingApi {
     return this.http.request(path, requestOptions);
   }
 
+  public newUser(pushId: string, extraHttpRequestParams?: any): Observable<models.User> {
+    return this.newUserWithHttpInfo(pushId, extraHttpRequestParams)
+      .map((response: Response) => {
+        if (response.status === 204) {
+          return undefined;
+        } else {
+          return response.json();
+        }
+      });
+  }
+
+  /**
+   * make urself known to the backend
+   *
+   * @param pushId the oneSignal push id
+   */
+  public newUserWithHttpInfo(pushId: string, extraHttpRequestParams?: any): Observable<Response> {
+    const path = this.basePath + `/newUser`;
+
+    let queryParameters = new URLSearchParams();
+    let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+    let formParams = new URLSearchParams();
+
+    // to determine the Content-Type header
+    let consumes: string[] = [
+      'application/x-www-form-urlencoded'
+    ];
+
+    // to determine the Accept header
+    let produces: string[] = [
+      'application/json'
+    ];
+
+    headers.set('Content-Type', 'application/x-www-form-urlencoded');
+
+    if (pushId !== undefined) {
+      formParams.set('pushId', <any>pushId);
+    }
+
+    let requestOptions: RequestOptionsArgs = new RequestOptions({
+      method: RequestMethod.Post,
+      headers: headers,
+      body: formParams.toString(),
+      search: queryParameters
+    });
+
+    // https://github.com/swagger-api/swagger-codegen/issues/4037
+    if (extraHttpRequestParams) {
+      requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+    }
+
+    return this.http.request(path, requestOptions);
+  }
+
+
 }
