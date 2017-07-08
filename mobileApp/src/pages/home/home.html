@@ -12,7 +12,7 @@
 
   <ion-list>
     <ion-list-header>
-      Termine
+      Gesetzte Termine
     </ion-list-header>
     <button ion-item *ngFor="let item of scheduledEvents" (click)="itemTapped($event, item)" class="item item-text-wrap" text-wrap>
       <ion-icon name="calendar" item-left></ion-icon>
@@ -30,7 +30,7 @@
   <ion-list>
 
     <ion-list-header>
-      Geplante Termine
+      Geplante Events
     </ion-list-header>
 
     <button ion-item *ngFor="let item of plannedEvents" (click)="itemTapped($event, item)">

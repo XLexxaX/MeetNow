@@ -10,7 +10,7 @@ import {HomePage} from '../pages/home/home';
 import {AboutPage} from '../pages/about/about';
 import {PlanEventPage} from '../pages/plan-event/plan-event';
 import {global} from '../services/GlobalVariables';
-
+import {LocalMeeting} from '../model/LocalMeeting';
 import {MeetingApi} from '../services/MeetingApi';
 import {User} from "../gen/model/User";
 
@@ -39,10 +39,40 @@ export class MyApp {
       {title: 'Lizenzen', component: AboutPage},
     ];
 
+  }
+
+
+  initializeOneSignal(nav) {
+
     if (this.platform.is('cordova')) {
       var notificationOpenedCallback = function (jsonData) {
-        alert('notificationOpenedCallback: ' + JSON.stringify(jsonData));
-      };
+
+           var payload = jsonData.notification.payload.additionalData;
+           let newLocalEvent: LocalMeeting = {meeting: payload.meeting};
+           var currentPage = nav.getActive().component.name+"";
+
+
+
+          var payload = jsonData.notification.payload.additionalData;
+          console.log(payload)
+          switch (payload.operation) {
+            case "0":
+
+              if (currentPage==="HomePage") {
+                if (payload.meeting!=undefined && payload.meeting!=null) {
+                  nav.setRoot(HomePage, {'newMeetingArrived': payload.meeting});
+                }
+              }
+
+              break;
+            case "1":
+              //delete operation
+              break;
+            default:
+              break;
+          }
+        };
+      }
 
       window["plugins"].OneSignal.getIds((id) => {
         console.log(id.userId);
@@ -56,7 +86,6 @@ export class MyApp {
 
       this.initializeAppOnFirstStartUp();
     }
-  }
 
   initializeAppOnFirstStartUp() {
     this.storage.get("user").then(
@@ -82,7 +111,8 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.initializeGeofences();
+      this.initializeOneSignal(this.nav);
+      //this.initializeGeofences();
     });
   }
 

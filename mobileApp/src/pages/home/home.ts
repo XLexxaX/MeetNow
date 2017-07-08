@@ -7,6 +7,7 @@ import {LocalMeeting} from '../../model/LocalMeeting';
 import {Storage} from '@ionic/storage';
 import {MeetingApi} from '../../services/MeetingApi';
 import {Calendar} from '@ionic-native/calendar';
+import {global} from '../../services/GlobalVariables';
 
 @Component({
   selector: 'page-home',
@@ -19,7 +20,6 @@ export class HomePage {
   scheduledEvents: Array<LocalMeeting>;
   aboutPage = AboutPage;
 
-
   constructor(public navCtrl: NavController, public navParams: NavParams, private meetingApi: MeetingApi, private storage: Storage, private calendar: Calendar) {
     // If we navigated to this page, we will have an item available as a nav param
 
@@ -27,35 +27,47 @@ export class HomePage {
     this.selectedItem = navParams.get('item');
     if (this.selectedItem) {
       var bgGeo = (<any>window).BackgroundGeolocation;
-      bgGeo.getGeofences(function(geofences){
+      bgGeo.getGeofences(function (geofences) {
         console.log(geofences);
-      }, function(err){
+      }, function (err) {
         console.log(err)
       });
     }
 
-    this.calendar.createCalendar('MyCalendar').then(
-      (msg) => {
-        console.log(msg);
-      },
-      (err) => {
-        console.log(err);
+    var newMeetingArrived = navParams.get('newMeetingArrived');
+    if (newMeetingArrived!=undefined) {
+      this.plannedEvents = global.plannedEvents;
+      this.scheduledEvents = global.scheduledEvents;
+      let tmp_LocalMeeting: LocalMeeting = {meeting:newMeetingArrived};
+      this.plannedEvents.push(tmp_LocalMeeting);
+      global.plannedEvents.push(tmp_LocalMeeting);
+      storage.set(tmp_LocalMeeting.meeting.id, JSON.stringify(tmp_LocalMeeting)).then((res) => {
+      });
+    } else {
+
+      if (!global.init) {
+        this.refreshMeetingsFromStorage();
+        global.init = true;
+        this.calendar.createCalendar('MyCalendar').then(
+          (msg) => {
+            console.log(msg);
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+        this.calendar.hasReadWritePermission().then((d) => {
+          if (!d)
+            this.calendar.requestReadWritePermission();
+        }, (d) => {
+          //alert("Berechtigungen konnten nicht erlangt werden.")
+        });
+        //var d1 = new Date("June 21, 2017 08:00:00");
+        //var d2 = new Date("June 21, 2017 16:00:00");
+        //this.calculateFreeTimes(d1, d2);
       }
-    );
-    this.calendar.hasReadWritePermission().then((d) => {
-      if (!d)
-        this.calendar.requestReadWritePermission();
-    }, (d) => {
-      //alert("Berechtigungen konnten nicht erlangt werden.")
-    });
-    var d1 = new Date("June 21, 2017 08:00:00");
-    var d2 = new Date("June 21, 2017 16:00:00");
-    this.calculateFreeTimes(d1, d2);
 
-
-    this.refreshMeetingsFromStorage();
-
-
+    }
   }
 
   /*Returns a two-dimensional array with all free times according to the phone's calendar.*/
@@ -109,20 +121,22 @@ export class HomePage {
     this.plannedEvents = [];
     this.scheduledEvents = [];
 
+
     this.storage.keys().then((keys) => {
 
       for (let i = 0; i < keys.length; i++) {
         this.storage.get(keys[i]).then((data) => {
           let event: LocalMeeting = JSON.parse(data);
           this.plannedEvents.push(event);
+          global.plannedEvents = this.plannedEvents;
           if (event.calendarId != undefined) {
-            this.calendar.findEvent(event.meeting.name, undefined, undefined, undefined, undefined).then((d) => {
+
               this.scheduledEvents.push(event);
-            });
+            global.scheduledEvents = this.scheduledEvents;
+
           }
         });
       }
-
     });
   }
 
@@ -134,7 +148,7 @@ export class HomePage {
   }
 
   testNewCalendarEntry() {
-    this.planEvent("3", new Date(2017, 5, 6, 15), new Date(2017, 5, 6, 16));
+    this.planEvent(global.plannedEvents[0].meeting.id, new Date(2017, 5, 6, 15), new Date(2017, 5, 6, 16));
   }
 
   planEvent(eventId: string, startDate: Date, endDate: Date) {
