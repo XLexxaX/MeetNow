@@ -8,10 +8,10 @@ info:
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-host: 141.72.191.151:8080
+host: meetNow.cfapps.sap.hana.ondemand.com
 basePath: /
 schemes:
-  - http
+  - https
 paths:
   /newUser:
     post:
