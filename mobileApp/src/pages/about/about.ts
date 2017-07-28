@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {
   GoogleMaps,
   GoogleMap,
@@ -9,6 +9,11 @@ import {
   MarkerOptions,
   Marker, Circle
 } from '@ionic-native/google-maps';
+
+import {PopoverController} from 'ionic-angular';
+import { ShareLinkPage } from '../share-link/share-link';
+
+
 /**
  * Generated class for the AboutPage page.
  *
@@ -18,11 +23,13 @@ import {
 @IonicPage()
 @Component({
   selector: 'page-about',
-  templateUrl: 'about.html',
+  templateUrl: 'about.html'
+
 })
 export class AboutPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,   private googleMaps: GoogleMaps,) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private googleMaps: GoogleMaps,
+              public popoverCtrl: PopoverController) {
     GoogleMap
   }
 
@@ -30,4 +37,16 @@ export class AboutPage {
     console.log('ionViewDidLoad AboutPage');
   }
 
+  presentPopover() {
+    let popover = this.popoverCtrl.create(ShareLinkPage);
+    popover.present();
+  }
+
+  share() {
+    alert("hello world");
+
+/*    this.filePath.resolveNativePath(path)
+      .then(filePath => console.log(filePath))
+      .catch(err => console.log(err));*/
+  }
 }
