@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +30,7 @@ import meetNow.logic.MeetingNotFoundException;
 import meetNow.logic.MeetingProcessor;
 import meetNow.logic.UserCreator;
 import swagger.model.Meeting;
+import swagger.model.Pushid;
 import swagger.model.User;
 
 @CrossOrigin
@@ -45,7 +47,7 @@ public class MobileAppController {
 
 	@Autowired
 	private MeetingRepository repository;
-	
+
 	@Autowired
 	private UserCreator userCreator;
 
@@ -54,9 +56,11 @@ public class MobileAppController {
 		return "OK";
 	}
 
-	@RequestMapping(value = "/newUser", produces = { "application/json" }, method = RequestMethod.POST)
-	public ResponseEntity<User> newUser (@RequestPart(value = "pushId", required = true) String pushId) throws ValidationException {
-		User user = userCreator.createUser(pushId);
+	@RequestMapping(value = "/newUser", consumes = { "application/x-www-form-urlencoded" }, produces = {
+			"application/json" }, method = RequestMethod.POST)
+	public ResponseEntity<User> newUser(@RequestBody MultiValueMap<String,String> paramMap)
+			throws ValidationException {
+		User user = userCreator.createUser(paramMap.get("pushId").get(0));
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 

@@ -9,10 +9,12 @@ import {SettingsPage} from '../pages/settings/settings';
 import {HomePage} from '../pages/home/home';
 import {AboutPage} from '../pages/about/about';
 import {PlanEventPage} from '../pages/plan-event/plan-event';
+import {ContactsPage} from "../pages/contacts/contacts";
 import {global} from '../services/GlobalVariables';
 import {LocalMeeting} from '../model/LocalMeeting';
 import {MeetingApi} from '../services/MeetingApi';
 import {User} from "../gen/model/User";
+import {Deeplinks} from "@ionic-native/deeplinks";
 
 @Component({
   templateUrl: 'app.html'
@@ -28,80 +30,18 @@ export class MyApp {
   aboutPage = AboutPage;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
-              public events: Events, public meetingApi: MeetingApi, public storage: Storage) {
+              public events: Events, public meetingApi: MeetingApi, public storage: Storage, public deeplinks: Deeplinks) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
       {title: 'Home', component: HomePage},
-      {title: 'Einstellungen', component: SettingsPage},
       {title: 'Event planen', component: PlanEventPage},
+      {title: 'Contacts', component: ContactsPage},
+      {title: 'Einstellungen', component: SettingsPage},
       {title: 'Lizenzen', component: AboutPage},
     ];
 
-  }
-
-
-  initializeOneSignal(nav) {
-
-    if (this.platform.is('cordova')) {
-      var notificationOpenedCallback = function (jsonData) {
-
-           var payload = jsonData.notification.payload.additionalData;
-           let newLocalEvent: LocalMeeting = {meeting: payload.meeting};
-           var currentPage = nav.getActive().component.name+"";
-
-
-
-          var payload = jsonData.notification.payload.additionalData;
-          console.log(payload)
-          switch (payload.operation) {
-            case "0":
-
-              if (currentPage==="HomePage") {
-                if (payload.meeting!=undefined && payload.meeting!=null) {
-                  nav.setRoot(HomePage, {'newMeetingArrived': payload.meeting});
-                }
-              }
-
-              break;
-            case "1":
-              //delete operation
-              break;
-            default:
-              break;
-          }
-        };
-      }
-
-      window["plugins"].OneSignal.getIds((id) => {
-        console.log(id.userId);
-        global.myPlayerId = id.userId;
-      });
-
-      window["plugins"].OneSignal
-        .startInit("2e7109e7-d60a-4723-9a51-0edac1fa6e94", "277400593026")
-        .handleNotificationOpened(notificationOpenedCallback)
-        .endInit();
-
-      this.initializeAppOnFirstStartUp();
-    }
-
-  initializeAppOnFirstStartUp() {
-    this.storage.get("user").then(
-      (user: User) => {
-        if (user == null) {
-          this.meetingApi.newUser(global.myPlayerId).subscribe(
-            (user: User) => {
-              this.storage.set("user", user)
-            },
-            (error) => {
-              console.log("Couldn't connect to the backend, " + error)
-            }
-          );
-        }
-      }
-    );
   }
 
 
@@ -111,9 +51,74 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
       this.initializeOneSignal(this.nav);
-      //this.initializeGeofences();
+      this.initializeGeofences();
+      this.initializeDeeplinks();
     });
+  }
+
+
+  initializeOneSignal(nav) {
+
+    if (this.platform.is('cordova')) {
+      var notificationOpenedCallback = function (jsonData) {
+
+        var payload = jsonData.notification.payload.additionalData;
+        let newLocalEvent: LocalMeeting = {meeting: payload.meeting};
+        var currentPage = nav.getActive().component.name + "";
+
+
+        var payload = jsonData.notification.payload.additionalData;
+        console.log(payload)
+        switch (payload.operation) {
+          case "0":
+
+            if (currentPage === "HomePage") {
+              if (payload.meeting != undefined && payload.meeting != null) {
+                nav.setRoot(HomePage, {'newMeetingArrived': payload.meeting});
+              }
+            }
+
+            break;
+          case "1":
+            //delete operation
+            break;
+          default:
+            break;
+        }
+      };
+    }
+    if (window["plugins"]) {
+      window["plugins"].OneSignal.getIds((id) => {
+        console.log(id.userId);
+        global.myPlayerId = id.userId;
+      }).then(this.initializeAppOnFirstStartUp());
+
+      window["plugins"].OneSignal
+        .startInit("2e7109e7-d60a-4723-9a51-0edac1fa6e94", "277400593026")
+        .handleNotificationOpened(notificationOpenedCallback)
+        .endInit();
+    }
+  }
+
+  initializeAppOnFirstStartUp() {
+    this.storage.get("user").then(
+      (user: User) => {
+        if (user == null || !global.myPlayerId) {
+          this.meetingApi.newUser(global.myPlayerId).subscribe(
+            (user: User) => {
+              this.storage.set("user", user)
+            },
+            (error) => {
+              console.log("Couldn't connect to the backend, " + error)
+            }
+          );
+        } else {
+          console.log("Running in emulator or app not opened for the first time")
+        }
+      }
+    );
   }
 
   initializeGeofences() {
@@ -145,6 +150,21 @@ export class MyApp {
           });
       });
     }
+  }
+
+  private initializeDeeplinks() {
+    this.deeplinks.routeWithNavController(this.navController, {
+      '/about-us': AboutPage,
+      '/products/:productId': ProductPage
+    }).subscribe((match) => {
+      // match.$route - the route we matched, which is the matched entry from the arguments to route()
+      // match.$args - the args passed in the link
+      // match.$link - the full link data
+      console.log('Successfully matched route', match);
+    }, (nomatch) => {
+      // nomatch.$link - the full link data
+      console.error('Got a deeplink that didn\'t match', nomatch);
+    });
   }
 
   openPage(page) {

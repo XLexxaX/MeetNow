@@ -1,28 +1,30 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import {BrowserModule} from '@angular/platform-browser';
+import {ErrorHandler, NgModule} from '@angular/core';
+import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 
-import { HttpModule } from '@angular/http';
-import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-import { SettingsPage } from '../pages/settings/settings';
+import {HttpModule} from '@angular/http';
+import {MyApp} from './app.component';
+import {HomePage} from '../pages/home/home';
+import {SettingsPage} from '../pages/settings/settings';
+import {ContactsPage} from "../pages/contacts/contacts";
+import {ViewScheduledEventPage} from '../pages/viewScheduledEvent/viewScheduledEvent';
 
-import { ViewScheduledEventPage } from '../pages/viewScheduledEvent/viewScheduledEvent';
-
-import { AboutPage} from '../pages/about/about';
-import { PlanEventPage } from '../pages/plan-event/plan-event';
-import { PlanEvent2Page } from '../pages/plan-event2/plan-event2';
-import { PlanEvent3Page } from '../pages/plan-event3/plan-event3';
+import {AboutPage} from '../pages/about/about';
+import {PlanEventPage} from '../pages/plan-event/plan-event';
+import {PlanEvent2Page} from '../pages/plan-event2/plan-event2';
+import {PlanEvent3Page} from '../pages/plan-event3/plan-event3';
 
 
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { IonicStorageModule } from '@ionic/storage';
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
+import {IonicStorageModule} from '@ionic/storage';
 import {MeetingApi} from '../services/MeetingApi';
-import { Calendar } from '@ionic-native/calendar';
-import { GoogleMaps } from '@ionic-native/google-maps'
+import {Calendar} from '@ionic-native/calendar';
+import {GoogleMaps} from '@ionic-native/google-maps'
 import {Geofence} from "@ionic-native/geofence";
-import {OneSignal} from"@ionic-native/onesignal";
+import {OneSignal} from "@ionic-native/onesignal";
+import {SocialSharing} from "@ionic-native/social-sharing";
+import {Deeplinks} from "@ionic-native/deeplinks";
 
 @NgModule({
   declarations: [
@@ -30,7 +32,7 @@ import {OneSignal} from"@ionic-native/onesignal";
     HomePage,
 
     ViewScheduledEventPage,
-
+    ContactsPage,
     SettingsPage,
     AboutPage,
     PlanEventPage,
@@ -49,7 +51,7 @@ import {OneSignal} from"@ionic-native/onesignal";
     HomePage,
 
     ViewScheduledEventPage,
-
+    ContactsPage,
     SettingsPage,
     AboutPage,
     PlanEventPage,
@@ -64,7 +66,10 @@ import {OneSignal} from"@ionic-native/onesignal";
     GoogleMaps,
     Geofence,
     OneSignal,
+    SocialSharing,
+    Deeplinks,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
   ]
 })
-export class AppModule {}
+export class AppModule {
+}

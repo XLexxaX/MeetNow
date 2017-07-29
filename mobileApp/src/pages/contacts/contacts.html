@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title> Contacts</ion-title>
+
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+
+  <ion-list no-lines>
+    <ion-list-header>
+      Your Contacts
+    </ion-list-header>
+    <ion-item *ngFor="let contact of contacts">
+      {{ contact }}
+    </ion-item>
+  </ion-list>
+
+  <ion-fab right bottom>
+
+    <button ion-fab color="primary" (tap)="addContact()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+
+</ion-content>

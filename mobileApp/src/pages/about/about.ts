@@ -11,7 +11,6 @@ import {
 } from '@ionic-native/google-maps';
 
 import {PopoverController} from 'ionic-angular';
-import { ShareLinkPage } from '../share-link/share-link';
 
 
 /**
@@ -37,10 +36,10 @@ export class AboutPage {
     console.log('ionViewDidLoad AboutPage');
   }
 
-  presentPopover() {
-    let popover = this.popoverCtrl.create(ShareLinkPage);
-    popover.present();
-  }
+  // presentPopover() {
+  //   let popover = this.popoverCtrl.create(ShareLinkPage);
+  //   popover.present();
+  // }
 
   share() {
     alert("hello world");

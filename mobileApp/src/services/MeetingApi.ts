@@ -28,7 +28,7 @@ import { Configuration }                                     from '../gen/config
 @Injectable()
 export class MeetingApi {
 
-    protected basePath = 'http://141.72.191.151:8080';
+    protected basePath = 'https://meetnow.cfapps.eu10.hana.ondemand.com';
     public defaultHeaders: Headers = new Headers();
     public configuration: Configuration = new Configuration();
 
@@ -323,6 +323,7 @@ export class MeetingApi {
     return this.http.request(path, requestOptions);
   }
 
+
   public newUser(pushId: string, extraHttpRequestParams?: any): Observable<models.User> {
     return this.newUserWithHttpInfo(pushId, extraHttpRequestParams)
       .map((response: Response) => {
@@ -333,6 +334,7 @@ export class MeetingApi {
         }
       });
   }
+
 
   /**
    * make urself known to the backend
@@ -346,6 +348,10 @@ export class MeetingApi {
     let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
     let formParams = new URLSearchParams();
 
+    // verify required parameter 'pushId' is not null or undefined
+    if (pushId === null || pushId === undefined) {
+      throw new Error('Required parameter pushId was null or undefined when calling newUser.');
+    }
     // to determine the Content-Type header
     let consumes: string[] = [
       'application/x-www-form-urlencoded'
