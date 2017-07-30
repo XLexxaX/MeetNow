@@ -153,9 +153,10 @@ export class MyApp {
   }
 
   private initializeDeeplinks() {
-    this.deeplinks.routeWithNavController(this.navController, {
+    console.log("Initializing deeplinks");
+    this.deeplinks.routeWithNavController(this.nav, {
       '/about-us': AboutPage,
-      '/products/:productId': ProductPage
+      '/contacts': ContactsPage
     }).subscribe((match) => {
       // match.$route - the route we matched, which is the matched entry from the arguments to route()
       // match.$args - the args passed in the link
@@ -165,6 +166,7 @@ export class MyApp {
       // nomatch.$link - the full link data
       console.error('Got a deeplink that didn\'t match', nomatch);
     });
+    console.log("Initialized deeplinks");
   }
 
   openPage(page) {
