@@ -121,9 +121,8 @@ export class HomePage {
     this.plannedEvents = [];
     this.scheduledEvents = [];
 
-
-    this.storage.keys().then((keys) => {
-
+    this.storage.get('meetings').then((keys) => {
+    if (keys!=null) {
       for (let i = 0; i < keys.length; i++) {
         this.storage.get(keys[i]).then((data) => {
           let event: LocalMeeting = JSON.parse(data);
@@ -131,13 +130,16 @@ export class HomePage {
           global.plannedEvents = this.plannedEvents;
           if (event.calendarId != undefined) {
 
-              this.scheduledEvents.push(event);
+            this.scheduledEvents.push(event);
             global.scheduledEvents = this.scheduledEvents;
 
           }
         });
       }
+    }
     });
+
+
   }
 
 
@@ -189,6 +191,12 @@ export class HomePage {
 
       }
     }
+  }
+
+  clearStorage() {
+    this.storage.clear().then(
+      (x) => {alert('Lokaler App-Speicher bereinigt.')}
+    );
   }
 
 }

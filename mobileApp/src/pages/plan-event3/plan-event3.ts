@@ -139,24 +139,36 @@ export class PlanEvent3Page {
         //return data;
         let event_id: string = JSON.parse(JSON.stringify(succ)).id;
         newLocalEvent.meeting.id = event_id;
-       this.storage.set(event_id, JSON.stringify(newLocalEvent)).then((res) => {
+
+        this.storage.get('meetings').then((keys) =>
+        {
+          if (keys!=null) {
+            keys = JSON.parse(keys).push(newLocalEvent);
+          } else {
+            keys = {};
+          }
+
+          this.storage.set(event_id, JSON.stringify(keys)).then((res) => {
 
 
-          var notificationObj = { contents: {en: "Sie wurden einem Event hinzugefügt"},
-            include_player_ids: ["0472c5a9-88f5-4489-89ad-0658c1391e3d"],
-            data: {"operation":"0","meeting":newLocalEvent.meeting}};
+            var notificationObj = { contents: {en: "Sie wurden einem Event hinzugefügt"},
+              include_player_ids: ["0472c5a9-88f5-4489-89ad-0658c1391e3d"],
+              data: {"operation":"0","meeting":newLocalEvent.meeting}};
 
-          this._OneSignal.postNotification(notificationObj,
-            function(successResponse) {
-              console.log("Notification Post Success:", successResponse);
-            },
-            function (failedResponse) {
-              console.log("Notification Post Failed: ", failedResponse);
-            }
-          )
+            this._OneSignal.postNotification(notificationObj,
+              function(successResponse) {
+                console.log("Notification Post Success:", successResponse);
+              },
+              function (failedResponse) {
+                console.log("Notification Post Failed: ", failedResponse);
+              }
+            )
 
-          this.navCtrl.setRoot(HomePage);
+            this.navCtrl.setRoot(HomePage);
+          })
+
         })
+
      },
      (err) => {
        alert("Keine Verbindung zum Server möglich - Andere Teilnehmer erhalten keine Einladung.")

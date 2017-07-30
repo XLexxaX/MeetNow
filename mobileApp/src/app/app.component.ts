@@ -13,7 +13,6 @@ import {global} from '../services/GlobalVariables';
 import {LocalMeeting} from '../model/LocalMeeting';
 import {MeetingApi} from '../services/MeetingApi';
 import {User} from "../gen/model/User";
-import {Deeplinks} from "@ionic-native/deeplinks";
 
 @Component({
   templateUrl: 'app.html'
@@ -29,7 +28,7 @@ export class MyApp {
   aboutPage = AboutPage;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
-              public events: Events, public meetingApi: MeetingApi, public storage: Storage, public deeplinks: Deeplinks) {
+              public events: Events, public meetingApi: MeetingApi, public storage: Storage) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
