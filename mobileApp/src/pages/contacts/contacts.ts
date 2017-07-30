@@ -4,6 +4,7 @@ import {SocialSharing} from '@ionic-native/social-sharing';
 import {global} from '../../services/GlobalVariables';
 import {AlertController} from 'ionic-angular';
 import {Storage} from '@ionic/storage';
+import {OneSignal} from '@ionic-native/onesignal';
 
 /**
  * Generated class for the ContactsPage page.
@@ -18,13 +19,14 @@ import {Storage} from '@ionic/storage';
 })
 export class ContactsPage {
 
-  private contacts: Array<{id:String,name:String}>;
+  private contacts: Array<{ id: String, name: String }>;
+  private _oneSignal: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private socialSharing: SocialSharing,
-              private alertCtrl: AlertController, private storage: Storage) {
+              private alertCtrl: AlertController, private storage: Storage, private oneSignal: OneSignal) {
 
-    this.contacts = [{id:"abcde", name:"carmen"}];
-
+    this.contacts = [{id: "abcde", name: "carmen"}];
+    this._oneSignal = this.oneSignal;
     let id = this.navParams.get('id');
     if (id) {
       this.addNewContact(id);
@@ -51,13 +53,28 @@ export class ContactsPage {
         {
           text: 'Save',
           handler: data => {
-            console.log("Save clicked")
-            this.contacts.push({id: id, name: data});
+            console.log("Save clicked");
+            this.contacts.push({id: id, name: data.username});
+            this.storage.get("user").then(user => {
+              let notificationObj = {
+                contents: {en: "You have been added"},
+                include_player_ids: [id],
+                data: {"operation": "2", "id": user.id}
+              };
+              this._oneSignal.postNotification(notificationObj,
+                function (successResponse) {
+                  console.log("Notification Post Success:", successResponse);
+                },
+                function (failedResponse) {
+                  console.log("Notification Post Failed: ", failedResponse);
+                }
+              )
+            });
           }
         }
       ]
     });
-    setTimeout(alert.present(), 500);
+    alert.present();
   }
 
   private addContact() {

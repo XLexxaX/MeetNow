@@ -24,7 +24,6 @@ import {GoogleMaps} from '@ionic-native/google-maps'
 import {Geofence} from "@ionic-native/geofence";
 import {OneSignal} from "@ionic-native/onesignal";
 import {SocialSharing} from "@ionic-native/social-sharing";
-import {Deeplinks} from "@ionic-native/deeplinks";
 
 @NgModule({
   declarations: [
@@ -67,8 +66,7 @@ import {Deeplinks} from "@ionic-native/deeplinks";
     Geofence,
     OneSignal,
     SocialSharing,
-    Deeplinks,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
 export class AppModule {

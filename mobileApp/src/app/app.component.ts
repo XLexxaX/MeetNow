@@ -82,6 +82,8 @@ export class MyApp {
           case "1":
             //delete operation
             break;
+          case "2":
+            console.log("opened notification to add user")
           default:
             break;
         }
@@ -154,7 +156,7 @@ export class MyApp {
   private initializeDeeplinks() {
     let that = this;
     let callbackFunction = function(eventData){
-      console.log("app opened from universal links:" + eventData);
+      console.log("app opened from universal links");
       if(eventData.params.id){
         that.nav.push(ContactsPage, {
           id: eventData.params.id

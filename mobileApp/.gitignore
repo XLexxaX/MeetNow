@@ -35,3 +35,6 @@ UserInterfaceState.xcuserstate
 
 ### ignore all swagger generated files ###
 src/gen/
+
+##some random stuff
+ul_web_hooks/
