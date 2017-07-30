@@ -64,11 +64,15 @@ export class ContactsPage {
     let message = "Add me on meetNow!";
     // let url = "meetnow://newContact/" + global.myPlayerId;
     // let href = "<a href=\"" + url + "\">" + url + "</a>";
-    let oneSignal
-    let href = "https://meetnow.cfapps.eu10.hana.ondemand.com/contact?id=" + global.myPlayerId;
-    let subject = "Meet now invitation";
-    this.socialSharing.share(message, subject, null, href).catch(
-      reason => console.log("Couldn't share meeting" + reason)
-    );
+    this.storage.get("user").then(
+      user => {
+        let href = "https://meetnow.cfapps.eu10.hana.ondemand.com/contact?id=" + user.id;
+        let subject = "Meet now invitation";
+        this.socialSharing.share(message, subject, null, href).catch(
+          reason => console.log("Couldn't share meeting" + reason)
+        );
+      }
+    )
+
   }
 }
