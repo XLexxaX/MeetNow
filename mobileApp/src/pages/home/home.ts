@@ -39,14 +39,20 @@ export class HomePage {
       this.plannedEvents = global.plannedEvents;
       this.scheduledEvents = global.scheduledEvents;
       let tmp_LocalMeeting: LocalMeeting = {meeting:newMeetingArrived};
+
+
+
       this.plannedEvents.push(tmp_LocalMeeting);
-      global.plannedEvents.push(tmp_LocalMeeting);
-      storage.set(tmp_LocalMeeting.meeting.id, JSON.stringify(tmp_LocalMeeting)).then((res) => {
-      });
+
+        this.storage.set('meetings', JSON.stringify(this.plannedEvents)).then((res) => {
+
+           global.plannedEvents = this.plannedEvents;
+        });
+
     } else {
+      this.refreshMeetingsFromStorage();
 
       if (!global.init) {
-        this.refreshMeetingsFromStorage();
         global.init = true;
         this.calendar.createCalendar('MyCalendar').then(
           (msg) => {
@@ -84,7 +90,7 @@ export class HomePage {
 
           //special case: the event wraps the whole time slot to be checked.
           if (tmp_start <= start && tmp_end >= end) {
-            console.log("wtf")
+
             return [];
           }
 
@@ -121,11 +127,15 @@ export class HomePage {
     this.plannedEvents = [];
     this.scheduledEvents = [];
 
+
+
     this.storage.get('meetings').then((keys) => {
+
     if (keys!=null) {
+      keys = JSON.parse(keys);
       for (let i = 0; i < keys.length; i++) {
-        this.storage.get(keys[i]).then((data) => {
-          let event: LocalMeeting = JSON.parse(data);
+
+        let event: LocalMeeting = keys[i];
           this.plannedEvents.push(event);
           global.plannedEvents = this.plannedEvents;
           if (event.calendarId != undefined) {
@@ -134,7 +144,6 @@ export class HomePage {
             global.scheduledEvents = this.scheduledEvents;
 
           }
-        });
       }
     }
     });
@@ -194,9 +203,13 @@ export class HomePage {
   }
 
   clearStorage() {
+
+
     this.storage.clear().then(
       (x) => {alert('Lokaler App-Speicher bereinigt.')}
     );
+    this.refreshMeetingsFromStorage();
+
   }
 
 }

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Meeting} from '../../gen/model/Meeting'
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
 import {Contacts, Contact, ContactField, ContactName} from '@ionic-native/contacts';
 import {LocalMeeting} from '../../model/LocalMeeting';
 import {HomePage} from '../home/home';
@@ -29,8 +29,8 @@ export class PlanEvent3Page {
   searchQuery: string = "";
   _OneSignal: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private contacts: Contacts,
-              private meetingApi: MeetingApi, private storage: Storage, private oneSignal: OneSignal) {
+  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, private contacts: Contacts,
+              private meetingApi: MeetingApi, private storage: Storage, private oneSignal: OneSignal, private geofence: Geofence) {
     this.newEvent = navParams.get('meeting');
     this.newEvent.participants = [];
     this.initializeContacts();
@@ -38,37 +38,43 @@ export class PlanEvent3Page {
   }
 
   initializeContacts() {
-   this.contacts.find(['name'], {hasPhoneNumber: true})
-    .then(
-      (allContacts: Contact[]) => {
-        console.log(allContacts);
-        allContacts = allContacts.filter((contact) => {
-          let hasPhoneNumber = false;
-          contact.phoneNumbers.forEach((phoneNumber) => {
-            if (phoneNumber.type === "mobile") {
-              hasPhoneNumber = true;
-            }
-          })
-          return hasPhoneNumber;
-        });
+//  this.contacts.find(['name'], {hasPhoneNumber: true})
+//   .then(
+//     (allContacts: Contact[]) => {
+//       console.log(allContacts);
+//       allContacts = allContacts.filter((contact) => {
+//         let hasPhoneNumber = false;
+//         contact.phoneNumbers.forEach((phoneNumber) => {
+//           if (phoneNumber.type === "mobile") {
+//             hasPhoneNumber = true;
+//           }
+//         })
+//         return hasPhoneNumber;
+//       });
 
-        allContacts.forEach((contact) => {
-          let phoneNumbers = [];
-          contact.phoneNumbers.forEach((phoneNumber) => {
-            phoneNumbers.push(phoneNumber.value);
-          });
-          this.allContacts.push({
-            name: contact.displayName,
-            value: false,
-            phoneNumbers: phoneNumbers
-          });
-        });
-      },
-      (error: any) => {
-        console.error(error);
-        console.log("using some sample contacts");this.allContacts = [{name: 'Anna Huber', value: false, phoneNumbers: ['0800']}, {name: 'Carlo Müller', value: false, phoneNumbers: ['0801']}, {name: 'Daniel Obert', value: false, phoneNumbers: ['0802']}, {name: 'Gertrude Pohl', value: false, phoneNumbers: ['0803']}];
-      }
-    );
+//       allContacts.forEach((contact) => {
+//         let phoneNumbers = [];
+//         contact.phoneNumbers.forEach((phoneNumber) => {
+//           phoneNumbers.push(phoneNumber.value);
+//         });
+//         this.allContacts.push({
+//           name: contact.displayName,
+//           value: false,
+//           phoneNumbers: phoneNumbers
+//         });
+//       });
+//     },
+//     (error: any) => {
+//       console.error(error);
+//       console.log("using some sample contacts");this.allContacts = [{name: 'Anna Huber', value: false, phoneNumbers: ['0800']}, {name: 'Carlo Müller', value: false, phoneNumbers: ['0801']}, {name: 'Daniel Obert', value: false, phoneNumbers: ['0802']}, {name: 'Gertrude Pohl', value: false, phoneNumbers: ['0803']}];
+//     }
+//   );
+
+    this.allContacts.push({
+      name: "Testwert",
+      value: false,
+      phoneNumbers: "015156565656"
+    });
   }
 
   checkContactSelected() {
@@ -90,65 +96,72 @@ export class PlanEvent3Page {
 
     this.newEvent.area.id = this.guid();
 
-     //if(platform.is("cordova")){
-     // var bgGeo = (<any>window).BackgroundGeolocation;
-     // bgGeo.addGeofence({
-     //   identifier: this.newEvent.area.id,
-     //   radius: this.newEvent.area.radius,
-     //   latitude: this.newEvent.area.latitude,
-     //   longitude: this.newEvent.area.longitude,
-     //   notifyOnEntry: true,
-     //   notifyOnExit: true,
-     //   notifyOnDwell: false
-     // }, function() {
-     //   console.log("Successfully added geofence");
-     // }, function(error) {
-     //   console.warn("Failed to add geofence", error);
-     // });
+
+    //if(this.platform.is("cordova")){
+    // var bgGeo = (<any>window).BackgroundGeolocation;
+    // bgGeo.addGeofence({
+    //   identifier: this.newEvent.area.id,
+    //   radius: this.newEvent.area.radius,
+    //   latitude: this.newEvent.area.latitude,
+    //   longitude: this.newEvent.area.longitude,
+    //   notifyOnEntry: true,
+    //   notifyOnExit: true,
+    //   notifyOnDwell: false
+    // }, function() {
+    //   console.log("Successfully added geofence");
+    // }, function(error) {
+    //   console.warn("Failed to add geofence", error);
+    // });
 //
-     //}
-     //let fence = {
-     //  id: this.newEvent.area.id, //any unique ID
-     //  latitude: this.newEvent.area.latitude, //center of geofence radius
-     //  longitude: this.newEvent.area.latitude,
-     //  radius: this.newEvent.area.radius, //radius to edge of geofence in meters
-     //  transitionType: 3 //BOTH --> means enter and leave
-     //}
+    //}
+    //let fence = {
+    //  id: this.newEvent.area.id, //any unique ID
+    //  latitude: this.newEvent.area.latitude, //center of geofence radius
+    //  longitude: this.newEvent.area.latitude,
+    //  radius: this.newEvent.area.radius, //radius to edge of geofence in meters
+    //  transitionType: 3 //BOTH --> means enter and leave
+    //}
 //
-     //this.geofence.addOrUpdate(fence).then(
-     //  () => console.log('Geofence added'),
-     //  (err) => console.log('Geofence failed to add')
-     //);
+    //this.geofence.addOrUpdate(fence).then(
+    //  () => console.log('Geofence added'),
+    //  (err) => console.log('Geofence failed to add')
+    //);
 //
-     //this.geofence.onTransitionReceived().subscribe((geofences) => {
-     //  if(geofences){
-     //    geofences.forEach((geofence) => {
-     //      console.log("Transitation received");
-     //      console.log("Geofence");
-     //    })
-     //  }
-     //});
+    //this.geofence.onTransitionReceived().subscribe((geofences) => {
+    //  if(geofences){
+    //    geofences.forEach((geofence) => {
+    //      console.log("Transitation received");
+    //      console.log("Geofence");
+    //    })
+    //  }
+    //});
 
 
     let newLocalEvent: LocalMeeting = {meeting: this.newEvent};
 
-    var tmp_res = this.meetingApi.addMeeting(newLocalEvent.meeting);
+    //var tmp_res = this.meetingApi.addMeeting(newLocalEvent.meeting);
 
-    tmp_res.subscribe(
-      (succ: Object) => {
+    //tmp_res.subscribe(
+     // (succ: Object) => {
         //return data;
-        let event_id: string = JSON.parse(JSON.stringify(succ)).id;
+        let event_id: string = JSON.parse(JSON.stringify("abcd2sa7d53f7ewf")).id;
         newLocalEvent.meeting.id = event_id;
 
         this.storage.get('meetings').then((keys) =>
         {
-          if (keys!=null) {
-            keys = JSON.parse(keys).push(newLocalEvent);
-          } else {
-            keys = {};
-          }
 
-          this.storage.set(event_id, JSON.stringify(keys)).then((res) => {
+          let data: Array<any> = [];
+
+          if (keys != null) {
+            data = JSON.parse(keys);
+            data.push(newLocalEvent)
+          } else {
+            data = [newLocalEvent];
+          }
+          console.log("data is now:")
+          console.log(data);
+
+          this.storage.set('meetings', JSON.stringify(data)).then((res) => {
 
 
             var notificationObj = { contents: {en: "Sie wurden einem Event hinzugefügt"},
@@ -169,12 +182,12 @@ export class PlanEvent3Page {
 
         })
 
-     },
-     (err) => {
-       alert("Keine Verbindung zum Server möglich - Andere Teilnehmer erhalten keine Einladung.")
-
-       this.navCtrl.setRoot(HomePage);
-     });
+    // },
+    // (err) => {
+    //   alert("Keine Verbindung zum Server möglich - Andere Teilnehmer erhalten keine Einladung.")
+//
+    //   this.navCtrl.setRoot(HomePage);
+    // });
 
   }
 
