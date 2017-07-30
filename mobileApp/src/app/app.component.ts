@@ -2,10 +2,9 @@ import {Component, ViewChild} from '@angular/core';
 import {Nav, Platform, Events} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
-import {Storage} from '@ionic/storage';
 
 import {SettingsPage} from '../pages/settings/settings';
-
+import {Storage} from '@ionic/storage';
 import {HomePage} from '../pages/home/home';
 import {AboutPage} from '../pages/about/about';
 import {PlanEventPage} from '../pages/plan-event/plan-event';
@@ -93,7 +92,8 @@ export class MyApp {
       window["plugins"].OneSignal.getIds((id) => {
         console.log(id.userId);
         global.myPlayerId = id.userId;
-      }).then(this.initializeAppOnFirstStartUp());
+        this.initializeAppOnFirstStartUp();
+      });
 
       window["plugins"].OneSignal
         .startInit("2e7109e7-d60a-4723-9a51-0edac1fa6e94", "277400593026")
@@ -153,20 +153,34 @@ export class MyApp {
   }
 
   private initializeDeeplinks() {
-    console.log("Initializing deeplinks");
-    this.deeplinks.routeWithNavController(this.nav, {
-      '/about-us': AboutPage,
-      '/contacts': ContactsPage
-    }).subscribe((match) => {
-      // match.$route - the route we matched, which is the matched entry from the arguments to route()
-      // match.$args - the args passed in the link
-      // match.$link - the full link data
-      console.log('Successfully matched route', match);
-    }, (nomatch) => {
-      // nomatch.$link - the full link data
-      console.error('Got a deeplink that didn\'t match', nomatch);
-    });
-    console.log("Initialized deeplinks");
+    let that = this;
+    let callbackFunction = function(eventData){
+      console.log("app opened from universal links:" + eventData);
+      if(eventData.params.id){
+        that.nav.push(ContactsPage, {
+          id: eventData.params.id
+        });
+      }
+    };
+
+    if(window["universalLinks"]) {
+      window["universalLinks"].subscribe(null, callbackFunction)
+    };
+
+    // console.log("Initializing deeplinks");
+    // this.deeplinks.routeWithNavController(this.nav, {
+    //   '/about-us': AboutPage,
+    //   '/contacts': ContactsPage
+    // }).subscribe((match) => {
+    //   // match.$route - the route we matched, which is the matched entry from the arguments to route()
+    //   // match.$args - the args passed in the link
+    //   // match.$link - the full link data
+    //   console.log('Successfully matched route', match);
+    // }, (nomatch) => {
+    //   // nomatch.$link - the full link data
+    //   console.error('Got a deeplink that didn\'t match', nomatch);
+    // });
+    // console.log("Initialized deeplinks");
   }
 
   openPage(page) {

@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {SocialSharing} from '@ionic-native/social-sharing';
 import {global} from '../../services/GlobalVariables';
+import {AlertController} from 'ionic-angular';
+import {Storage} from '@ionic/storage';
 
 /**
  * Generated class for the ContactsPage page.
@@ -16,20 +18,54 @@ import {global} from '../../services/GlobalVariables';
 })
 export class ContactsPage {
 
-  private contacts: Array<String>;
+  private contacts: Array<{id:String,name:String}>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private socialSharing: SocialSharing) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private socialSharing: SocialSharing,
+              private alertCtrl: AlertController, private storage: Storage) {
 
+    this.contacts = [{id:"abcde", name:"carmen"}];
 
-    this.contacts = ["Alex", "Carmen"];
+    let id = this.navParams.get('id');
+    if (id) {
+      this.addNewContact(id);
+    }
+  }
 
+  private addNewContact(id: any) {
+    let alert = this.alertCtrl.create({
+      title: 'Add a new Contact',
+      inputs: [
+        {
+          name: 'username',
+          placeholder: 'Define a display name for your new contact'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            console.log("Save clicked")
+            this.contacts.push({id: id, name: data});
+          }
+        }
+      ]
+    });
+    setTimeout(alert.present(), 500);
   }
 
   private addContact() {
     let message = "Add me on meetNow!";
     // let url = "meetnow://newContact/" + global.myPlayerId;
     // let href = "<a href=\"" + url + "\">" + url + "</a>";
-    let href = "https://meetnow.com/" + global.myPlayerId;
+    let oneSignal
+    let href = "https://meetnow.cfapps.eu10.hana.ondemand.com/contact?id=" + global.myPlayerId;
     let subject = "Meet now invitation";
     this.socialSharing.share(message, subject, null, href).catch(
       reason => console.log("Couldn't share meeting" + reason)
