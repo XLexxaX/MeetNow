@@ -57,6 +57,7 @@ export class ContactsPage {
           handler: data => {
             console.log("Save clicked");
             this.contacts.push({id: id, name: data.username});
+            this.storage.set("contact",this.contacts);
             this.storage.get("user").then(user => {
               let notificationObj = {
                 contents: {en: "You have been added"},
