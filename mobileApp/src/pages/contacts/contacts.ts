@@ -26,7 +26,7 @@ export class ContactsPage {
               private alertCtrl: AlertController, private storage: Storage, private oneSignal: OneSignal) {
 
     this.storage.get("contact").then((contact) => {
-      this.contacts = contact;
+      this.contacts = contact || [];
     });
     this._oneSignal = this.oneSignal;
     let id = this.navParams.get('id');

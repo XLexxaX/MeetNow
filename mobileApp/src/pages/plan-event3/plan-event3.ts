@@ -69,7 +69,7 @@ export class PlanEvent3Page {
    //    }
    //  );
     this.storage.get("contact").then(
-      contacts => this.allContacts = contacts
+      contacts => this.allContacts = contacts || []
     )
    // this.allContacts = [{name:"Testname",id:"56sa7df"}]
   }

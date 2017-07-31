@@ -106,7 +106,7 @@ export class MyApp {
                     {
                       text: 'Save',
                       handler: data => {
-
+                        contact = contact || [];
                         contact.push({id: payload.userId, name: data.username})
                         this.storage.set("contact", contact);
 
