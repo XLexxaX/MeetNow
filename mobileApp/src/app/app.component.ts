@@ -61,11 +61,10 @@ export class MyApp {
 
 
   initializeOneSignal(nav) {
-
+    var that = this;
     if (this.platform.is('cordova')) {
       var notificationOpenedCallback = function (jsonData) {
 
-        var payload = jsonData.notification.payload.additionalData;
         var currentPage = nav.getActive().component.name + "";
 
 
@@ -85,7 +84,7 @@ export class MyApp {
             break;
           case "2":
             console.log("opened notification to add user");
-            this.storage.get("contact").then( (contact) => {
+            that.storage.get("contact").then( (contact) => {
               if (!payload.userId) {
                 let alert = this.alertCtrl.create({
                   title: 'Add a new Contact',
@@ -108,7 +107,7 @@ export class MyApp {
                       handler: data => {
                         contact = contact || [];
                         contact.push({id: payload.userId, name: data.username})
-                        this.storage.set("contact", contact);
+                        that.storage.set("contact", contact);
 
                       }
                     }
