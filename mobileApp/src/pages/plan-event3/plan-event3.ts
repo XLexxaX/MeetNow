@@ -80,9 +80,15 @@ export class PlanEvent3Page {
       }).length > 0;
   }
   getSelectedContacts() {
-    return this.allContacts.filter((item) => {
+    var selectedContacts = this.allContacts.filter((item) => {
         return item.value;
     });
+    let ids: Array<any> = [];
+    selectedContacts.forEach((item)=> {
+      ids.push(item.id);
+    })
+    return ids;
+
   }
 
   saveMeeting() {
