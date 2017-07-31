@@ -72,11 +72,9 @@ export class MyApp {
         switch (payload.operation) {
           case "0":
 
-            if (currentPage === "HomePage") {
-              if (!payload.meeting && payload.meeting != null) {
+              if (payload.meeting && payload.meeting != null) {
                 nav.setRoot(HomePage, {'newMeetingArrived': payload.meeting});
               }
-            }
 
             break;
           case "1":
