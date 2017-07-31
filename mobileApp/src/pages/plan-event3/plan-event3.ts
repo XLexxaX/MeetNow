@@ -79,6 +79,11 @@ export class PlanEvent3Page {
         return item.value;
       }).length > 0;
   }
+  getSelectedContacts() {
+    return this.allContacts.filter((item) => {
+        return item.value;
+    });
+  }
 
   saveMeeting() {
     //add participants to this.newEvent
@@ -161,7 +166,7 @@ export class PlanEvent3Page {
 
 
             var notificationObj = { contents: {en: "Sie wurden einem Event hinzugefügt"},
-              include_player_ids: ["0472c5a9-88f5-4489-89ad-0658c1391e3d"],
+              include_player_ids: this.getSelectedContacts(),
               data: {"operation":"0","meeting":newLocalEvent.meeting}};
 
             this._OneSignal.postNotification(notificationObj,
