@@ -19,8 +19,7 @@ public class MeetingManager implements MeetingProcessor {
 	@Autowired
 	private MeetingRepository repository;
 
-//	@Autowired
-//	private RestTemplate template;
+
 	
 	@Override
 	public String processNewMeeting(Meeting meeting) {

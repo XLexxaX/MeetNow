@@ -25,3 +25,7 @@ id_rsa
 id_rsa.pub
 /bin/
 /private_key.ppk
+
+
+### ignore private properties ###
+src/main/resources/config.properties

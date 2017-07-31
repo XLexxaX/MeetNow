@@ -135,16 +135,20 @@ paths:
         - application/json
       parameters:
         - in: formData
-          name: areaId
-          description: the id of the area which was entered
+          name: meetingId
+          description: the id of the meeting which has an area which was entered
           required: true
-          type: integer
-          format: int32
+          type: string
+        - in: formData
+          name: userId
+          description: the (OneSignal) id of the user
+          required: true
+          type: string
       responses:
         '200':
           description: Update successful
         '400':
-          description: Area not recognized
+          description: Meeting not recognized
   /leaveArea:
     post:
       tags:
@@ -157,18 +161,22 @@ paths:
         - application/json
       parameters:
         - in: formData
-          name: areaId
-          description: the id of the area which was entered
+          name: meetingId
+          description: the id of the meeting which area was left
           required: true
-          type: integer
-          format: int32
+          type: string
+        - in: formData
+          name: userId
+          description: the (OneSignal) id of the user
+          required: true
+          type: string
       responses:
         '200':
           description: Update successful
         '405':
           description: Not in an area at the moment
         '400':
-          description: Area not recognized
+          description: Meeting not recognized
 definitions:
   Meeting:
     type: object
