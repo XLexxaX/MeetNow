@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {Nav, Platform, Events} from 'ionic-angular';
+import {Nav, Platform, Events, AlertController} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 
@@ -30,7 +30,7 @@ export class MyApp {
   BackgroundGeolocation = (<any>window).BackgroundGeolocation;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
-              public events: Events, public meetingApi: MeetingApi, public storage: Storage) {
+              public events: Events, public meetingApi: MeetingApi, public storage: Storage, private alertCtrl: AlertController) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -73,7 +73,7 @@ export class MyApp {
           case "0":
 
             if (currentPage === "HomePage") {
-              if (payload.meeting != undefined && payload.meeting != null) {
+              if (!payload.meeting && payload.meeting != null) {
                 nav.setRoot(HomePage, {'newMeetingArrived': payload.meeting});
               }
             }
@@ -86,7 +86,7 @@ export class MyApp {
             console.log("opened notification to add user");
             that.storage.get("contact").then( (contact) => {
               if (!payload.userId) {
-                let alert = this.alertCtrl.create({
+                let alert = that.alertCtrl.create({
                   title: 'Add a new Contact',
                   inputs: [
                     {
