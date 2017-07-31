@@ -46,6 +46,7 @@ export class MyApp {
 
 
   initializeApp() {
+
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -65,7 +66,6 @@ export class MyApp {
       var notificationOpenedCallback = function (jsonData) {
 
         var payload = jsonData.notification.payload.additionalData;
-        let newLocalEvent: LocalMeeting = {meeting: payload.meeting};
         var currentPage = nav.getActive().component.name + "";
 
 
@@ -85,9 +85,42 @@ export class MyApp {
             break;
           case "2":
             console.log("opened notification to add user");
+            this.storage.get("contact").then( (contact) => {
+              if (!payload.userId) {
+                let alert = this.alertCtrl.create({
+                  title: 'Add a new Contact',
+                  inputs: [
+                    {
+                      name: 'username',
+                      placeholder: 'Define a display name for your new contact'
+                    },
+                  ],
+                  buttons: [
+                    {
+                      text: 'Cancel',
+                      role: 'cancel',
+                      handler: data => {
+                        console.log('Cancel clicked');
+                      }
+                    },
+                    {
+                      text: 'Save',
+                      handler: data => {
 
+                        contact.push({id: payload.userId, name: data.username})
+                        this.storage.set("contact", contact);
+
+                      }
+                    }
+                  ]
+                });
+                alert.present();
+              }
+            });
+            break;
           case "4":
             console.log("opened app with notification allUsersFor a meeting in the area");
+            break;
           default:
             console.log("No operation id defined! Id is " + payload.operation)
             break;
@@ -111,7 +144,7 @@ export class MyApp {
   initializeAppOnFirstStartUp() {
     this.storage.get("user").then(
       (user: User) => {
-        if (user == null || !global.myPlayerId) {
+        if (user==null || user || !global.myPlayerId) {
           this.meetingApi.newUser(global.myPlayerId).subscribe(
             (user: User) => {
               this.storage.set("user", user)

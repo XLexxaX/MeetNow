@@ -68,10 +68,10 @@ export class PlanEvent3Page {
    //      console.log("using some sample contacts");this.allContacts = [{name: 'Anna Huber', value: false, phoneNumbers: ['0800']}, {name: 'Carlo Müller', value: false, phoneNumbers: ['0801']}, {name: 'Daniel Obert', value: false, phoneNumbers: ['0802']}, {name: 'Gertrude Pohl', value: false, phoneNumbers: ['0803']}];
    //    }
    //  );
-   //this.storage.get("contacts").then(
-   //  contacts => this.allContacts = contacts
-   //)
-    this.allContacts = [{name:"Testname",id:"56sa7df"}]
+    this.storage.get("contact").then(
+      contacts => this.allContacts = contacts
+    )
+   // this.allContacts = [{name:"Testname",id:"56sa7df"}]
   }
 
   checkContactSelected() {

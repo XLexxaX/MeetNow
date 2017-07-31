@@ -25,7 +25,9 @@ export class ContactsPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private socialSharing: SocialSharing,
               private alertCtrl: AlertController, private storage: Storage, private oneSignal: OneSignal) {
 
-    this.contacts = [{id: "abcde", name: "carmen"}];
+    this.storage.get("contact").then((contact) => {
+      this.contacts = contact;
+    });
     this._oneSignal = this.oneSignal;
     let id = this.navParams.get('id');
     if (id) {
