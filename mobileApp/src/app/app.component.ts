@@ -27,6 +27,8 @@ export class MyApp {
 
   aboutPage = AboutPage;
 
+  BackgroundGeolocation = (<any>window).BackgroundGeolocation;
+
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
               public events: Events, public meetingApi: MeetingApi, public storage: Storage) {
     this.initializeApp();
@@ -82,8 +84,12 @@ export class MyApp {
             //delete operation
             break;
           case "2":
-            console.log("opened notification to add user")
+            console.log("opened notification to add user");
+
+          case "4":
+            console.log("opened app with notification allUsersFor a meeting in the area");
           default:
+            console.log("No operation id defined! Id is " + payload.operation)
             break;
         }
       };
@@ -123,64 +129,57 @@ export class MyApp {
 
   initializeGeofences() {
     if (this.platform.is("cordova")) {
-      var bgGeo = (<any>window).BackgroundGeolocation;
-      bgGeo.configure({
+      this.BackgroundGeolocation.configure({
         desiredAccuracy: 10,
         distanceFilter: 50,
         stopOnTerminate: false,
         startOnBoot: true,
         debug: true,
       }, function (state) {
+        console.log("backgroud location plugin configured");
         if (!state.enabled) {
-          bgGeo.startGeofences(function (state) {
-            console.log('- Geofence-only monitoring started', state.trackingMode);
+          this.BackgroundGeolocation.startGeofences(function (state) {
+            console.log('Geofence-only monitoring started', state.trackingMode);
           });
         }
       });
       // Fired whenever a geofence transition occurs.
-      bgGeo.on('geofence', function (geofence) {
-        console.log('- onGeofence: ', geofence.identifier, geofence.location);
-        let response = this.meetingApi.enterArea(123245);
-        response.subscribe((succ: Object) => {
-            //TODO maybe do something if the server returns no push
-            alert("Geofence transitation posted successfully");
-          },
-          (err) => {
-            alert("Failed to post location");
-          });
+      this.BackgroundGeolocation.on('geofence', function (params, taskId) {
+        console.log("geofence transition --" + params);
+        this.storage.get("user").then((user) => {
+          //TODO read meeting id and monitor if geofence is left or entered to send the request
+          let meetingId = params.meetingId;
+          let request = this.meetingApi.enterArea(meetingId, user.id);
+          request.subscribe(
+            (succ: Object) => {
+              alert("Geofence transitation posted successfully");
+              this.BackgroundGeolocation.finish(taskId);
+            },
+            (err) => {
+              alert("Failed to post location");
+              this.BackgroundGeolocation.finish(taskId);
+            });
+        },
+        (error) => this.BackgroundGeolocation.finish(taskId)
+      );
       });
     }
   }
 
   private initializeDeeplinks() {
     let that = this;
-    let callbackFunction = function(eventData){
+    let callbackFunction = function (eventData) {
       console.log("app opened from universal links");
-      if(eventData.params.id){
+      if (eventData.params.id) {
         that.nav.push(ContactsPage, {
           id: eventData.params.id
         });
       }
     };
 
-    if(window["universalLinks"]) {
+    if (window["universalLinks"]) {
       window["universalLinks"].subscribe(null, callbackFunction)
-    };
-
-    // console.log("Initializing deeplinks");
-    // this.deeplinks.routeWithNavController(this.nav, {
-    //   '/about-us': AboutPage,
-    //   '/contacts': ContactsPage
-    // }).subscribe((match) => {
-    //   // match.$route - the route we matched, which is the matched entry from the arguments to route()
-    //   // match.$args - the args passed in the link
-    //   // match.$link - the full link data
-    //   console.log('Successfully matched route', match);
-    // }, (nomatch) => {
-    //   // nomatch.$link - the full link data
-    //   console.error('Got a deeplink that didn\'t match', nomatch);
-    // });
-    // console.log("Initialized deeplinks");
+    }
   }
 
   openPage(page) {

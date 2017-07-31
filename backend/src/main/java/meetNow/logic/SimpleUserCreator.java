@@ -22,7 +22,7 @@ public class SimpleUserCreator implements UserCreator {
 		}
 		String secret = generateSecret();
 		User user = new User();
-		user.setPushId(pushId);
+		user.setId(pushId);
 		user.setSecret(secret);
 		user = repository.save(user);
 		return user;

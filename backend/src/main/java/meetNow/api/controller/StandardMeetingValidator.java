@@ -22,9 +22,9 @@ public class StandardMeetingValidator implements MeetingValidator {
 
 	@Override
 	public void validateMeetingId(String id) throws ValidationException {
-		if(stringEmptyOrNull(id)){
-			throw new ValidationException("Meeting id is not filled");
-		}
+//		if(stringEmptyOrNull(id)){
+//			throw new ValidationException("Meeting id is not filled");
+//		}
 	}
 
 	private void checkReoccurrance(ReoccurrenceEnum reoccurence) throws ValidationException {
@@ -71,7 +71,8 @@ public class StandardMeetingValidator implements MeetingValidator {
 
 	private void checkParticipant(Participant participant) throws ValidationException {
 		String name = participant.getName();
-		if (stringEmptyOrNull(name)) {
+		String id = participant.getId();
+		if (stringEmptyOrNull(name) || stringEmptyOrNull(id)) {
 			throw new ValidationException("Invalid participant name: " + name);
 		}
 	}

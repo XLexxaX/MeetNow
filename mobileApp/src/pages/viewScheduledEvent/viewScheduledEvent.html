@@ -38,11 +38,11 @@
           </p>
         </ion-col>
     </ion-row>
-    <ion-row *ngIf="item.meeting.groups != undefined">
+    <ion-row *ngIf="item.meeting.groups !== undefined">
       <ion-col col-6><b>Gruppe:</b></ion-col>
       <ion-col col-6>{{item.meeting.groups}}</ion-col>
     </ion-row>
-    <ion-row *ngIf="item.meeting.nextScheduled != undefined">
+    <ion-row *ngIf="item.meeting.nextScheduled !== undefined">
       <ion-col col-6><b>Nächster, angesetzter Termin:</b></ion-col>
       <ion-col col-6>{{item.meeting.nextScheduled}}</ion-col>
     </ion-row>

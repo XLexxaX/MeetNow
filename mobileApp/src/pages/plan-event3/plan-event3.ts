@@ -6,7 +6,6 @@ import {LocalMeeting} from '../../model/LocalMeeting';
 import {HomePage} from '../home/home';
 import {Storage} from '@ionic/storage';
 import {MeetingApi} from '../../services/MeetingApi';
-import {Geofence} from '@ionic-native/geofence';
 import {OneSignal} from '@ionic-native/onesignal';
 import {global} from '../../services/GlobalVariables';
 
@@ -30,7 +29,7 @@ export class PlanEvent3Page {
   _OneSignal: any;
 
   constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, private contacts: Contacts,
-              private meetingApi: MeetingApi, private storage: Storage, private oneSignal: OneSignal, private geofence: Geofence) {
+              private meetingApi: MeetingApi, private storage: Storage, private oneSignal: OneSignal) {
     this.newEvent = navParams.get('meeting');
     this.newEvent.participants = [];
     this.initializeContacts();
@@ -38,42 +37,40 @@ export class PlanEvent3Page {
   }
 
   initializeContacts() {
-//  this.contacts.find(['name'], {hasPhoneNumber: true})
-//   .then(
-//     (allContacts: Contact[]) => {
-//       console.log(allContacts);
-//       allContacts = allContacts.filter((contact) => {
-//         let hasPhoneNumber = false;
-//         contact.phoneNumbers.forEach((phoneNumber) => {
-//           if (phoneNumber.type === "mobile") {
-//             hasPhoneNumber = true;
-//           }
-//         })
-//         return hasPhoneNumber;
-//       });
-
-//       allContacts.forEach((contact) => {
-//         let phoneNumbers = [];
-//         contact.phoneNumbers.forEach((phoneNumber) => {
-//           phoneNumbers.push(phoneNumber.value);
-//         });
-//         this.allContacts.push({
-//           name: contact.displayName,
-//           value: false,
-//           phoneNumbers: phoneNumbers
-//         });
-//       });
-//     },
-//     (error: any) => {
-//       console.error(error);
-//       console.log("using some sample contacts");this.allContacts = [{name: 'Anna Huber', value: false, phoneNumbers: ['0800']}, {name: 'Carlo Müller', value: false, phoneNumbers: ['0801']}, {name: 'Daniel Obert', value: false, phoneNumbers: ['0802']}, {name: 'Gertrude Pohl', value: false, phoneNumbers: ['0803']}];
-//     }
-//   );
-
-    this.allContacts.push({
-      name: "Testwert",
-      id: "as53g3sa7d"
-    });
+   // this.contacts.find(['name'], {hasPhoneNumber: true})
+   //  .then(
+   //    (allContacts: Contact[]) => {
+   //      console.log(allContacts);
+   //      allContacts = allContacts.filter((contact) => {
+   //        let hasPhoneNumber = false;
+   //        contact.phoneNumbers.forEach((phoneNumber) => {
+   //          if (phoneNumber.type === "mobile") {
+   //            hasPhoneNumber = true;
+   //          }
+   //        })
+   //        return hasPhoneNumber;
+   //      });
+   //
+   //      allContacts.forEach((contact) => {
+   //        let phoneNumbers = [];
+   //        contact.phoneNumbers.forEach((phoneNumber) => {
+   //          phoneNumbers.push(phoneNumber.value);
+   //        });
+   //        this.allContacts.push({
+   //          name: contact.displayName,
+   //          value: false,
+   //          phoneNumbers: phoneNumbers
+   //        });
+   //      });
+   //    },
+   //    (error: any) => {
+   //      console.error(error);
+   //      console.log("using some sample contacts");this.allContacts = [{name: 'Anna Huber', value: false, phoneNumbers: ['0800']}, {name: 'Carlo Müller', value: false, phoneNumbers: ['0801']}, {name: 'Daniel Obert', value: false, phoneNumbers: ['0802']}, {name: 'Gertrude Pohl', value: false, phoneNumbers: ['0803']}];
+   //    }
+   //  );
+    this.storage.get("contacts").then(
+      contacts => this.allContacts = contacts
+    )
   }
 
   checkContactSelected() {
@@ -88,7 +85,7 @@ export class PlanEvent3Page {
       return item.value;
     }).forEach((item) => {
       this.newEvent.participants.push({
-        phoneNumbers: item.phoneNumbers,
+        id: item.id,
         name: item.name,
       })
     });
@@ -144,7 +141,6 @@ export class PlanEvent3Page {
         //return data;
         let event_id: string = JSON.parse(JSON.stringify(succ)).id;
         newLocalEvent.meeting.id = event_id;
-        newLocalEvent.meeting.id = event_id;
 
         this.storage.get('meetings').then((keys) =>
         {
@@ -190,12 +186,12 @@ export class PlanEvent3Page {
 
   }
 
-  private guid(){
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-      return v.toString(16);
-    });
-  }
+  // private guid(){
+  //   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+  //     var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+  //     return v.toString(16);
+  //   });
+  // }
 
 }
 

@@ -124,21 +124,23 @@ public class MobileAppController {
 
 	@RequestMapping(value = "/enterArea", produces = { "application/json" }, consumes = {
 			"application/x-www-form-urlencoded" }, method = RequestMethod.POST)
-	public ResponseEntity<Void> enterArea(@RequestPart(value = "meetingId", required = true) String meetingId,
-			@RequestPart(value = "userId", required = true) String userId) throws BadRequestException {
+	public ResponseEntity<Void> enterArea(@RequestBody MultiValueMap<String, String> paramMap)
+			throws BadRequestException {
+		String meetingId = paramMap.getFirst("meetingId");
+		String userId = paramMap.getFirst("userId");
 		handler.updateStatus(meetingId, userId, MeetingStatus.ENTER);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/leaveArea",
-	        produces = { "application/json" }, 
-	        consumes = { "application/x-www-form-urlencoded" },
-	        method = RequestMethod.POST)
-	 public   ResponseEntity<Void> leaveArea(@RequestPart(value="meetingId", required=true)  String meetingId,
-	         @RequestPart(value="userId", required=true)  String userId) throws BadRequestException{
+	@RequestMapping(value = "/leaveArea", produces = { "application/json" }, consumes = {
+			"application/x-www-form-urlencoded" }, method = RequestMethod.POST)
+	public ResponseEntity<Void> leaveArea(@RequestBody MultiValueMap<String, String> paramMap)
+			throws BadRequestException {
+		String meetingId = paramMap.getFirst("meetingId");
+		String userId = paramMap.getFirst("userId");
 		handler.updateStatus(meetingId, userId, MeetingStatus.LEAVE);
-		 return new ResponseEntity<Void>(HttpStatus.OK);
-	 }
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
 
 	@ExceptionHandler(MeetingNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)

@@ -88,11 +88,11 @@ public class SimpleMeetingStatusHandler implements MeetingStatusHandler {
 	}
 
 	private void CheckIfAllParticipantsInMeeting(Meeting meeting, List<User> usersInMeeting) {
-		int numberOfParticpants = meeting.getParticipants().size();
+		int numberOfParticpants = meeting.getParticipants().size() + 1; //+1 for owner
 		int activeParticipants = usersInMeeting.size();
 		logger.info("Checking if all participants in Meeting, current {}, wanted {}", activeParticipants,
 				numberOfParticpants);
-		if (meeting.getParticipants().size() == usersInMeeting.size()) {
+		if (numberOfParticpants == activeParticipants) {
 			// RestTemplate template = new RestTemplate();
 			// HttpHeaders headers = new HttpHeaders();
 			// headers.setContentType(MediaType.APPLICATION_JSON);
@@ -121,11 +121,11 @@ public class SimpleMeetingStatusHandler implements MeetingStatusHandler {
 					buildPlayerIds.append('"');
 					buildPlayerIds.append(',');
 				}
-				buildPlayerIds.replace(buildPlayerIds.length() - 1, buildPlayerIds.length(), "");
+				buildPlayerIds.append("\"" + meeting.getOwnerId() + "\"");
 
 				String strJsonBody = "{" + "\"app_id\": \"2e7109e7-d60a-4723-9a51-0edac1fa6e94\","
 						+ "\"include_player_ids\": [" + buildPlayerIds.toString() + "]," + "\"data\": {\"id\": \""
-						+ meeting.getId() + "\"}," + "\"contents\": {\"en\": \"English Message\"}" + "}";
+						+ meeting.getId() + "\", \"operation\":\"4\"}," + "\"contents\": {\"en\": \"English Message\"}" + "}";
 
 				logger.info("OneSignalRequestBody: {}", strJsonBody);
 

@@ -213,12 +213,30 @@ export class MeetingApi {
 
 
   /**
+   * notify the backend that the client enters a defined area
+   *
+   * @param meetingId the id of the meeting which has an area which was entered
+   * @param userId the (OneSignal) id of the user
+   */
+  public enterArea(meetingId: string, userId: string, extraHttpRequestParams?: any): Observable<{}> {
+    return this.enterAreaWithHttpInfo(meetingId, userId, extraHttpRequestParams)
+      .map((response: Response) => {
+        if (response.status === 204) {
+          return undefined;
+        } else {
+          return response.json();
+        }
+      });
+  }
+
+  /**
    * notify the backend that the client leaves a defined area
    *
-   * @param areaId the id of the area which was entered
+   * @param meetingId the id of the meeting which area was left
+   * @param userId the (OneSignal) id of the user
    */
-  public leaveArea(areaId: number, extraHttpRequestParams?: any): Observable<{}> {
-    return this.leaveAreaWithHttpInfo(areaId, extraHttpRequestParams)
+  public leaveArea(meetingId: string, userId: string, extraHttpRequestParams?: any): Observable<{}> {
+    return this.leaveAreaWithHttpInfo(meetingId, userId, extraHttpRequestParams)
       .map((response: Response) => {
         if (response.status === 204) {
           return undefined;
@@ -232,18 +250,23 @@ export class MeetingApi {
   /**
    * notify the backend that the client enters a defined area
    *
-   * @param areaId the id of the area which was entered
+   * @param meetingId the id of the meeting which has an area which was entered
+   * @param userId the (OneSignal) id of the user
    */
-  public enterAreaWithHttpInfo(areaId: number, extraHttpRequestParams?: any): Observable<Response> {
+  public enterAreaWithHttpInfo(meetingId: string, userId: string, extraHttpRequestParams?: any): Observable<Response> {
     const path = this.basePath + `/enterArea`;
 
     let queryParameters = new URLSearchParams();
     let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
     let formParams = new URLSearchParams();
 
-    // verify required parameter 'areaId' is not null or undefined
-    if (areaId === null || areaId === undefined) {
-      throw new Error('Required parameter areaId was null or undefined when calling enterArea.');
+    // verify required parameter 'meetingId' is not null or undefined
+    if (meetingId === null || meetingId === undefined) {
+      throw new Error('Required parameter meetingId was null or undefined when calling enterArea.');
+    }
+    // verify required parameter 'userId' is not null or undefined
+    if (userId === null || userId === undefined) {
+      throw new Error('Required parameter userId was null or undefined when calling enterArea.');
     }
     // to determine the Content-Type header
     let consumes: string[] = [
@@ -257,8 +280,12 @@ export class MeetingApi {
 
     headers.set('Content-Type', 'application/x-www-form-urlencoded');
 
-    if (areaId !== undefined) {
-      formParams.set('areaId', <any>areaId);
+    if (meetingId !== undefined) {
+      formParams.set('meetingId', <any>meetingId);
+    }
+
+    if (userId !== undefined) {
+      formParams.set('userId', <any>userId);
     }
 
     let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -279,18 +306,23 @@ export class MeetingApi {
   /**
    * notify the backend that the client leaves a defined area
    *
-   * @param areaId the id of the area which was entered
+   * @param meetingId the id of the meeting which area was left
+   * @param userId the (OneSignal) id of the user
    */
-  public leaveAreaWithHttpInfo(areaId: number, extraHttpRequestParams?: any): Observable<Response> {
+  public leaveAreaWithHttpInfo(meetingId: string, userId: string, extraHttpRequestParams?: any): Observable<Response> {
     const path = this.basePath + `/leaveArea`;
 
     let queryParameters = new URLSearchParams();
     let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
     let formParams = new URLSearchParams();
 
-    // verify required parameter 'areaId' is not null or undefined
-    if (areaId === null || areaId === undefined) {
-      throw new Error('Required parameter areaId was null or undefined when calling leaveArea.');
+    // verify required parameter 'meetingId' is not null or undefined
+    if (meetingId === null || meetingId === undefined) {
+      throw new Error('Required parameter meetingId was null or undefined when calling leaveArea.');
+    }
+    // verify required parameter 'userId' is not null or undefined
+    if (userId === null || userId === undefined) {
+      throw new Error('Required parameter userId was null or undefined when calling leaveArea.');
     }
     // to determine the Content-Type header
     let consumes: string[] = [
@@ -304,8 +336,12 @@ export class MeetingApi {
 
     headers.set('Content-Type', 'application/x-www-form-urlencoded');
 
-    if (areaId !== undefined) {
-      formParams.set('areaId', <any>areaId);
+    if (meetingId !== undefined) {
+      formParams.set('meetingId', <any>meetingId);
+    }
+
+    if (userId !== undefined) {
+      formParams.set('userId', <any>userId);
     }
 
     let requestOptions: RequestOptionsArgs = new RequestOptions({
