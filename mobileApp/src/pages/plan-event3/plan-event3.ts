@@ -72,8 +72,7 @@ export class PlanEvent3Page {
 
     this.allContacts.push({
       name: "Testwert",
-      value: false,
-      phoneNumbers: "015156565656"
+      id: "as53g3sa7d"
     });
   }
 
@@ -94,7 +93,6 @@ export class PlanEvent3Page {
       })
     });
 
-    this.newEvent.area.id = this.guid();
 
 
     //if(this.platform.is("cordova")){
@@ -139,12 +137,13 @@ export class PlanEvent3Page {
 
     let newLocalEvent: LocalMeeting = {meeting: this.newEvent};
 
-    //var tmp_res = this.meetingApi.addMeeting(newLocalEvent.meeting);
+    var tmp_res = this.meetingApi.addMeeting(newLocalEvent.meeting);
 
-    //tmp_res.subscribe(
-     // (succ: Object) => {
+    tmp_res.subscribe(
+      (succ: Object) => {
         //return data;
-        let event_id: string = JSON.parse(JSON.stringify("abcd2sa7d53f7ewf")).id;
+        let event_id: string = JSON.parse(JSON.stringify(succ)).id;
+        newLocalEvent.meeting.id = event_id;
         newLocalEvent.meeting.id = event_id;
 
         this.storage.get('meetings').then((keys) =>
@@ -182,12 +181,12 @@ export class PlanEvent3Page {
 
         })
 
-    // },
-    // (err) => {
-    //   alert("Keine Verbindung zum Server möglich - Andere Teilnehmer erhalten keine Einladung.")
-//
-    //   this.navCtrl.setRoot(HomePage);
-    // });
+     },
+     (err) => {
+       alert("Keine Verbindung zum Server möglich - Andere Teilnehmer erhalten keine Einladung.")
+
+       this.navCtrl.setRoot(HomePage);
+     });
 
   }
 

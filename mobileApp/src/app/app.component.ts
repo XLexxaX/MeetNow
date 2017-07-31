@@ -68,7 +68,6 @@ export class MyApp {
 
 
         var payload = jsonData.notification.payload.additionalData;
-        console.log(payload)
         switch (payload.operation) {
           case "0":
 
