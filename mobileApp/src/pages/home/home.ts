@@ -38,18 +38,12 @@ export class HomePage {
     if (newMeetingArrived!=undefined) {
       this.plannedEvents = global.plannedEvents;
       this.scheduledEvents = global.scheduledEvents;
-      let tmp =  newMeetingArrived.split("\"");
-      console.log(tmp)
-      let ev: Meeting = JSON.parse(tmp);
 
-      let tmp_LocalMeeting: LocalMeeting = {meeting: ev};
-
-
+      let tmp_LocalMeeting: LocalMeeting = {meeting: newMeetingArrived};
 
       this.plannedEvents.push(tmp_LocalMeeting);
 
         this.storage.set('meetings', JSON.stringify(this.plannedEvents)).then((res) => {
-            console.log(this.plannedEvents);
            global.plannedEvents = this.plannedEvents;
         });
 
