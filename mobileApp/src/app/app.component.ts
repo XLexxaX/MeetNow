@@ -178,7 +178,8 @@ export class MyApp {
       });
       // Fired whenever a geofence transition occurs.
       this.BackgroundGeolocation.on('geofence', function (params, taskId) {
-        console.log("geofence transition --" + params);
+        console.log("geofence transition --");
+        console.log(params);
         that.storage.get("user").then((user) => {
           //TODO read meeting id and monitor if geofence is left or entered to send the request
           let meetingId = params.identifier;

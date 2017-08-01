@@ -224,7 +224,7 @@ export class MeetingApi {
         if (response.status === 204) {
           return undefined;
         } else {
-          return response.json();
+          return undefined;
         }
       });
   }
@@ -241,7 +241,7 @@ export class MeetingApi {
         if (response.status === 204) {
           return undefined;
         } else {
-          return response.json();
+          return undefined;
         }
       });
   }

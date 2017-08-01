@@ -21,7 +21,8 @@ export class HomePage {
   scheduledEvents: Array<LocalMeeting>;
   aboutPage = AboutPage;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private meetingApi: MeetingApi, private storage: Storage, private calendar: Calendar) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private meetingApi: MeetingApi,
+              private storage: Storage, private calendar: Calendar) {
     // If we navigated to this page, we will have an item available as a nav param
 
 
@@ -246,7 +247,7 @@ export class HomePage {
   removeGeofences() {
     var BackgroundGeolocation = (<any>window).BackgroundGeolocation;
     BackgroundGeolocation.removeGeofences(function() {
-      console.log("Successfully removed alll geofences");
+      console.log("Successfully removed all geofences");
     }, function(error) {
       console.warn("Failed to remove geofence", error);
     });

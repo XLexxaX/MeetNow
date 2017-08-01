@@ -116,8 +116,7 @@ public class SimpleMeetingStatusHandler implements MeetingStatusHandler {
 				StringBuilder buildPlayerIds = new StringBuilder();
 				for (Participant participant : meeting.getParticipants()) {
 					buildPlayerIds.append('"');
-					buildPlayerIds.append(participant.getName());
-					// TODO, change API to ID!
+					buildPlayerIds.append(participant.getId());
 					buildPlayerIds.append('"');
 					buildPlayerIds.append(',');
 				}
