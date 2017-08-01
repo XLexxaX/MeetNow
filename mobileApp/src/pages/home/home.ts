@@ -40,7 +40,6 @@ export class HomePage {
       this.scheduledEvents = global.scheduledEvents;
       let tmp_LocalMeeting: LocalMeeting = {meeting: newMeetingArrived};
 
-      let tmp_LocalMeeting: LocalMeeting = {meeting: newMeetingArrived};
 
       this.plannedEvents.push(tmp_LocalMeeting);
 
