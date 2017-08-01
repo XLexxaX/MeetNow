@@ -82,25 +82,7 @@
                 "LICENSE": "4bbb513c013111eae951647fd4f9e79f127fce6f7a00e9d327db9ea2a053a0df"
             },
             "cordova-plugin-x-socialsharing": {},
-            "cordova-universal-links-plugin": {},
-            "ionic-plugin-deeplinks": {
-                "URL_SCHEME": "meetNow",
-                "DEEPLINK_SCHEME": "https",
-                "DEEPLINK_HOST": "meetnow.com",
-                "ANDROID_PATH_PREFIX": "/",
-                "ANDROID_2_PATH_PREFIX": "/",
-                "ANDROID_3_PATH_PREFIX": "/",
-                "ANDROID_4_PATH_PREFIX": "/",
-                "ANDROID_5_PATH_PREFIX": "/",
-                "DEEPLINK_2_SCHEME": " ",
-                "DEEPLINK_2_HOST": " ",
-                "DEEPLINK_3_SCHEME": " ",
-                "DEEPLINK_3_HOST": " ",
-                "DEEPLINK_4_SCHEME": " ",
-                "DEEPLINK_4_HOST": " ",
-                "DEEPLINK_5_SCHEME": " ",
-                "DEEPLINK_5_HOST": " "
-            }
+            "cordova-universal-links-plugin": {}
         },
         "platforms": [
             "android",
