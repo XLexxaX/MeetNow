@@ -162,7 +162,8 @@ export class PlanEvent3Page {
 
             var notificationObj = { contents: {en: "Sie wurden einem Event hinzugefügt"},
               include_player_ids: this.getSelectedContacts(),
-              data: {"operation":"0","meeting":newLocalEvent.meeting}};
+              data: {"operation":"0","meeting":newLocalEvent.meeting},
+              small_icon:"screen.png"};
 
             this._OneSignal.postNotification(notificationObj,
               function(successResponse) {

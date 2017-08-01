@@ -12,6 +12,7 @@ import {ContactsPage} from "../pages/contacts/contacts";
 import {global} from '../services/GlobalVariables';
 import {LocalMeeting} from '../model/LocalMeeting';
 import {MeetingApi} from '../services/MeetingApi';
+import {ConsentManagementApi} from '../services/ConsentManagementApi';
 import {User} from "../gen/model/User";
 
 @Component({
@@ -30,7 +31,7 @@ export class MyApp {
   BackgroundGeolocation = (<any>window).BackgroundGeolocation;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
-              public events: Events, public meetingApi: MeetingApi, public storage: Storage, private alertCtrl: AlertController) {
+              public events: Events, public cma: ConsentManagementApi, public meetingApi: MeetingApi, public storage: Storage, private alertCtrl: AlertController) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -116,8 +117,54 @@ export class MyApp {
             });
             break;
           case "4":
-            console.log("opened app with notification allUsersFor a meeting in the area");
+            if (payload.id) {
+
+              let currentEvent: Array<LocalMeeting> = global.plannedEvents.filter((item) => {
+                return item.meeting.id === payload.id;
+              })
+
+              if (currentEvent) {
+                if (currentEvent.length>0) {
+
+                  let alert = that.alertCtrl.create({
+                    title: 'Do you have time now?',
+                    message: 'All participants of the meeting \'' + currentEvent[0].meeting.name +'\' are in the set area. Do you have time now to attend the meeting?',
+                    buttons: [
+                      {
+                        text: 'No',
+                        role: 'cancel',
+                        handler: () => {
+                          that.cma.consent("no", payload.id, global.myPlayerId).subscribe((success) => {
+                            console.log('User declined meeting - Post successful.');
+                          }, (error) => {
+                            console.warn('User declined meeting - Post unsuccessful');
+                            console.log(error);
+                          });
+                        }
+                      },
+                      {
+                        text: 'Yes',
+                        handler: () => {
+                          that.cma.consent("yes", payload.id, global.myPlayerId).subscribe((success) => {
+                            console.log('User accepted meeting - Post successful.');
+                          }, (error) => {
+                            console.warn('User accepted meeting - Post unsuccessful.');
+                            console.log(error);
+                          });
+                        }
+                      }
+                    ]
+                  });
+                  alert.present();
+
+                }
+              }
+            } else {
+              alert("An error occured after receiving a notification: Unsufficient information provided.");
+            }
             break;
+          case "5":
+            console.log("Meeting starts now");
           default:
             console.log("No operation id defined! Id is " + payload.operation)
             break;
@@ -159,9 +206,7 @@ export class MyApp {
 
   initializeGeofences() {
     var that = this;
-    console.log("0")
     if (this.platform.is("cordova")) {
-      console.log("1")
       this.BackgroundGeolocation.configure({
         desiredAccuracy: 0,
         distanceFilter: 10,
@@ -183,21 +228,29 @@ export class MyApp {
         that.storage.get("user").then((user) => {
           //TODO read meeting id and monitor if geofence is left or entered to send the request
           let meetingId = params.identifier;
-          let request = that.meetingApi.enterArea(meetingId, user.id);
-          request.subscribe(
-            (succ: Object) => {
-              alert("Geofence transitation posted successfully");
-              that.BackgroundGeolocation.finish(taskId);
-            },
-            (err) => {
-              alert("Failed to post location"+err);
-              console.log(err);
-              that.BackgroundGeolocation.finish(taskId);
-            });
+          let request : any;
+          if (params.type === "ENTER") {
+            request = that.meetingApi.enterArea(meetingId, user.id);
+          } else {
+            request = that.meetingApi.leaveArea(meetingId, user.id);
+          }
+          if (request) {
+            request.subscribe(
+              (succ: Object) => {
+                alert("Geofence transitation posted successfully");
+                that.BackgroundGeolocation.finish(taskId);
+              },
+              (err) => {
+                alert("Failed to post location" + err);
+                console.log(err);
+                that.BackgroundGeolocation.finish(taskId);
+              });
+          } else {
+            console.warn("meetingApi-request not defined");
+          }
         },
         (error) => {
           that.BackgroundGeolocation.finish(taskId)
-          console.log("1")
         }
       );
       });

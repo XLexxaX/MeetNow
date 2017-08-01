@@ -24,6 +24,7 @@ import {GoogleMaps} from '@ionic-native/google-maps'
 import {Geofence} from "@ionic-native/geofence";
 import {OneSignal} from "@ionic-native/onesignal";
 import {SocialSharing} from "@ionic-native/social-sharing";
+import {ConsentManagementApi} from "../services/ConsentManagementApi";
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import {SocialSharing} from "@ionic-native/social-sharing";
     StatusBar,
     SplashScreen,
     MeetingApi,
+    ConsentManagementApi,
     Calendar,
     GoogleMaps,
     Geofence,
