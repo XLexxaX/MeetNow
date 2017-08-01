@@ -177,6 +177,38 @@ paths:
           description: Not in an area at the moment
         '400':
           description: Meeting not recognized
+  /consent:
+    post:
+      tags:
+        - consentManagement
+      summary: notify the backend that the client leaves a defined area
+      operationId: consent
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: hasTime
+          description: 'yes or no'
+          required: true
+          type: string
+          enum:
+            - 'yes'
+            - 'no'
+        - in: formData
+          name: meetingId
+          required: true
+          type: string
+        - in: formData
+          name: userId
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Consent/Refuse received
+        '400':
+          description: bad request
 definitions:
   Meeting:
     type: object
