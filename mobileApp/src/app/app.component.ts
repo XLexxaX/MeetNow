@@ -164,11 +164,16 @@ export class MyApp {
       console.log("1")
       this.BackgroundGeolocation.configure({
         desiredAccuracy: 0,
-        distanceFilter: 50
-      }, function(state) {
-        console.log('- BackgroundGeolocation configured and ready');
-        if (!state.enabled) {  // <-- current state provided to callback
-          that.BackgroundGeolocation.start();
+        distanceFilter: 10,
+        stopOnTerminate: false,
+        startOnBoot: true,
+        debug: true,
+      }, function (state) {
+        console.log("background location plugin configured");
+        if (!state.enabled) {
+          that.BackgroundGeolocation.startGeofences(function (state) {
+            console.log('Geofence-only monitoring started', state.trackingMode);
+          });
         }
       });
       // Fired whenever a geofence transition occurs.
