@@ -175,18 +175,6 @@ export class HomePage {
         }
       }
     });
-    let testMeeting: Meeting = {
-        id: "meetingId",
-        name: "weekly sync with manfred",
-        ownerId: "ownerId",
-        category: Meeting.CategoryEnum.Coffeebreak,
-        reoccurrence: Meeting.ReoccurrenceEnum.Weekly,
-        duration: 60
-      };
-
-    this.plannedEvents.push({
-        meeting: testMeeting
-    });
 
 
   }
