@@ -131,6 +131,16 @@ export class MyApp {
                     message: 'All participants of the meeting \'' + currentEvent[0].meeting.name +'\' are in the set area. Do you have time now to attend the meeting?',
                     buttons: [
                       {
+                        text: 'Yes',
+                        handler: () => {
+                          that.cma.consent("yes", payload.id, global.myPlayerId).subscribe((success) => {
+                            console.log('User accepted meeting - Post successful.');
+                          }, (error) => {
+                            console.warn('User accepted meeting - Post unsuccessful.');
+                            console.log(error);
+                          });
+                        }
+                      },{
                         text: 'No',
                         role: 'cancel',
                         handler: () => {
@@ -141,18 +151,8 @@ export class MyApp {
                             console.log(error);
                           });
                         }
-                      },
-                      {
-                        text: 'Yes',
-                        handler: () => {
-                          that.cma.consent("yes", payload.id, global.myPlayerId).subscribe((success) => {
-                            console.log('User accepted meeting - Post successful.');
-                          }, (error) => {
-                            console.warn('User accepted meeting - Post unsuccessful.');
-                            console.log(error);
-                          });
-                        }
                       }
+
                     ]
                   });
                   alert.present();
@@ -164,20 +164,8 @@ export class MyApp {
             }
             break;
           case "5":
-            let currentEvent: Array<LocalMeeting> = global.plannedEvents.filter((item) => {
-              return item.meeting.id === payload.id;
-            })
-                if (currentEvent) {
-              if (currentEvent.length>0) {
 
-                currentEvent[0].calendarId = "abcde";
-
-                that.storage.set('meetings', JSON.stringify(global.plannedEvents)).then((res) => {
-                  console.log(global.plannedEvents);
-                  nav.setRoot(HomePage);
-                });
-              }
-                }
+            nav.setRoot(HomePage, {'scheduledMeetingId': payload.id});
             break;
 
           default:

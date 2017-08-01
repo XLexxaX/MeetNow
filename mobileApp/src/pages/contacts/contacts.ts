@@ -63,7 +63,8 @@ export class ContactsPage {
                 contents: {en: "You have been added"},
                 include_player_ids: [id],
                 data: {"operation": "2", "id": user.id},
-                small_icon:"../pages/plan_event3/screen.png"
+                small_icon:"../pages/plan_event3/screen.png",
+                icon:"../pages/plan_event3/screen.png"
               };
               this._oneSignal.postNotification(notificationObj,
                 function (successResponse) {

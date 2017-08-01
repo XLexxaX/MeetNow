@@ -37,6 +37,7 @@ export class HomePage {
     }
 
     var newMeetingArrived = navParams.get('newMeetingArrived');
+    var scheduledMeetingId = navParams.get('scheduledMeetingId');
     if (newMeetingArrived != undefined) {
       this.plannedEvents = global.plannedEvents;
       this.scheduledEvents = global.scheduledEvents;
@@ -45,26 +46,60 @@ export class HomePage {
 
       this.plannedEvents.push(tmp_LocalMeeting);
 
-        this.storage.set('meetings', JSON.stringify(this.plannedEvents)).then((res) => {
-           global.plannedEvents = this.plannedEvents;
+      this.storage.set('meetings', JSON.stringify(this.plannedEvents)).then((res) => {
+        global.plannedEvents = this.plannedEvents;
 
 
-          var bgGeo = (<any>window).BackgroundGeolocation;
-          bgGeo.addGeofence({
-            identifier: tmp_LocalMeeting.meeting.id,
-            radius: tmp_LocalMeeting.meeting.area.radius,
-            latitude: tmp_LocalMeeting.meeting.area.latitude,
-            longitude: tmp_LocalMeeting.meeting.area.longitude,
-            notifyOnEntry: true,
-            notifyOnExit: true,
-            notifyOnDwell: false
-          }, function() {
-            console.log("Successfully added geofence");
-          }, function(error) {
-            console.warn("Failed to add geofence", error);
-          });
-
+        var bgGeo = (<any>window).BackgroundGeolocation;
+        bgGeo.addGeofence({
+          identifier: tmp_LocalMeeting.meeting.id,
+          radius: tmp_LocalMeeting.meeting.area.radius,
+          latitude: tmp_LocalMeeting.meeting.area.latitude,
+          longitude: tmp_LocalMeeting.meeting.area.longitude,
+          notifyOnEntry: true,
+          notifyOnExit: true,
+          notifyOnDwell: false
+        }, function () {
+          console.log("Successfully added geofence");
+        }, function (error) {
+          console.warn("Failed to add geofence", error);
         });
+
+      });
+
+    } else if (scheduledMeetingId) {
+
+      var that = this;
+
+      let currentEvent: Array<LocalMeeting> = global.plannedEvents.filter((item) => {
+        return item.meeting.id === scheduledMeetingId;
+      })
+
+      if (currentEvent) {
+        if (currentEvent.length>0) {
+
+
+          that.storage.set('meetings', JSON.stringify(global.plannedEvents)).then((res) => {
+
+            currentEvent[0].startDate = new Date();
+            var d =new Date();
+            d =  new Date(d.getTime() + 60*60000);
+            currentEvent[0].endDate = d;
+            currentEvent[0].calendarId = that.guid()+"";
+            global.scheduledEvents.push(currentEvent[0]);
+            that.plannedEvents = global.plannedEvents;
+            that.scheduledEvents = global.scheduledEvents;
+
+            that.calendar.createEvent(currentEvent[0].meeting.name, undefined, "A MeetNow Event", currentEvent[0].startDate, currentEvent[0].endDate).then((succ) => {
+                console.log("Meeting set in calendar.")
+              }, (err) => {
+                console.warn("Error when trying to set meeting in calendar.")
+              })
+
+          });
+        }
+      }
+
 
     } else {
       this.refreshMeetingsFromStorage();
@@ -144,8 +179,6 @@ export class HomePage {
     this.plannedEvents = [];
     this.scheduledEvents = [];
 
-
-
     this.storage.get('meetings').then((keys) => {
       if (keys!=null) {
         keys = JSON.parse(keys);
@@ -154,8 +187,14 @@ export class HomePage {
           this.plannedEvents.push(event);
           global.plannedEvents = this.plannedEvents;
           if (event.calendarId) {
-            this.scheduledEvents.push(event);
-            global.scheduledEvents = this.scheduledEvents;
+            if (event.endDate > new Date()) {
+              this.scheduledEvents.push(event);
+              global.scheduledEvents = this.scheduledEvents;
+            } else {
+              event.calendarId = undefined;
+              event.endDate = undefined;
+              event.startDate = undefined;
+            }
           }
         }
       }
@@ -250,6 +289,12 @@ export class HomePage {
       console.log("Successfully removed all geofences");
     }, function(error) {
       console.warn("Failed to remove geofence", error);
+    });
+  }
+  guid(){
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+      return v.toString(16);
     });
   }
 
