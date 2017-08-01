@@ -42,7 +42,6 @@ export class PlanEventPage {
               private googleMaps: GoogleMaps, public events: Events) {
 
     this.newEvent = {
-      ownerId: "3",
       reoccurrence: null,
       name: "",
       area: {}

@@ -102,7 +102,7 @@ export class PlanEvent3Page {
       })
     });
 
-
+    this.newEvent.ownerId = global.myPlayerId;
 
 
 //
