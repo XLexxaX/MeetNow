@@ -30,14 +30,25 @@ export class ViewScheduledEventPage {
   }
 
   removeEvent() {
+    var that = this;
     this.meetingApi.removeMeeting(this.item.meeting).subscribe(
       (responseStatus) => {
         if(responseStatus === 200 ||responseStatus === 404) {
-          this.storage.remove(this.item.meeting.id).then(()=>{});
-          var notificationObj = { contents: {en: "Ein anderer Nutzer hat ein Event entfernt."},
-            include_player_ids: [global.myPlayerId],
-            data: {"operation":"1","meetingId":this.item.meeting.id}};
 
+          that.storage.get('meetings').then((keys) => {
+            if (keys != null) {
+              let tmp_events: Array<LocalMeeting> = [];
+              for (let i = 0; i < keys.length; i++) {
+                let event: LocalMeeting = keys[i];
+                if (event.meeting.id !== that.item.meeting.id) {
+                  tmp_events.push(event);
+                }
+              }
+              this.storage.set('meetings', tmp_events).then((res) => {
+                this.navController.setRoot(HomePage);
+              });
+            }
+          });
          //this._OneSignal.postNotification(notificationObj,
          //  function(successResponse) {
          //    console.log("Notification Post Success:", successResponse);
@@ -46,7 +57,6 @@ export class ViewScheduledEventPage {
          //    console.log("Notification Post Failed: ", failedResponse);
          //  }
          //)
-          this.navController.setRoot(HomePage);
         } else {
            alert("It was not possible to remove this event. Server returned: " + responseStatus);
         }

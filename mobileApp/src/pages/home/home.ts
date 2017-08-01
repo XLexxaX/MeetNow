@@ -91,7 +91,7 @@ export class HomePage {
           that.plannedEvents = global.plannedEvents;
           that.scheduledEvents = global.scheduledEvents;
 
-          that.storage.set('meetings', that.plannedEvents).then((res) => {
+          that.storage.set('meetings', global.plannedEvents).then((res) => {
 
 
             that.calendar.createEvent(global.plannedEvents[index].meeting.name, undefined, "A MeetNow Event", global.plannedEvents[index].startDate, global.plannedEvents[index].endDate).then((succ) => {
@@ -101,7 +101,10 @@ export class HomePage {
               })
 
           });
-        }
+        } else {
+        that.plannedEvents = global.plannedEvents;
+        that.scheduledEvents = global.scheduledEvents;
+      }
 
 
     } else {
@@ -183,7 +186,6 @@ export class HomePage {
     this.scheduledEvents = [];
 
     this.storage.get('meetings').then((keys) => {
-      keys = JSON.parse(keys);
       if (keys!=null) {
         for (let i = 0; i < keys.length; i++) {
           let event: LocalMeeting = keys[i];
