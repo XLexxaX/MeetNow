@@ -46,6 +46,23 @@ export class HomePage {
 
         this.storage.set('meetings', JSON.stringify(this.plannedEvents)).then((res) => {
            global.plannedEvents = this.plannedEvents;
+
+
+          var bgGeo = (<any>window).BackgroundGeolocation;
+          bgGeo.addGeofence({
+            identifier: tmp_LocalMeeting.meeting.id,
+            radius: tmp_LocalMeeting.meeting.area.radius,
+            latitude: tmp_LocalMeeting.meeting.area.latitude,
+            longitude: tmp_LocalMeeting.meeting.area.longitude,
+            notifyOnEntry: true,
+            notifyOnExit: true,
+            notifyOnDwell: false
+          }, function() {
+            console.log("Successfully added geofence");
+          }, function(error) {
+            console.warn("Failed to add geofence", error);
+          });
+
         });
 
     } else {
