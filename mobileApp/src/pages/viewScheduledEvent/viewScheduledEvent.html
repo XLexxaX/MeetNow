@@ -38,11 +38,11 @@
           </p>
         </ion-col>
     </ion-row>
-    <ion-row *ngIf="item.meeting.groups !== undefined">
+    <ion-row *ngIf="item.meeting.groups != undefined">
       <ion-col col-6><b>Gruppe:</b></ion-col>
       <ion-col col-6>{{item.meeting.groups}}</ion-col>
     </ion-row>
-    <ion-row *ngIf="item.meeting.nextScheduled !== undefined">
+    <ion-row *ngIf="item.meeting.nextScheduled != undefined">
       <ion-col col-6><b>Nächster, angesetzter Termin:</b></ion-col>
       <ion-col col-6>{{item.meeting.nextScheduled}}</ion-col>
     </ion-row>
@@ -55,4 +55,15 @@
   </div>
 
 
-</ion-content>
+
+
+      <!-- this fab is placed at bottom right -->
+      <ion-fab bottom right >
+        <button ion-fab> <ion-icon name="share"></ion-icon></button>
+        <ion-fab-list side="top">
+          <button ion-fab (click)="share('text', null)"><ion-icon name="text"></ion-icon></button>
+          <button ion-fab (click)="share('mail', null)"><ion-icon name="mail"></ion-icon></button>
+          <button ion-fab (click)="share('whatsapp', null)"><ion-icon name="logo-whatsapp"></ion-icon></button>
+        </ion-fab-list>
+           </ion-fab>
+

@@ -35,9 +35,10 @@ export class HomePage {
     }
 
     var newMeetingArrived = navParams.get('newMeetingArrived');
-    if (newMeetingArrived!=undefined) {
+    if (newMeetingArrived != undefined) {
       this.plannedEvents = global.plannedEvents;
       this.scheduledEvents = global.scheduledEvents;
+      let tmp_LocalMeeting: LocalMeeting = {meeting: newMeetingArrived};
 
       let tmp_LocalMeeting: LocalMeeting = {meeting: newMeetingArrived};
 
@@ -88,7 +89,7 @@ export class HomePage {
 
           //special case: the event wraps the whole time slot to be checked.
           if (tmp_start <= start && tmp_end >= end) {
-
+            console.log("wtf")
             return [];
           }
 
@@ -144,6 +145,31 @@ export class HomePage {
           }
       }
     }
+      if (keys != null) {
+        for (let i = 0; i < keys.length; i++) {
+          this.storage.get(keys[i]).then((data) => {
+            let event: LocalMeeting = JSON.parse(data);
+            this.plannedEvents.push(event);
+            global.plannedEvents = this.plannedEvents;
+            if (event.calendarId != undefined) {
+              this.scheduledEvents.push(event);
+              global.scheduledEvents = this.scheduledEvents;
+            }
+          });
+        }
+      }
+    });
+    let testMeeting: Meeting = {
+        id: "meetingId",
+        name: "weekly sync with manfred",
+        ownerId: "ownerId",
+        category: Meeting.CategoryEnum.Coffeebreak,
+        reoccurrence: Meeting.ReoccurrenceEnum.Weekly,
+        duration: 60
+      };
+
+    this.plannedEvents.push({
+        meeting: testMeeting
     });
 
 
@@ -204,7 +230,9 @@ export class HomePage {
 
 
     this.storage.clear().then(
-      (x) => {alert('Lokaler App-Speicher bereinigt.')}
+      (x) => {
+        alert('Lokaler App-Speicher bereinigt.')
+      }
     );
     this.refreshMeetingsFromStorage();
 
