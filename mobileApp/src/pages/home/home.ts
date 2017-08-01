@@ -145,33 +145,16 @@ export class HomePage {
 
 
     this.storage.get('meetings').then((keys) => {
-
-    if (keys!=null) {
-      keys = JSON.parse(keys);
-      for (let i = 0; i < keys.length; i++) {
-
-        let event: LocalMeeting = keys[i];
+      if (keys!=null) {
+        keys = JSON.parse(keys);
+        for (let i = 0; i < keys.length; i++) {
+          let event: LocalMeeting = keys[i];
           this.plannedEvents.push(event);
           global.plannedEvents = this.plannedEvents;
           if (event.calendarId != undefined) {
-
             this.scheduledEvents.push(event);
             global.scheduledEvents = this.scheduledEvents;
-
           }
-      }
-    }
-      if (keys != null) {
-        for (let i = 0; i < keys.length; i++) {
-          this.storage.get(keys[i]).then((data) => {
-            let event: LocalMeeting = JSON.parse(data);
-            this.plannedEvents.push(event);
-            global.plannedEvents = this.plannedEvents;
-            if (event.calendarId != undefined) {
-              this.scheduledEvents.push(event);
-              global.scheduledEvents = this.scheduledEvents;
-            }
-          });
         }
       }
     });
