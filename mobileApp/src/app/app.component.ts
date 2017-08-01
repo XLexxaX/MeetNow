@@ -158,6 +158,7 @@ export class MyApp {
   }
 
   initializeGeofences() {
+    var that = this;
     if (this.platform.is("cordova")) {
       this.BackgroundGeolocation.configure({
         desiredAccuracy: 0,
@@ -168,7 +169,7 @@ export class MyApp {
       }, function (state) {
         console.log("background location plugin configured");
         if (!state.enabled) {
-          this.BackgroundGeolocation.startGeofences(function (state) {
+          that.BackgroundGeolocation.startGeofences(function (state) {
             console.log('Geofence-only monitoring started', state.trackingMode);
           });
         }
@@ -176,21 +177,21 @@ export class MyApp {
       // Fired whenever a geofence transition occurs.
       this.BackgroundGeolocation.on('geofence', function (params, taskId) {
         console.log("geofence transition --" + params);
-        this.storage.get("user").then((user) => {
+        that.storage.get("user").then((user) => {
           //TODO read meeting id and monitor if geofence is left or entered to send the request
           let meetingId = params.identifier;
-          let request = this.meetingApi.enterArea(meetingId, user.id);
+          let request = that.meetingApi.enterArea(meetingId, user.id);
           request.subscribe(
             (succ: Object) => {
               alert("Geofence transitation posted successfully");
-              this.BackgroundGeolocation.finish(taskId);
+              that.BackgroundGeolocation.finish(taskId);
             },
             (err) => {
               alert("Failed to post location");
-              this.BackgroundGeolocation.finish(taskId);
+              that.BackgroundGeolocation.finish(taskId);
             });
         },
-        (error) => this.BackgroundGeolocation.finish(taskId)
+        (error) => that.BackgroundGeolocation.finish(taskId)
       );
       });
     }
