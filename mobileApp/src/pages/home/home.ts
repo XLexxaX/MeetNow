@@ -46,7 +46,7 @@ export class HomePage {
 
       this.plannedEvents.push(tmp_LocalMeeting);
 
-      this.storage.set('meetings', JSON.stringify(this.plannedEvents)).then((res) => {
+      this.storage.set('meetings', this.plannedEvents).then((res) => {
         global.plannedEvents = this.plannedEvents;
 
 
@@ -71,26 +71,30 @@ export class HomePage {
 
       var that = this;
 
-      let currentEvent: Array<LocalMeeting> = global.plannedEvents.filter((item) => {
-        return item.meeting.id === scheduledMeetingId;
-      })
+      var index = -1;
+      for (var i =0; i < global.plannedEvents.length; i++) {
+        if (global.plannedEvents[i].meeting.id === scheduledMeetingId) {
+          index = i;
+        }
+      }
 
-      if (currentEvent) {
-        if (currentEvent.length>0) {
+      if (index >= 0) {
 
 
-          that.storage.set('meetings', JSON.stringify(global.plannedEvents)).then((res) => {
 
-            currentEvent[0].startDate = new Date();
-            var d =new Date();
-            d =  new Date(d.getTime() + 60*60000);
-            currentEvent[0].endDate = d;
-            currentEvent[0].calendarId = that.guid()+"";
-            global.scheduledEvents.push(currentEvent[0]);
-            that.plannedEvents = global.plannedEvents;
-            that.scheduledEvents = global.scheduledEvents;
+          global.plannedEvents[index].startDate = new Date();
+          var d =new Date();
+          d =  new Date(d.getTime() + 60*60000);
+          global.plannedEvents[index].endDate = d;
+          global.plannedEvents[index].calendarId = that.guid()+"";
+          global.scheduledEvents.push( global.plannedEvents[index]);
+          that.plannedEvents = global.plannedEvents;
+          that.scheduledEvents = global.scheduledEvents;
 
-            that.calendar.createEvent(currentEvent[0].meeting.name, undefined, "A MeetNow Event", currentEvent[0].startDate, currentEvent[0].endDate).then((succ) => {
+          that.storage.set('meetings', that.plannedEvents).then((res) => {
+
+
+            that.calendar.createEvent(global.plannedEvents[index].meeting.name, undefined, "A MeetNow Event", global.plannedEvents[index].startDate, global.plannedEvents[index].endDate).then((succ) => {
                 console.log("Meeting set in calendar.")
               }, (err) => {
                 console.warn("Error when trying to set meeting in calendar.")
@@ -98,7 +102,6 @@ export class HomePage {
 
           });
         }
-      }
 
 
     } else {
@@ -180,8 +183,8 @@ export class HomePage {
     this.scheduledEvents = [];
 
     this.storage.get('meetings').then((keys) => {
+      keys = JSON.parse(keys);
       if (keys!=null) {
-        keys = JSON.parse(keys);
         for (let i = 0; i < keys.length; i++) {
           let event: LocalMeeting = keys[i];
           this.plannedEvents.push(event);
@@ -255,8 +258,6 @@ export class HomePage {
   }
 
   clearStorage() {
-
-
     this.storage.clear().then(
       (x) => {
         alert('Lokaler App-Speicher bereinigt.')
