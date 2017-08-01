@@ -18,20 +18,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import meetNow.api.exceptions.BadRequestException;
 import meetNow.api.exceptions.ValidationException;
 import meetNow.dataaccess.repositories.MeetingRepository;
 import meetNow.dataaccess.repositories.UserRepository;
+import meetNow.logic.ConsentManager;
 import meetNow.logic.CreateException;
+import meetNow.logic.Decision;
 import meetNow.logic.MeetingNotFoundException;
 import meetNow.logic.MeetingProcessor;
 import meetNow.logic.MeetingStatus;
@@ -63,6 +60,9 @@ public class MobileAppController {
 
 	@Autowired
 	private MeetingStatusHandler handler;
+	
+	@Autowired
+	private ConsentManager consentManager;
 
 	@RequestMapping("/test")
 	public String testServerUp(String test) {
@@ -141,6 +141,19 @@ public class MobileAppController {
 		handler.updateStatus(meetingId, userId, MeetingStatus.LEAVE);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
+	
+	
+    @RequestMapping(value = "/consent",
+        produces = { "application/json" }, 
+        consumes = { "application/x-www-form-urlencoded" },
+        method = RequestMethod.POST)
+    ResponseEntity<Void> handleConsent(@RequestBody MultiValueMap<String, String> paramMap) throws BadRequestException{
+    	String meetingId = paramMap.getFirst("meetingId");
+    	String userId = paramMap.getFirst("userId");
+    	Decision decision = paramMap.getFirst("hasTime").equals("yes") ? Decision.YES : Decision.NO;
+    	consentManager.addDecision(meetingId, userId, decision);
+    	return new ResponseEntity<Void>(HttpStatus.OK);
+    }
 
 	@ExceptionHandler(MeetingNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
