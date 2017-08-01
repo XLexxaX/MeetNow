@@ -37,6 +37,11 @@ html, body, .reveal div, .reveal span, .reveal applet, .reveal object, .reveal i
 	display: block;
 }
 
+.reveal section img {
+	background:none;
+	border:none;
+	box-shadow:none;
+}
 
 /*********************************************
  * GLOBAL STYLES
