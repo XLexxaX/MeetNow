@@ -42,6 +42,12 @@ public class DecisionManager implements ConsentManager {
 		if (decisions == null) {
 			decisions = Collections.synchronizedList(new LinkedList<>());
 			meetingDecisionMap.put(meetingId, decisions);
+		} else {
+			for(User user : decisions){
+				if(user.userId.equals(userId)){
+					return;
+				}
+			}
 		}
 
 		decisions.add(new User(userId, decision));
@@ -61,6 +67,7 @@ public class DecisionManager implements ConsentManager {
 			if (meetNow) {
 				messenger.postNotification("MeetNow! Meeting starts!", meeting, 5);
 			}
+			meetingDecisionMap.remove(meetingId);
 		}
 	}
 

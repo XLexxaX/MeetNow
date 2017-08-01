@@ -75,6 +75,10 @@ public class SimpleMeetingStatusHandler implements MeetingStatusHandler {
 			} else {
 				usersInMeeting.remove(user);
 			}
+			
+			if(usersInMeeting.size() == 0){
+				activeMeetings.remove(meeting.getId());
+			}
 			break;
 
 		}

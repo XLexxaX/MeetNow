@@ -28,7 +28,7 @@ public class OneSignalMessager implements PushServiceMessenger {
 
 	@Override
 	public void postNotification(String message, Meeting meeting, int operationId) {
-		Callable<Void> request = new OneSignalRequest(message, meeting);
+		Callable<Void> request = new OneSignalRequest(message, meeting, operationId);
 		executor.submit(request);
 	}
 
@@ -36,10 +36,12 @@ public class OneSignalMessager implements PushServiceMessenger {
 
 		private String message;
 		private Meeting meeting;
+		private int operationId;
 
-		public OneSignalRequest(String message, Meeting meeting) {
+		public OneSignalRequest(String message, Meeting meeting, int operationId) {
 			this.message = message;
 			this.meeting = meeting;
+			this.operationId = operationId;
 		}
 
 		@Override
@@ -68,8 +70,8 @@ public class OneSignalMessager implements PushServiceMessenger {
 
 				String strJsonBody = "{" + "\"app_id\": \"2e7109e7-d60a-4723-9a51-0edac1fa6e94\","
 						+ "\"include_player_ids\": [" + buildPlayerIds.toString() + "]," + "\"data\": {\"id\": \""
-						+ meeting.getId() + "\", \"operation\":\"4\"}," + "\"contents\": {\"en\": \"" + message + "\"}"
-						+ "}";
+						+ meeting.getId() + "\", \"operation\":\"" + operationId + "\"}," + "\"contents\": {\"en\": \""
+						+ message + "\"}" + "}";
 
 				logger.info("OneSignalRequestBody: {}", strJsonBody);
 
@@ -80,7 +82,7 @@ public class OneSignalMessager implements PushServiceMessenger {
 				outputStream.write(sendBytes);
 
 				int httpResponse = con.getResponseCode();
-				logger.info("OneSignal HttpResponse: {}", httpResponse);
+				logger.info("OneSignal HttpResponseCode: {}", httpResponse);
 
 				if (httpResponse >= HttpURLConnection.HTTP_OK && httpResponse < HttpURLConnection.HTTP_BAD_REQUEST) {
 					Scanner scanner = new Scanner(con.getInputStream(), "UTF-8");

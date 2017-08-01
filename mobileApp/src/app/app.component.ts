@@ -105,7 +105,7 @@ export class MyApp {
                       text: 'Save',
                       handler: data => {
                         contact = contact || [];
-                        contact.push({id: payload.userId, name: data.username})
+                        contact.push({id: payload.id, name: data.username})
                         that.storage.set("contact", contact);
 
                       }
