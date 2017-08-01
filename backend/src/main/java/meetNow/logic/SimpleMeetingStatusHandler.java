@@ -53,7 +53,10 @@ public class SimpleMeetingStatusHandler implements MeetingStatusHandler {
 				activeMeetings.put(meetingId, usersInMeeting);
 			} else {
 				usersInMeeting.add(user);
-				CheckIfAllParticipantsInMeeting(meeting, usersInMeeting);
+				boolean allInArea = checkIfAllParticipantsInMeeting(meeting, usersInMeeting);
+				if(allInArea){
+					activeMeetings.remove(meetingId);
+				}
 			}
 
 			break;
@@ -85,7 +88,7 @@ public class SimpleMeetingStatusHandler implements MeetingStatusHandler {
 
 	}
 
-	private void CheckIfAllParticipantsInMeeting(Meeting meeting, List<User> usersInMeeting) {
+	private boolean checkIfAllParticipantsInMeeting(Meeting meeting, List<User> usersInMeeting) {
 		int numberOfParticpants = meeting.getParticipants().size() + 1; // +1
 																		// for
 																		// owner
@@ -94,72 +97,9 @@ public class SimpleMeetingStatusHandler implements MeetingStatusHandler {
 				numberOfParticpants);
 		if (numberOfParticpants == activeParticipants) {
 			messenger.postNotification("Meeting could start, please commit if you have time", meeting, 4);
-			// RestTemplate template = new RestTemplate();
-			// HttpHeaders headers = new HttpHeaders();
-			// headers.setContentType(MediaType.APPLICATION_JSON);
-			// HttpEntity<String> entity = new HttpEntity<String>("parameters",
-			// headers);
-			//
-			// template.exchange(, responseType)
-			
-//			ExecutorService executor = Executors.newSingleThreadExecutor();
-//			executor.submit(() -> {
-//				try {
-//					String jsonResponse;
-//
-//					URL url = new URL("https://onesignal.com/api/v1/notifications");
-//					HttpURLConnection con = (HttpURLConnection) url.openConnection();
-//					con.setUseCaches(false);
-//					con.setDoOutput(true);
-//					con.setDoInput(true);
-//					String apiKey = properties.getApiKey();
-//					con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-//					con.setRequestProperty("Authorization", "Basic " + apiKey);
-//					con.setRequestMethod("POST");
-//
-//					StringBuilder buildPlayerIds = new StringBuilder();
-//					for (Participant participant : meeting.getParticipants()) {
-//						buildPlayerIds.append('"');
-//						buildPlayerIds.append(participant.getId());
-//						buildPlayerIds.append('"');
-//						buildPlayerIds.append(',');
-//					}
-//					buildPlayerIds.append("\"" + meeting.getOwnerId() + "\"");
-//
-//					String strJsonBody = "{" + "\"app_id\": \"2e7109e7-d60a-4723-9a51-0edac1fa6e94\","
-//							+ "\"include_player_ids\": [" + buildPlayerIds.toString() + "]," + "\"data\": {\"id\": \""
-//							+ meeting.getId() + "\", \"operation\":\"4\"},"
-//							+ "\"contents\": {\"en\": \"English Message\"}" + "}";
-//
-//					logger.info("OneSignalRequestBody: {}", strJsonBody);
-//
-//					byte[] sendBytes = strJsonBody.getBytes("UTF-8");
-//					con.setFixedLengthStreamingMode(sendBytes.length);
-//
-//					OutputStream outputStream = con.getOutputStream();
-//					outputStream.write(sendBytes);
-//
-//					int httpResponse = con.getResponseCode();
-//					logger.info("OneSignal HttpResponse: {}", httpResponse);
-//
-//					if (httpResponse >= HttpURLConnection.HTTP_OK
-//							&& httpResponse < HttpURLConnection.HTTP_BAD_REQUEST) {
-//						Scanner scanner = new Scanner(con.getInputStream(), "UTF-8");
-//						jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
-//						scanner.close();
-//					} else {
-//						Scanner scanner = new Scanner(con.getErrorStream(), "UTF-8");
-//						jsonResponse = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
-//						scanner.close();
-//					}
-//					logger.info("OneSignal ResponseBody:\n" + jsonResponse);
-//
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//
-//			});
+			return true;
 		}
+		return false;
 
 	}
 

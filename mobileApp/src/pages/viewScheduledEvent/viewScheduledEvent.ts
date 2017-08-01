@@ -60,7 +60,7 @@ export class ViewScheduledEventPage {
 
     let message = "Hello, I organized " + this.item.meeting.name
       + " with you for the duration of " + this.item.meeting.duration + " minutes."
-      + " I like to meet you " +    this.item.meeting.reoccurrence + "."
+      + " I like to meet you " +    this.item.meeting.reoccurrence + ".";
 
     let receiver;
 

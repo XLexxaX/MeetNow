@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Detailansicht</ion-title>
+    <ion-title>Meeting details</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -11,59 +11,57 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col col-6><b>Name des Meetings:</b></ion-col>
+      <ion-col col-6><b>Meeting name:</b></ion-col>
       <ion-col col-6>{{item.meeting.name}}</ion-col>
     </ion-row>
     <ion-row>
-      <ion-col col-6><b>Eigentümer - ID:</b></ion-col>
-      <ion-col col-6>{{item.meeting.ownerId}}</ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col col-6><b>Kategorie:</b></ion-col>
+      <ion-col col-6><b>Category:</b></ion-col>
       <ion-col col-6>{{item.meeting.category}}</ion-col>
     </ion-row>
     <ion-row>
-      <ion-col col-6><b>Dauer:</b></ion-col>
+      <ion-col col-6><b>Duration:</b></ion-col>
       <ion-col col-6>{{item.meeting.duration}} Minuten</ion-col>
     </ion-row>
     <ion-row>
-      <ion-col col-6><b>Häufigkeit:</b></ion-col>
+      <ion-col col-6><b>Reoccurrence:</b></ion-col>
       <ion-col col-6>{{item.meeting.reoccurrence}}</ion-col>
     </ion-row>
     <ion-row>
-      <ion-col col-6><b>Teilnehmer:</b></ion-col>
-        <ion-col col-6>
-          <p *ngFor="let person of item.meeting.participants">
+      <ion-col col-6><b>Participants:</b></ion-col>
+      <ion-col col-6>
+        <p *ngFor="let person of item.meeting.participants">
           {{person.name}}
-          </p>
-        </ion-col>
+        </p>
+      </ion-col>
     </ion-row>
-    <ion-row *ngIf="item.meeting.groups != undefined">
+    <ion-row *ngIf="item.meeting.groups !== undefined">
       <ion-col col-6><b>Gruppe:</b></ion-col>
       <ion-col col-6>{{item.meeting.groups}}</ion-col>
     </ion-row>
-    <ion-row *ngIf="item.meeting.nextScheduled != undefined">
-      <ion-col col-6><b>Nächster, angesetzter Termin:</b></ion-col>
+    <ion-row *ngIf="item.meeting.nextScheduled !== undefined">
+      <ion-col col-6><b>Next scheduled:</b></ion-col>
       <ion-col col-6>{{item.meeting.nextScheduled}}</ion-col>
     </ion-row>
   </ion-grid>
 
   <div class="bar bar-footer">
-
-
     <button ion-button full outline color="danger" (click)="removeEvent()">Cancel event</button>
   </div>
 
-
-
-
-      <!-- this fab is placed at bottom right -->
-      <ion-fab bottom right >
-        <button ion-fab> <ion-icon name="share"></ion-icon></button>
-        <ion-fab-list side="top">
-          <button ion-fab (click)="share('text', null)"><ion-icon name="text"></ion-icon></button>
-          <button ion-fab (click)="share('mail', null)"><ion-icon name="mail"></ion-icon></button>
-          <button ion-fab (click)="share('whatsapp', null)"><ion-icon name="logo-whatsapp"></ion-icon></button>
-        </ion-fab-list>
-           </ion-fab>
-
+  <!-- this fab is placed at bottom right -->
+  <ion-fab bottom right>
+    <button ion-fab>
+      <ion-icon name="share"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button ion-fab (click)="share('text', null)">
+        <ion-icon name="text"></ion-icon>
+      </button>
+      <button ion-fab (click)="share('mail', null)">
+        <ion-icon name="mail"></ion-icon>
+      </button>
+      <button ion-fab (click)="share('whatsapp', null)">
+        <ion-icon name="logo-whatsapp"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>

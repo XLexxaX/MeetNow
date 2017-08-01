@@ -32,7 +32,7 @@ export class PlanEventPage {
   map: GoogleMap;
   activeMarker: Marker;
   circle: Circle;
-  meetingAreaRadius: number = 300;
+  meetingAreaRadius: number = 100;
   sliderEnabled: boolean = false;
   searchQuery: string = "";
   // geocodingUrl = "https://maps.googleapis.com/maps/api/geocode/json";

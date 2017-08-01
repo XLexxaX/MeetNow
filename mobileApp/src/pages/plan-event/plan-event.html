@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Event planen</ion-title>
+    <ion-title>Plan Event</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -14,27 +14,27 @@
     <div class="flexbox-item-no-grow">
       <ion-list>
         <ion-item>
-          <ion-label>Name des Events</ion-label>
+          <ion-label>Event name</ion-label>
           <ion-input type="text" placeholder="Name" value="" min=3 [(ngModel)]="newEvent.name"
                      (blur)="checkIfValuesAreSet()"></ion-input>
         </ion-item>
         <ion-item id="listEventCategory">
-          <ion-label>Kategorie</ion-label>
+          <ion-label>Categories</ion-label>
           <ion-select [(ngModel)]="newEvent.category" multiple="false" interface="action-sheet"
                       (ionChange)="enableMap()" (ionCancel)="enableMap()" (click)="disableMap()">
-            <ion-option value="{{categories[1]}}">Mittagessen</ion-option>
+            <ion-option value="{{categories[1]}}">Lunch</ion-option>
             <ion-option value="{{categories[0]}}">Jourfix</ion-option>
-            <ion-option value="{{categories[2]}}">Kaffee trinken</ion-option>
+            <ion-option value="{{categories[2]}}">Coffee Corner</ion-option>
           </ion-select>
         </ion-item>
       </ion-list>
       <ion-list-header>
-        Lege den Radius fest...
+        Set the radius for the meeting area
         <ion-badge item-end>{{meetingAreaRadius}}</ion-badge>
       </ion-list-header>
       <ion-list>
         <ion-item>
-          <ion-range debounce="200" [disabled]="!sliderEnabled" (ionChange)="onSliderChange()" min="0" max="2000"
+          <ion-range debounce="200" [disabled]="!sliderEnabled" (ionChange)="onSliderChange()" min="70" max="2000"
                      pin="true" [(ngModel)]="meetingAreaRadius">
             <ion-icon small range-left name="radio-button-on"></ion-icon>
             <ion-icon big range-right name="radio-button-on"></ion-icon>
@@ -45,16 +45,12 @@
     <div #map id="map" class="flexbox-item-grow"></div>
 
     <div class="flexbox-item-no-grow-bottom" *ngIf="checkIfValuesAreSet()">
-      <!--<div class="button-free-space"></div>-->
-      <!--<ion-fab bottom center>-->
       <button ion-fab color="secondary" (tap)="callNextPage()">
         <ion-icon name="arrow-forward"></ion-icon>
       </button>
-      <!--</ion-fab>-->
     </div>
   </div>
 
-  <!--ngIf="sliderEnabled && checkIfValuesAreSet()-->
 
 
 </ion-content>

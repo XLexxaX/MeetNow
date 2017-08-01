@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Übersicht</ion-title>
+    <ion-title>Overview</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -12,7 +12,7 @@
 
   <ion-list>
     <ion-list-header>
-      Gesetzte Termine
+      Active Events
     </ion-list-header>
     <button ion-item *ngFor="let item of scheduledEvents" (click)="itemTapped($event, item)" class="item item-text-wrap" text-wrap>
       <ion-icon name="calendar" item-left></ion-icon>
@@ -30,7 +30,7 @@
   <ion-list>
 
     <ion-list-header>
-      Geplante Events
+      Planned Events
     </ion-list-header>
 
     <button ion-item *ngFor="let item of plannedEvents" (click)="itemTapped($event, item)">
