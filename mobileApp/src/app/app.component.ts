@@ -164,7 +164,22 @@ export class MyApp {
             }
             break;
           case "5":
-            console.log("Meeting starts now");
+            let currentEvent: Array<LocalMeeting> = global.plannedEvents.filter((item) => {
+              return item.meeting.id === payload.id;
+            })
+                if (currentEvent) {
+              if (currentEvent.length>0) {
+
+                currentEvent[0].calendarId = "abcde";
+
+                that.storage.set('meetings', JSON.stringify(global.plannedEvents)).then((res) => {
+                  console.log(global.plannedEvents);
+                  nav.setRoot(HomePage);
+                });
+              }
+                }
+            break;
+
           default:
             console.log("No operation id defined! Id is " + payload.operation)
             break;

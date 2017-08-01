@@ -153,7 +153,7 @@ export class HomePage {
           let event: LocalMeeting = keys[i];
           this.plannedEvents.push(event);
           global.plannedEvents = this.plannedEvents;
-          if (event.calendarId != undefined) {
+          if (event.calendarId) {
             this.scheduledEvents.push(event);
             global.scheduledEvents = this.scheduledEvents;
           }
