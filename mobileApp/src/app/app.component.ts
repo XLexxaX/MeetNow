@@ -189,7 +189,8 @@ export class MyApp {
               that.BackgroundGeolocation.finish(taskId);
             },
             (err) => {
-              alert("Failed to post location");
+              alert("Failed to post location"+err);
+              console.log(err);
               that.BackgroundGeolocation.finish(taskId);
             });
         },

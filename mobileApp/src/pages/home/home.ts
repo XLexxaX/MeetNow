@@ -225,4 +225,13 @@ export class HomePage {
 
   }
 
+  removeGeofences() {
+    var BackgroundGeolocation = (<any>window).BackgroundGeolocation;
+    BackgroundGeolocation.removeGeofences(function() {
+      console.log("Successfully removed alll geofences");
+    }, function(error) {
+      console.warn("Failed to remove geofence", error);
+    });
+  }
+
 }
