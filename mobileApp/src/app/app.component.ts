@@ -160,13 +160,13 @@ export class MyApp {
   initializeGeofences() {
     if (this.platform.is("cordova")) {
       this.BackgroundGeolocation.configure({
-        desiredAccuracy: 10,
-        distanceFilter: 50,
+        desiredAccuracy: 0,
+        distanceFilter: 10,
         stopOnTerminate: false,
         startOnBoot: true,
         debug: true,
       }, function (state) {
-        console.log("backgroud location plugin configured");
+        console.log("background location plugin configured");
         if (!state.enabled) {
           this.BackgroundGeolocation.startGeofences(function (state) {
             console.log('Geofence-only monitoring started', state.trackingMode);
@@ -178,7 +178,7 @@ export class MyApp {
         console.log("geofence transition --" + params);
         this.storage.get("user").then((user) => {
           //TODO read meeting id and monitor if geofence is left or entered to send the request
-          let meetingId = params.meetingId;
+          let meetingId = params.identifier;
           let request = this.meetingApi.enterArea(meetingId, user.id);
           request.subscribe(
             (succ: Object) => {

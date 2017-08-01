@@ -104,21 +104,7 @@ export class PlanEvent3Page {
 
 
 
-    //if(this.platform.is("cordova")){
-    // var bgGeo = (<any>window).BackgroundGeolocation;
-    // bgGeo.addGeofence({
-    //   identifier: this.newEvent.area.id,
-    //   radius: this.newEvent.area.radius,
-    //   latitude: this.newEvent.area.latitude,
-    //   longitude: this.newEvent.area.longitude,
-    //   notifyOnEntry: true,
-    //   notifyOnExit: true,
-    //   notifyOnDwell: false
-    // }, function() {
-    //   console.log("Successfully added geofence");
-    // }, function(error) {
-    //   console.warn("Failed to add geofence", error);
-    // });
+
 //
     //}
     //let fence = {
@@ -148,11 +134,14 @@ export class PlanEvent3Page {
 
     var tmp_res = this.meetingApi.addMeeting(newLocalEvent.meeting);
 
+    var that = this;
+
     tmp_res.subscribe(
       (succ: Object) => {
         //return data;
         let event_id: string = JSON.parse(JSON.stringify(succ)).id;
         newLocalEvent.meeting.id = event_id;
+
 
         this.storage.get('meetings').then((keys) =>
         {
@@ -177,6 +166,22 @@ export class PlanEvent3Page {
 
             this._OneSignal.postNotification(notificationObj,
               function(successResponse) {
+
+                  var bgGeo = (<any>window).BackgroundGeolocation;
+                  bgGeo.addGeofence({
+                    identifier: event_id,
+                    radius: that.newEvent.area.radius,
+                    latitude: that.newEvent.area.latitude,
+                    longitude: that.newEvent.area.longitude,
+                    notifyOnEntry: true,
+                    notifyOnExit: true,
+                    notifyOnDwell: false
+                  }, function() {
+                    console.log("Successfully added geofence");
+                  }, function(error) {
+                    console.warn("Failed to add geofence", error);
+                  });
+
                 console.log("Notification Post Success:", successResponse);
               },
               function (failedResponse) {
