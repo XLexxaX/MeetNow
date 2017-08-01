@@ -8,6 +8,7 @@ import {Storage} from '@ionic/storage';
 import {MeetingApi} from '../../services/MeetingApi';
 import {Calendar} from '@ionic-native/calendar';
 import {global} from '../../services/GlobalVariables';
+import {User} from "../../gen/model/User";
 
 @Component({
   selector: 'page-home',
@@ -222,6 +223,23 @@ export class HomePage {
       }
     );
     this.refreshMeetingsFromStorage();
+
+    this.storage.get("user").then(
+      (user: User) => {
+        if (user==null || user || !global.myPlayerId) {
+          this.meetingApi.newUser(global.myPlayerId).subscribe(
+            (user: User) => {
+              this.storage.set("user", user)
+            },
+            (error) => {
+              console.log("Couldn't connect to the backend, " + error)
+            }
+          );
+        } else {
+          console.log("Running in emulator or app not opened for the first time")
+        }
+      }
+    );
 
   }
 
