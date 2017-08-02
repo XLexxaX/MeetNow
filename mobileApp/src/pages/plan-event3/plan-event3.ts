@@ -152,7 +152,6 @@ export class PlanEvent3Page {
           let data: Array<any> = [];
 
           if (keys != null) {
-            data = JSON.parse(keys);
             data.push(newLocalEvent)
           } else {
             data = [newLocalEvent];
@@ -160,7 +159,7 @@ export class PlanEvent3Page {
           console.log("data is now:")
           console.log(data);
 
-          this.storage.set('meetings', JSON.stringify(data)).then((res) => {
+          this.storage.set('meetings', data).then((res) => {
 
 
             var notificationObj = { contents: {en: "Sie wurden einem Event hinzugefügt"},

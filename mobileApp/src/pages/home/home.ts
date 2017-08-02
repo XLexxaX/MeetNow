@@ -79,28 +79,36 @@ export class HomePage {
       }
 
       if (index >= 0) {
+          var tmp = global.plannedEvents[index];
+          global.plannedEvents.splice(index, 1);
 
+        that.storage.set('meetings', global.plannedEvents).then((res) => {
 
-
-          global.plannedEvents[index].startDate = new Date();
+          tmp.startDate = (new Date())+"";
           var d =new Date();
           d =  new Date(d.getTime() + 60*60000);
-          global.plannedEvents[index].endDate = d;
-          global.plannedEvents[index].calendarId = that.guid()+"";
-          global.scheduledEvents.push( global.plannedEvents[index]);
+          tmp.endDate = (d) + "";
+          tmp.calendarId = that.guid()+"";
+          global.plannedEvents.push(tmp);
+          global.scheduledEvents.push(tmp);
           that.plannedEvents = global.plannedEvents;
           that.scheduledEvents = global.scheduledEvents;
 
           that.storage.set('meetings', global.plannedEvents).then((res) => {
+            this.refreshMeetingsFromStorage();
 
 
             that.calendar.createEvent(global.plannedEvents[index].meeting.name, undefined, "A MeetNow Event", global.plannedEvents[index].startDate, global.plannedEvents[index].endDate).then((succ) => {
-                console.log("Meeting set in calendar.")
-              }, (err) => {
-                console.warn("Error when trying to set meeting in calendar.")
-              })
+              console.log("Meeting set in calendar.")
+            }, (err) => {
+              console.warn("Error when trying to set meeting in calendar.")
+            })
 
           });
+
+        });
+
+
         } else {
         that.plannedEvents = global.plannedEvents;
         that.scheduledEvents = global.scheduledEvents;
@@ -192,7 +200,7 @@ export class HomePage {
           this.plannedEvents.push(event);
           global.plannedEvents = this.plannedEvents;
           if (event.calendarId) {
-            if (event.endDate > new Date()) {
+            if (new Date(event.endDate) > new Date()) {
               this.scheduledEvents.push(event);
               global.scheduledEvents = this.scheduledEvents;
             } else {
@@ -213,50 +221,6 @@ export class HomePage {
     this.navCtrl.push(ViewScheduledEventPage, {
       meeting: item
     });
-  }
-
-  testNewCalendarEntry() {
-    this.planEvent(global.plannedEvents[0].meeting.id, new Date(2017, 5, 6, 15), new Date(2017, 5, 6, 16));
-  }
-
-  planEvent(eventId: string, startDate: Date, endDate: Date) {
-    for (let event of this.plannedEvents) {
-      if (eventId == event.meeting.id) {
-
-
-        this.calendar.createEventWithOptions("Testtermin", "Mannheim", "Keine Notizen", startDate, endDate, this.calendar.getCalendarOptions()).then(
-          (msg) => {
-            console.log("Calendar operation message: " + msg);
-          },
-          (err) => {
-            console.log("Calendar operation error: " + err);
-          }
-        );
-        this.calendar.findEvent("Testtermin", "Mannheim", undefined, undefined, undefined).then(
-          (msg) => {
-            console.log(msg)
-            event.calendarId = msg + "";
-            event.startDate = startDate;
-            event.endDate = endDate;
-            event.location = "Mannheim";
-            this.scheduledEvents.push(event);
-            this.storage.set(event.meeting.id, JSON.stringify(event)).then((res) => {
-            })
-          },
-          (err) => {
-            console.log("Calendar operation error: " + err);
-            alert("Kein Termin im Kalender erstellt - Termin wird hier trotzdem temporär angezeigt.");
-            event.calendarId = "2150";
-            event.startDate = startDate;
-            event.endDate = endDate;
-            event.location = "Mannheim";
-            this.scheduledEvents.push(event);
-          }
-        );
-
-
-      }
-    }
   }
 
   clearStorage() {
