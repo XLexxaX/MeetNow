@@ -7,5 +7,6 @@ export var global = {
   init: false,
   reload:false,
   plannedEvents: [],
-  scheduledEvents: []
+  scheduledEvents: [],
+  browser: false
 };

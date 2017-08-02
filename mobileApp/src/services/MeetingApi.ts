@@ -57,6 +57,23 @@ export class MeetingApi {
             });
     }
 
+  /**
+   * get all the meetings for a specific user
+   *
+   * @param userId
+   * @param secret
+   */
+  public getMeetings(userId: string, secret: string, extraHttpRequestParams?: any): Observable<Array<models.Meeting>> {
+    return this.getMeetingsWithHttpInfo(userId, secret, extraHttpRequestParams)
+      .map((response: Response) => {
+        if (response.status === 204) {
+          return undefined;
+        } else {
+          return response.json();
+        }
+      });
+  }
+1
     /**
      * Remove an existing meeting
      *
@@ -418,6 +435,60 @@ export class MeetingApi {
 
     return this.http.request(path, requestOptions);
   }
+  /**
+   * get all the meetings for a specific user
+   *
+   * @param userId
+   * @param secret
+   */
+  public getMeetingsWithHttpInfo(userId: string, secret: string, extraHttpRequestParams?: any): Observable<Response> {
+    const path = this.basePath + `/meetings`;
 
+    let queryParameters = new URLSearchParams();
+    let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+    let formParams = new URLSearchParams();
+
+    // verify required parameter 'userId' is not null or undefined
+    if (userId === null || userId === undefined) {
+      throw new Error('Required parameter userId was null or undefined when calling getMeetings.');
+    }
+    // verify required parameter 'secret' is not null or undefined
+    if (secret === null || secret === undefined) {
+      throw new Error('Required parameter secret was null or undefined when calling getMeetings.');
+    }
+    // to determine the Content-Type header
+    let consumes: string[] = [
+      'application/x-www-form-urlencoded'
+    ];
+
+    // to determine the Accept header
+    let produces: string[] = [
+      'application/json'
+    ];
+
+    headers.set('Content-Type', 'application/x-www-form-urlencoded');
+
+    if (userId !== undefined) {
+      formParams.set('userId', <any>userId);
+    }
+
+    if (secret !== undefined) {
+      formParams.set('secret', <any>secret);
+    }
+
+    let requestOptions: RequestOptionsArgs = new RequestOptions({
+      method: RequestMethod.Post,
+      headers: headers,
+      body: formParams.toString(),
+      search: queryParameters
+    });
+
+    // https://github.com/swagger-api/swagger-codegen/issues/4037
+    if (extraHttpRequestParams) {
+      requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+    }
+
+    return this.http.request(path, requestOptions);
+  }
 
 }
