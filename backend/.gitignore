@@ -29,3 +29,7 @@ id_rsa.pub
 
 ### ignore private properties ###
 src/main/resources/config.properties
+
+
+### ignore generated mobile App browser stuff ###
+public/
