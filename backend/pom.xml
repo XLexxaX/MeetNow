@@ -140,14 +140,11 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${basedir}/public</outputDirectory>
+							<outputDirectory>${basedir}/src/main/resources/public</outputDirectory>
 							<overwrite>true</overwrite>
 							<resources>
 								<resource>
 									<directory>../mobileApp/platforms/browser/www</directory>
-<!-- 									<includes> -->
-<!-- 										<include>appCtx.xml</include> -->
-<!-- 									</includes> -->
 								</resource>
 							</resources>
 						</configuration>
