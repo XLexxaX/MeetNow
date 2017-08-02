@@ -173,7 +173,7 @@ export class HomePage {
 
             tmp.startDate = (new Date()) + "";
             var d = new Date();
-            d = new Date(d.getTime() + 60 * 60000);
+            d = new Date(d.getTime() + tmp.meeting.duration * 60000);
             tmp.endDate = (d) + "";
             tmp.calendarId = that.guid() + "";
             global.plannedEvents.push(tmp);
