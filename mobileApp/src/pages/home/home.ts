@@ -185,7 +185,7 @@ export class HomePage {
               this.refreshMeetingsFromStorage();
 
 
-              that.calendar.createEvent(global.plannedEvents[index].meeting.name, undefined, "A MeetNow Event", global.plannedEvents[index].startDate, global.plannedEvents[index].endDate).then((succ) => {
+              that.calendar.createEvent(global.plannedEvents[index].meeting.name, undefined, "A MeetNow Event", new Date(global.plannedEvents[index].startDate), new Date(global.plannedEvents[index].endDate)).then((succ) => {
                 console.log("Meeting set in calendar.")
               }, (err) => {
                 console.warn("Error when trying to set meeting in calendar.")
