@@ -21,5 +21,25 @@
     </ion-card-content>
   </ion-card>
 
+  <ion-card>
+    <ion-card-content>
+      <ion-item>
+        <ion-label fixed>Username</ion-label>
+        <ion-input type="text" value="" [(ngModel)]="username" [readonly]="true"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Secret</ion-label>
+        <ion-input type="text" value="" [(ngModel)]="password" [readonly]="true"></ion-input>
+        <button ion-button clear color="dark" type="button" item-right (click)="showOrHidePassword()">
+          <ion-icon name="eye"></ion-icon>
+        </button>
+      </ion-item>
+      <p>
+        Warning: Treat this as a password!
+      </p>
+    </ion-card-content>
+  </ion-card>
+
 
 </ion-content>

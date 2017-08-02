@@ -21,7 +21,8 @@ public class SimpleUserCreator implements UserCreator {
 			throw new ValidationException("No Push id supplied");
 		}
 		String secret = generateSecret();
-		User user = new User();
+		User user = repository.findOne(pushId);
+		user = user != null ? user : new User();
 		user.setId(pushId);
 		user.setSecret(secret);
 		user = repository.save(user);

@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
+import {Storage} from "@ionic/storage"
 
 @Component({
   selector: 'page-home',
@@ -11,17 +12,33 @@ export class SettingsPage {
   private isEnabled: boolean;
   private bgGeo = (<any>window).BackgroundGeolocation;
   private toggleValue = false;
+  private password: String;
+  private username: String;
+  private pwFromDB: String;
+  private pwPlaceholder = "\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF\u25CF";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage) {
     // If we navigated to this page, we will have an item available as a nav param
     this.isEnabled = false;
     let that = this;
 
-    this.bgGeo.getState(function (state) {
-      that.isEnabled = true;
-      that.status = state.enabled;
-      that.toggleValue = state.enabled;
+    this.password = this.pwPlaceholder;
+
+    this.storage.get("user").then(user => {
+      if (user) {
+        this.username = user.id;
+        this.pwFromDB = user.secret;
+      }
     });
+
+    if(this.bgGeo){
+      this.bgGeo.getState(function (state) {
+        that.isEnabled = true;
+        that.status = state.enabled;
+        that.toggleValue = state.enabled;
+      });
+    }
+
   }
 
 
@@ -42,7 +59,11 @@ export class SettingsPage {
     }
   }
 
-  private updateView() {
-
+  private showOrHidePassword() {
+    if(this.password === this.pwPlaceholder){
+      this.password = this.pwFromDB;
+    } else {
+      this.password = this.pwPlaceholder;
+    }
   }
 }

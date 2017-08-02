@@ -34,7 +34,7 @@ export class MyApp {
               public events: Events, public cma: ConsentManagementApi, public meetingApi: MeetingApi, public storage: Storage, private alertCtrl: AlertController) {
     this.initializeApp();
 
-    if(navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)){
+    // if(navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)){
       this.pages = [
         {title: 'Overview', component: HomePage},
         {title: 'Plan event', component: PlanEventPage},
@@ -42,9 +42,9 @@ export class MyApp {
         {title: 'Settings', component: SettingsPage},
         {title: 'Licences', component: AboutPage},
       ];
-    } else { //desktop browser
-      this.pages = [{title: 'Overview', component: HomePage}];
-    }
+    // } else { //desktop browser
+    //   this.pages = [{title: 'Overview', component: HomePage}];
+    // }
 
   }
 

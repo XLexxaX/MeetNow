@@ -1,6 +1,8 @@
 package meetNow.api.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +37,7 @@ import meetNow.logic.MeetingStatus;
 import meetNow.logic.MeetingStatusHandler;
 import meetNow.logic.UserCreator;
 import swagger.model.Meeting;
+import swagger.model.Participant;
 import swagger.model.User;
 
 @CrossOrigin
@@ -60,7 +63,7 @@ public class MobileAppController {
 
 	@Autowired
 	private MeetingStatusHandler handler;
-	
+
 	@Autowired
 	private ConsentManager consentManager;
 
@@ -75,6 +78,37 @@ public class MobileAppController {
 			throws ValidationException {
 		User user = userCreator.createUser(paramMap.get("pushId").get(0));
 		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/meetings", produces = { "application/json" }, consumes = {
+			"application/x-www-form-urlencoded" }, method = RequestMethod.POST)
+	public ResponseEntity<List<Meeting>> getMeetings(@RequestBody MultiValueMap<String, String> paramMap)
+			throws BadRequestException {
+		String userId = paramMap.getFirst("userId");
+		String secret = paramMap.getFirst("secret");
+
+		User user = userRepo.findOne(userId);
+		logger.info("Found user {}", user);
+		if (user == null || !user.getSecret().equals(secret.trim())) {
+			throw new BadRequestException("Authentification failed");
+		}
+
+		List<Meeting> meetings = meetingRepo.findAll();
+		List<Meeting> meetingsWithParticipation = new ArrayList<>();
+		for (Meeting meeting : meetings) {
+			if (meeting.getOwnerId().equals(userId)) {
+				meetingsWithParticipation.add(meeting);
+			} else {
+				for (Participant p : meeting.getParticipants()) {
+					if (p.getId().equals(userId)) {
+						meetingsWithParticipation.add(meeting);
+						break;
+					}
+				}
+
+			}
+		}
+		return new ResponseEntity<List<Meeting>>(meetingsWithParticipation, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/meeting", consumes = { "application/json" }, method = RequestMethod.POST)
@@ -141,19 +175,16 @@ public class MobileAppController {
 		handler.updateStatus(meetingId, userId, MeetingStatus.LEAVE);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
-	
-	
-    @RequestMapping(value = "/consent",
-        produces = { "application/json" }, 
-        consumes = { "application/x-www-form-urlencoded" },
-        method = RequestMethod.POST)
-    ResponseEntity<Void> handleConsent(@RequestBody MultiValueMap<String, String> paramMap) throws BadRequestException{
-    	String meetingId = paramMap.getFirst("meetingId");
-    	String userId = paramMap.getFirst("userId");
-    	Decision decision = paramMap.getFirst("hasTime").equals("yes") ? Decision.YES : Decision.NO;
-    	consentManager.addDecision(meetingId, userId, decision);
-    	return new ResponseEntity<Void>(HttpStatus.OK);
-    }
+
+	@RequestMapping(value = "/consent", produces = { "application/json" }, consumes = {
+			"application/x-www-form-urlencoded" }, method = RequestMethod.POST)
+	ResponseEntity<Void> handleConsent(@RequestBody MultiValueMap<String, String> paramMap) throws BadRequestException {
+		String meetingId = paramMap.getFirst("meetingId");
+		String userId = paramMap.getFirst("userId");
+		Decision decision = paramMap.getFirst("hasTime").equals("yes") ? Decision.YES : Decision.NO;
+		consentManager.addDecision(meetingId, userId, decision);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
 
 	@ExceptionHandler(MeetingNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
@@ -175,7 +206,7 @@ public class MobileAppController {
 
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public @ResponseBody String handleRuntimeExceptions(Exception e, HttpServletRequest request,
+	public String handleRuntimeExceptions(Exception e, HttpServletRequest request,
 			HttpServletResponse resp) {
 		logger.error("An internal server error occurred while processing a request, method: {}, request {}, parameters",
 				request.getMethod(), request.getRequestURL(), request.getParameterMap());
