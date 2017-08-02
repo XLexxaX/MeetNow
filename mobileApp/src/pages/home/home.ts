@@ -39,7 +39,7 @@ export class HomePage {
         storage.get('user').then((user) => {
           if (!user || user==null) {
 
-            let alert = this.alertCtrl.create({
+            let popup = this.alertCtrl.create({
               title: 'Login with your app-credentials',
               inputs: [
                 {
@@ -79,24 +79,34 @@ export class HomePage {
                 }
               ]
             });
-            alert.present();
+            popup.present();
 
           } else {
 
-            that.meetingApi.getMeetings(user.id+"", user.secret+"").subscribe((meetingsFromServer) => {
 
-              that.plannedEvents = [];
-              meetingsFromServer.forEach((item) =>{
-                let tmp_LocalMeeting: LocalMeeting = {meeting: item};
-                that.plannedEvents.push(tmp_LocalMeeting);
+            if (user.id && user.secret) {
+
+
+              alert("You are logged in with UserID \'" + user.id + "\'. To log in with another user empty your browser\'s cache.");
+
+              that.meetingApi.getMeetings(user.id + "", user.secret + "").subscribe((meetingsFromServer) => {
+
+                that.plannedEvents = [];
+                meetingsFromServer.forEach((item) => {
+                  let tmp_LocalMeeting: LocalMeeting = {meeting: item};
+                  that.plannedEvents.push(tmp_LocalMeeting);
+                });
+
+                console.log("Successfully retrieved data from server.")
+              }, (err) => {
+                alert("Invalid data found. Please empty your browser\'s cache.")
+                console.log(err);
               });
-
-              console.log("Successfully retrieved data from server.")
-            }, (err) => {
-              console.log(err);
-            });
+            } else {
+              alert("Invalid data found. Please empty your browser\'s cache.")
+            }
           }
-        })
+        });
 
 
 
