@@ -123,6 +123,34 @@ paths:
           description: Meeting id not found
         '405':
           description: Validation Exception
+  /meetings:
+    post:
+      tags:
+        - meeting
+      summary: get all the meetings for a specific user
+      operationId: getMeetings
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: userId
+          required: true
+          type: string
+        - in: formData
+          name: secret
+          required: true
+          type: string
+      responses:
+        '200':
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Meeting"
+          description: Meetings found
+        '400':
+          description: Meeting not recognized
   /enterArea:
     post:
       tags:

@@ -34,14 +34,17 @@ export class MyApp {
               public events: Events, public cma: ConsentManagementApi, public meetingApi: MeetingApi, public storage: Storage, private alertCtrl: AlertController) {
     this.initializeApp();
 
-    // used for an example of ngFor and navigation
-    this.pages = [
-      {title: 'Overview', component: HomePage},
-      {title: 'Plan event', component: PlanEventPage},
-      {title: 'Contacts', component: ContactsPage},
-      {title: 'Settings', component: SettingsPage},
-      {title: 'Licences', component: AboutPage},
-    ];
+    if(navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)){
+      this.pages = [
+        {title: 'Overview', component: HomePage},
+        {title: 'Plan event', component: PlanEventPage},
+        {title: 'Contacts', component: ContactsPage},
+        {title: 'Settings', component: SettingsPage},
+        {title: 'Licences', component: AboutPage},
+      ];
+    } else { //desktop browser
+      this.pages = [{title: 'Overview', component: HomePage}];
+    }
 
   }
 

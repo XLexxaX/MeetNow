@@ -25,6 +25,9 @@ export class HomePage {
               private storage: Storage, private calendar: Calendar) {
     // If we navigated to this page, we will have an item available as a nav param
 
+    if(!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)){
+      //@ please call api here and show meetings on this page
+    }
 
     this.selectedItem = navParams.get('item');
     if (this.selectedItem) {
