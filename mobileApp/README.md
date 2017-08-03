@@ -4,9 +4,11 @@ give some more information about the technical side and will give hints where to
 
 ## _Table of contents_
 + [Contacts](#contacts)
-+ [Plan a meeting]()
-+ [Share a meeting]()
-+ [Additional Pages not shown in the videos]()
++ [Plan a meeting](#plan-a-meeting)
++ [Share a meeting](#share-a-meeting)
++ [Additional Pages not shown in the videos](#additional-pages-not-shown-in-the-videos)
+  - [Settings](#settings)
+  - [Licences](#licences)
 
 
 ## Contacts
@@ -20,9 +22,17 @@ and now the users are connected with each other and can organize meetings with e
 Used Plugins:
 - [Cordova universal links plugin](https://github.com/nordnet/cordova-universal-links-plugin)
 - [Ionic oneSignal plugin](https://documentation.onesignal.com/v3.0/docs/ionic-sdk-setup)
+- [Ionic Social Sharing](https://ionicframework.com/docs/native/social-sharing)
 
 ## Plan a meeting
 
+
+## Share a meeting
+When the user is in the detail view for a meeting, he can also share the meeting information with his friends using the
+share button, as shown in one of the videos. Code is available [here](./src/pages/viewScheduledEvent)
+
+Used Plugins:
+- [Ionic Social Sharing](https://ionicframework.com/docs/native/social-sharing)
 
 ## Additional Pages not shown in the videos
 
