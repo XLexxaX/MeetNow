@@ -8,8 +8,8 @@ To get a quick overview, check out our
 
 ## [Table of contents](./README.md)
 - [Use Case](#use-case)
-- [Architectural Overview](#Architectural-Overview)
-- [URL's to our individual mobile App repostories (5. Semester)]()
+- [Architectural Overview](#architectural-overview)
+- [URL's to our individual mobile App repostories (5. Semester)](#link-to-our-individual-github-repositories)
 - [Frontend]()
   + [BlaBla](./docs/README.md#wrench-geolocation-options)
 - [Backend]()
