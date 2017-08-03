@@ -3,7 +3,7 @@
     <name>MeetNow</name>
     <description>An app for smart meeting organization.</description>
     <author email="none" href="https://meetnow.cfapps.eu10.hana.ondemand.com/about">MeetNow Development Team</author>
-    <content original-src="index.html" src="http://192.168.1.2:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
     <allow-navigation href="http://192.168.0.101:8100" />
@@ -109,24 +109,6 @@
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.1.8" />
     <plugin name="cordova-sqlite-storage" spec="^2.0.4" />
     <plugin name="cordova-universal-links-plugin" spec="^1.2.1" />
-    <plugin name="ionic-plugin-deeplinks" spec="^1.0.15">
-        <variable name="URL_SCHEME" value="meetNow" />
-        <variable name="DEEPLINK_SCHEME" value="https" />
-        <variable name="DEEPLINK_HOST" value="meetnow.com" />
-        <variable name="ANDROID_PATH_PREFIX" value="/" />
-        <variable name="ANDROID_2_PATH_PREFIX" value="/" />
-        <variable name="ANDROID_3_PATH_PREFIX" value="/" />
-        <variable name="ANDROID_4_PATH_PREFIX" value="/" />
-        <variable name="ANDROID_5_PATH_PREFIX" value="/" />
-        <variable name="DEEPLINK_2_SCHEME" value=" " />
-        <variable name="DEEPLINK_2_HOST" value=" " />
-        <variable name="DEEPLINK_3_SCHEME" value=" " />
-        <variable name="DEEPLINK_3_HOST" value=" " />
-        <variable name="DEEPLINK_4_SCHEME" value=" " />
-        <variable name="DEEPLINK_4_HOST" value=" " />
-        <variable name="DEEPLINK_5_SCHEME" value=" " />
-        <variable name="DEEPLINK_5_HOST" value=" " />
-    </plugin>
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
     <plugin name="onesignal-cordova-plugin" spec="^2.1.2" />
 </widget>
