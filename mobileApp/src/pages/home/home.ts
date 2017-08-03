@@ -304,48 +304,12 @@ export class HomePage {
 
   }
 
-
   itemTapped(event, item) {
     this.navCtrl.push(ViewScheduledEventPage, {
       meeting: item
     });
   }
 
-  clearStorage() {
-    this.storage.clear().then(
-      (x) => {
-        alert('Lokaler App-Speicher bereinigt.')
-      }
-    );
-    this.refreshMeetingsFromStorage();
-
-    this.storage.get("user").then(
-      (user: User) => {
-        if (user==null || user || !global.myPlayerId) {
-          this.meetingApi.newUser(global.myPlayerId).subscribe(
-            (user: User) => {
-              this.storage.set("user", user)
-            },
-            (error) => {
-              console.log("Couldn't connect to the backend, " + error)
-            }
-          );
-        } else {
-          console.log("Running in emulator or app not opened for the first time")
-        }
-      }
-    );
-
-  }
-
-  removeGeofences() {
-    var BackgroundGeolocation = (<any>window).BackgroundGeolocation;
-    BackgroundGeolocation.removeGeofences(function() {
-      console.log("Successfully removed all geofences");
-    }, function(error) {
-      console.warn("Failed to remove geofence", error);
-    });
-  }
   guid(){
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
       var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);

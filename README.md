@@ -9,10 +9,13 @@ To get a quick overview, check out our
 ## _Table of contents_
 - [Use Case](#use-case)
 - [Architectural Overview](#architectural-overview)
-- [URL's to our individual mobile App repostories (5. Semester)](#link-to-our-individual-github-repositories)
+- [Browser App](#browser-app)
+- [URL's to our individual mobile App repositories (5. Semester)](#link-to-our-individual-github-repositories)
 - [Frontend]()
-  + [BlaBla](./docs/README.md#wrench-geolocation-options)
-- [Backend]()
+  + [Contacts]()
+  + [Plan a meeting]()
+  + [Additional Pages not shown in the videos]()
+- [Backend](./backend/README.md)
     + [Setup Development Environment](./backend/README.md#setup-development-environment)
     + [Swagger Usage](./backend/README.md#swagger-usage)
     + [API Endpoints with Spring](./backend/README.md#api-endpoints-with-spring)
@@ -24,7 +27,17 @@ To get a quick overview, check out our
 
 ## Use Case
 
-@carmabell please write few sentences about the use case.
+The app wants to organize meetings smartly. A user defines a meeting with somebody he wants to meet regularly. The app
+takes care of the meeting to occur regularly. The whole process:
+
+1. A user adds another using social sharing and an app of his choice.
+2. The user plans the event setting up an area where the meeting should occur.
+3. When all participants are in the defined area, the participants receive notifications that the meeting could start
+and they have to submit whether they have time right now or not.
+4. When all participants have time, the meeting takes place.
+
+ (There are videos for each step in the 
+[presentation](http://htmlpreview.github.io/?https://github.com/XLexxaX/MeetNow/blob/master/presentation/presentation.html)):
 
 ## Architectural Overview
 Below is a picture of our architectural setup. 
@@ -42,6 +55,23 @@ backend also communicates with the [OneSignal REST API](https://documentation.on
 push notifications to participants of a meeting.
 
 ![Architectural Overview](./Architecture_Overview.png "Architecture of the whole MeetNow application")
+
+## Browser App
+As described above, our app also runs purely in the browser, but with strongly limited functionality. This is mainly
+to show we are easily able to use the same code we are writing for the mobile App for the browser application.
+You can only view your currently planned meetings. Adding contacts is not possible as this requires OneSignal and 
+planning a meeting is also not possible because you can obviously not set geofences in a browser. 
+
+If you'd like to preview our browser app, do it also follows:
+1. Open this URL: https://meetnow.cfapps.eu10.hana.ondemand.com
+2. Use the following credentials to login
+    - Username: 6fd9fc3d-32ec-4002-962a-904c552551ff
+    - Password: -4499704664976588778
+
+**_Warning: If you delete a meeting in the browser, it will be deleted locally and on server! If you do so you will have
+one less to explore._**
+
+The credentials usually can be obtained in the mobileApp on the settings page (as shown [here](TODO)).
 
 ## Link to our individual Github repositories
 Florian Bunsmann:

@@ -34,7 +34,7 @@ export class MyApp {
               public events: Events, public cma: ConsentManagementApi, public meetingApi: MeetingApi, public storage: Storage, private alertCtrl: AlertController) {
     this.initializeApp();
 
-    // if(navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)){
+    if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
       this.pages = [
         {title: 'Overview', component: HomePage},
         {title: 'Plan event', component: PlanEventPage},
@@ -42,9 +42,9 @@ export class MyApp {
         {title: 'Settings', component: SettingsPage},
         {title: 'Licences', component: AboutPage},
       ];
-    // } else { //desktop browser
-    //   this.pages = [{title: 'Overview', component: HomePage}];
-    // }
+    } else { //desktop browser
+      this.pages = [{title: 'Overview', component: HomePage}];
+    }
 
   }
 
@@ -76,9 +76,9 @@ export class MyApp {
         switch (payload.operation) {
           case "0":
 
-              if (payload.meeting && payload.meeting != null) {
-                nav.setRoot(HomePage, {'newMeetingArrived': payload.meeting});
-              }
+            if (payload.meeting && payload.meeting != null) {
+              nav.setRoot(HomePage, {'newMeetingArrived': payload.meeting});
+            }
 
             break;
           case "1":
@@ -86,7 +86,7 @@ export class MyApp {
             break;
           case "2":
             console.log("opened notification to add user");
-            that.storage.get("contact").then( (contact) => {
+            that.storage.get("contact").then((contact) => {
               if (!payload.userId) {
                 let alert = that.alertCtrl.create({
                   title: 'Add a new Contact',
@@ -127,11 +127,11 @@ export class MyApp {
               })
 
               if (currentEvent) {
-                if (currentEvent.length>0) {
+                if (currentEvent.length > 0) {
 
                   let alert = that.alertCtrl.create({
                     title: 'Do you have time now?',
-                    message: 'All participants of the meeting \'' + currentEvent[0].meeting.name +'\' are in the set area. Do you have time now to attend the meeting?',
+                    message: 'All participants of the meeting \'' + currentEvent[0].meeting.name + '\' are in the set area. Do you have time now to attend the meeting?',
                     buttons: [
                       {
                         text: 'Yes',
@@ -143,7 +143,7 @@ export class MyApp {
                             console.log(error);
                           });
                         }
-                      },{
+                      }, {
                         text: 'No',
                         role: 'cancel',
                         handler: () => {
@@ -194,7 +194,7 @@ export class MyApp {
   initializeAppOnFirstStartUp() {
     this.storage.get("user").then(
       (user: User) => {
-        if (user==null || user || !global.myPlayerId) {
+        if (user == null || user || !global.myPlayerId) {
           this.meetingApi.newUser(global.myPlayerId).subscribe(
             (user: User) => {
               this.storage.set("user", user)
@@ -211,55 +211,57 @@ export class MyApp {
   }
 
   initializeGeofences() {
-    var that = this;
-    if (this.platform.is("cordova")) {
-      this.BackgroundGeolocation.configure({
-        desiredAccuracy: 0,
-        distanceFilter: 10,
-        stopOnTerminate: false,
-        startOnBoot: true,
-        debug: true,
-      }, function (state) {
-        console.log("background location plugin configured");
-        if (!state.enabled) {
-          that.BackgroundGeolocation.startGeofences(function (state) {
-            console.log('Geofence-only monitoring started', state.trackingMode);
-          });
-        }
-      });
-      // Fired whenever a geofence transition occurs.
-      this.BackgroundGeolocation.on('geofence', function (params, taskId) {
-        console.log("geofence transition --");
-        console.log(params);
-        that.storage.get("user").then((user) => {
-          //TODO read meeting id and monitor if geofence is left or entered to send the request
-          let meetingId = params.identifier;
-          let request : any;
-          if (params.type === "ENTER") {
-            request = that.meetingApi.enterArea(meetingId, user.id);
-          } else {
-            request = that.meetingApi.leaveArea(meetingId, user.id);
+    if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
+      var that = this;
+      if (this.platform.is("cordova")) {
+        this.BackgroundGeolocation.configure({
+          desiredAccuracy: 0,
+          distanceFilter: 10,
+          stopOnTerminate: false,
+          startOnBoot: true,
+          debug: true,
+        }, function (state) {
+          console.log("background location plugin configured");
+          if (!state.enabled) {
+            that.BackgroundGeolocation.startGeofences(function (state) {
+              console.log('Geofence-only monitoring started', state.trackingMode);
+            });
           }
-          if (request) {
-            request.subscribe(
-              (succ: Object) => {
-                alert("Geofence transitation posted successfully");
-                that.BackgroundGeolocation.finish(taskId);
-              },
-              (err) => {
-                alert("Failed to post location" + err);
-                console.log(err);
-                that.BackgroundGeolocation.finish(taskId);
-              });
-          } else {
-            console.warn("meetingApi-request not defined");
-          }
-        },
-        (error) => {
-          that.BackgroundGeolocation.finish(taskId)
-        }
-      );
-      });
+        });
+        // Fired whenever a geofence transition occurs.
+        this.BackgroundGeolocation.on('geofence', function (params, taskId) {
+          console.log("geofence transition --");
+          console.log(params);
+          that.storage.get("user").then((user) => {
+              //TODO read meeting id and monitor if geofence is left or entered to send the request
+              let meetingId = params.identifier;
+              let request: any;
+              if (params.type === "ENTER") {
+                request = that.meetingApi.enterArea(meetingId, user.id);
+              } else {
+                request = that.meetingApi.leaveArea(meetingId, user.id);
+              }
+              if (request) {
+                request.subscribe(
+                  (succ: Object) => {
+                    alert("Geofence transitation posted successfully");
+                    that.BackgroundGeolocation.finish(taskId);
+                  },
+                  (err) => {
+                    alert("Failed to post location" + err);
+                    console.log(err);
+                    that.BackgroundGeolocation.finish(taskId);
+                  });
+              } else {
+                console.warn("meetingApi-request not defined");
+              }
+            },
+            (error) => {
+              that.BackgroundGeolocation.finish(taskId)
+            }
+          );
+        });
+      }
     }
   }
 
