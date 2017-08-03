@@ -45,6 +45,6 @@ push notifications to participants of a meeting.
 ## Link to our individual Github repositories
 Florian Bunsmann:
 
-Carmen Rannefeld:
+Carmen Rannefeld: https://github.com/carmabell/MobileApp
 
 Alexander Lütke:
