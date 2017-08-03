@@ -29,6 +29,8 @@ export class ContactsPage {
       this.contacts = contact || [];
     });
     this._oneSignal = this.oneSignal;
+
+    //navigation to this page with another userId. Show the dialog to add a display name
     let id = this.navParams.get('id');
     if (id) {
       this.addNewContact(id);
@@ -53,7 +55,7 @@ export class ContactsPage {
           }
         },
         {
-          text: 'Save',
+          text: 'Save',  //The user b added user a. Now store the user in the storage and send a push notification back
           handler: data => {
             console.log("Save clicked");
             this.contacts.push({id: id, name: data.username});
@@ -66,6 +68,8 @@ export class ContactsPage {
                 small_icon:"../pages/plan_event3/screen.png",
                 icon:"../pages/plan_event3/screen.png"
               };
+              //the code for how this notification is received on the other side is inside app.component.ts,
+              //in the method initializeOneSignal (operation id --> 2)
               this._oneSignal.postNotification(notificationObj,
                 function (successResponse) {
                   console.log("Notification Post Success:", successResponse);
@@ -83,11 +87,12 @@ export class ContactsPage {
   }
 
   private addContact() {
+
+    //use the socialsharing plugin to connect to users to each other.
     let message = "Add me on meetNow!";
-    // let url = "meetnow://newContact/" + global.myPlayerId;
-    // let href = "<a href=\"" + url + "\">" + url + "</a>";
     this.storage.get("user").then(
       user => {
+        //universal link which will open in the meetnow app
         let href = "https://meetnow.cfapps.eu10.hana.ondemand.com/contact?id=" + user.id;
         let subject = "Meet now invitation";
         this.socialSharing.share(message, subject, null, href).catch(

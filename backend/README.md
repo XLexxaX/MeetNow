@@ -144,7 +144,7 @@ deploy the app, there is a [manifest.yml](./manifest.yml) file to define paramet
 deployment. Using `cf push`, the app is deployed to the cloud, an instance is started automatically and connected to the
 MongoDb service, which was created before the push.
 
-### Security
+## Security
 All communications channels are secured using SSL. Clients receive a so called secret, which is a true random number
 and can be used as a password to validate the client is who he claims to be. This is used to authenticate a client when
 using the browser app. At this point in time, it is not used to secure the API endpoints offered to the mobileApp as we
