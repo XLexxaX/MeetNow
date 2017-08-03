@@ -6,20 +6,21 @@ Information Technology at the [DHBW Mannheim](https://www.dhbw-mannheim.de/).
 To get a quick overview, check out our 
 [HTML5 Presentation](http://htmlpreview.github.io/?https://github.com/XLexxaX/MeetNow/blob/master/presentation/presentation.html)!
 
-## [Table of contents](./README.md)
+## _Table of contents_
 - [Use Case](#use-case)
 - [Architectural Overview](#architectural-overview)
 - [URL's to our individual mobile App repostories (5. Semester)](#link-to-our-individual-github-repositories)
 - [Frontend]()
   + [BlaBla](./docs/README.md#wrench-geolocation-options)
 - [Backend]()
-  + [Swagger Integration]()
-  + [Persistence Handling]()
-  + [API Endpoints with Spring]()
-  + [Location Management]()
-  + [Consent Management]()
-  + [Deployment]()
-  + [Maven Usage]()
+    + [Setup Development Environment](./backend/README.md#setup-development-environment)
+    + [Swagger Usage](./backend/README.md#swagger-usage)
+    + [API Endpoints with Spring](./backend/README.md#api-endpoints-with-spring)
+    + [Persistence Handling](./backend/README.md#persistencehandling)
+    + [Location Management](./backend/README.md#location-management)
+    + [Consent Management](./backend/README.md#consent-management)
+    + [Maven Usage and deployment](./backend/README.md#maven-usage-and-deployment)
+    + [Security](./backend/README.md#security)
 
 ## Use Case
 
