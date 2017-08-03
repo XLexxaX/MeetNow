@@ -73,14 +73,10 @@ export class ViewScheduledEventPage {
       + " I like to meet you " +    this.item.meeting.reoccurrence + ".";
 
     let receiver;
-
     let phoneNumber;
-
     let to;
     let subject = "Participation information from meetNow"
 
-
-   // alert(message);
 
     switch (socialNet) {
        case "whatsapp": {
