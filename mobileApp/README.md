@@ -1,6 +1,6 @@
 # Mobile MeetNow App
 Build with Ionic2. The functionality/pages described in this readme can be observed in our presentation. This page will
-give some more information about the technical side and will give hints where to find important code.
+give some more information about the technical side and will give hints where to find important code. Most of the plugins are initialized in the [app.component.ts](./src/app/app.component.ts), so you might want to take a look at that.
 
 ## _Table of contents_
 + [Contacts](#contacts)
