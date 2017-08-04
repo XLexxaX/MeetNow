@@ -5,6 +5,8 @@ give some more information about the technical side and will give hints where to
 ## _Table of contents_
 + [Contacts](#contacts)
 + [Plan a meeting](#plan-a-meeting)
++ [Retrieve a meeting over OneSignal](#retrive-a-meeting-over-OneSignal)
++ [Deciding if a meeting should start](#deciding-if-a-meeting-should-start)
 + [Share a meeting](#share-a-meeting)
 + [Additional Pages not shown in the videos](#additional-pages-not-shown-in-the-videos)
   - [Settings](#settings)
@@ -25,6 +27,39 @@ Used Plugins:
 - [Ionic Social Sharing](https://ionicframework.com/docs/native/social-sharing)
 
 ## Plan a meeting
+As shown in the video, plan a meeting is a three step process. 
+
+First the user enters a meeting title, chooses the type
+of the meeting and crucially has to set a location. We use the cordova google maps plugin to do this and retrieve the
+latitude and longitude values from the plugin for setting the geofences later on. The user can also change the radius of
+the area, in which the meeting should take place.
+
+On the second page, the user can select the duration of the meeting and set the occurrence (daily, weekly or monthly).
+
+On the third page, the user selects the participants of the meeting, which he added before planning the event. Hitting 
+the save button, a bunch of actions are triggered. The mobile App sends a request to the backend containing all the 
+meeting information. Also, the meetings get's save in the local storage of the mobile device. The geofence plugin sets
+up a new Geofence for the newly planned meeting to monitor. The participants are contacted directly using the ionic 
+oneSignal plugin. Finally, navigation is triggered back to the overview page and all meetings are displayed on the 
+overview list.
+
+Here are the links to respective folders containg the code:
+- [FirstPage](./src/pages/plan-event)
+- [SecondPage](./src/pages/plan-event2) 
+- [ThirdPage](./src/pages/plan-event3)
+
+Used Plugins:
+- [Ionic oneSignal plugin](https://documentation.onesignal.com/v3.0/docs/ionic-sdk-setup)
+- [Cordova GoogleMaps plugin](https://github.com/mapsplugin/cordova-plugin-googlemaps)
+- [Background-Geolocation plugin](https://github.com/transistorsoft/cordova-background-geolocation-lt)
+
+## Retrieve a meeting over OneSignal
+@Alex please write a few sentences about how this works. (client side)
+
+
+## Deciding if a meeting should start
+@Alex please write a few sentences about how this works (client side), especially 
+posting the decision, retrieving the post notification meetings starts, setting up the meeting in the calender, ...
 
 
 ## Share a meeting
