@@ -1,20 +1,11 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, ActionSheetController, Events} from 'ionic-angular';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {MeetingApi} from '../../services/MeetingApi';
 import {LocalMeeting} from '../../model/LocalMeeting';
 import {Storage} from '@ionic/storage';
 import {HomePage} from '../home/home';
 import {OneSignal} from '@ionic-native/onesignal';
 import { SocialSharing } from '@ionic-native/social-sharing';
-import {
-  GoogleMaps,
-  GoogleMap,
-  GoogleMapsEvent,
-  LatLng,
-  CameraPosition,
-  MarkerOptions,
-  Marker, Circle
-} from '@ionic-native/google-maps';
 
 
 @Component({
@@ -29,15 +20,8 @@ export class ViewScheduledEventPage {
   item: LocalMeeting;
   _OneSignal: any;
 
-
-  mapPressedTimeout: number;
-  map: GoogleMap;
-  activeMarker: Marker;
-  circle: Circle;
-
   constructor(private navController: NavController, public navParams: NavParams, private meetingApi: MeetingApi,
-              private storage: Storage, private oneSignal: OneSignal, private socialSharing: SocialSharing,
-              private googleMaps: GoogleMaps, public events: Events) {
+              private storage: Storage, private oneSignal: OneSignal, private socialSharing: SocialSharing) {
 
     this.item = this.navParams.get('meeting');
     this._OneSignal = oneSignal;
@@ -161,64 +145,6 @@ export class ViewScheduledEventPage {
     }
   }
 
-  ngAfterViewInit() {
-    this.loadMap();
-  }
-
-  loadMap() {
-    // create a new map by passing HTMLElement
-    let element: HTMLElement = document.getElementById('map2');
-
-    this.map = this.googleMaps.create(element);
-    console.log(this.map.getLicenseInfo());
-    // listen to MAP_READY event
-    // You must wait for this event to fire before adding something to the map or modifying it in anyway
-    let that = this;
-    this.map.one(GoogleMapsEvent.MAP_READY).then(
-      () => {
-        console.log('Map is ready!');
-        //Now you can add elements to the map like the marker
-        let startingPosition: LatLng = new LatLng(that.item.meeting.area.latitude, that.item.meeting.area.longitude);
-
-        that.createCircleAroundLocation(startingPosition);
-
-        // create CameraPosition
-        let position: CameraPosition = {
-          target: startingPosition,
-          zoom: 10,
-          tilt: 0
-        };
-
-        // move the map's camera to position
-        that.map.moveCamera(position);
-      }
-    );
-
-    // // create LatLng object
-
-
-  }
-
-
-  createCircleAroundLocation(loc: LatLng) {
-    if (this.circle) {
-      this.circle.remove();
-    }
-
-    this.map.addCircle({
-      center: loc,
-      radius: this.item.meeting.area.radius,
-      strokeColor: '#FF0000',
-      strokeWidth: 5,
-      fillColor: '#F78181'
-    }).then((circle: Circle) => {
-      this.circle = circle;
-    });
-  }
-
-  ionViewWillLeave() {
-    this.map.remove();
-  }
 }
 
 
