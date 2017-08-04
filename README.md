@@ -43,7 +43,7 @@ and they have to submit whether they have time right now or not.
 [presentation](http://htmlpreview.github.io/?https://github.com/XLexxaX/MeetNow/blob/master/presentation/presentation.html)):
 
 ## Architectural Overview
-Below is a picture of our architectural setup. 
+Below is a schema of our architectural setup. 
 The mobile App is developed with the Ionic Framework, version 2. It persists necessary data using the native ionic 
 storage. Using the OneSignal plugin for ionic, the mobile App is able to send push notifications to other clients. 
 The app also exchanges information with our backend via REST-Calls, e. g. about meetings or geofence transitions. 
@@ -61,11 +61,11 @@ push notifications to participants of a meeting.
 
 ## Browser App
 As described above, our app also runs purely in the browser, but with strongly limited functionality. This is mainly
-to show we are easily able to use the same code we are writing for the mobile App for the browser application.
+to show we are easily able to use the same code written for the mobile App for the browser application.
 You can only view your currently planned meetings. Adding contacts is not possible as this requires OneSignal and 
 planning a meeting is also not possible because you can obviously not set geofences in a browser. 
 
-If you'd like to preview our browser app, do it also follows:
+If you'd like to preview our browser app, do it in the following way:
 1. Open this URL: https://meetnow.cfapps.eu10.hana.ondemand.com
 2. Use the following credentials to login
     - Username: 6fd9fc3d-32ec-4002-962a-904c552551ff
@@ -74,7 +74,7 @@ If you'd like to preview our browser app, do it also follows:
 **_Warning: If you delete a meeting in the browser, it will be deleted locally and on server! If you do so you will have
 one less to explore._**
 
-The credentials usually can be obtained in the mobileApp on the settings page (as shown [here](TODO)).
+The credentials usually can be obtained in the mobile app on the settings page (as shown [here](TODO)).
 
 ## Link to our individual Github repositories
 Florian Bunsmann: https://github.com/flodesflo/MobileDev
