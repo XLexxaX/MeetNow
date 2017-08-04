@@ -27,16 +27,16 @@ Used Plugins:
 - [Ionic Social Sharing](https://ionicframework.com/docs/native/social-sharing)
 
 ## Plan a meeting
-As shown in the video, plan a meeting is a three step process. 
+As shown in the video, plan a meeting is a three-stage process. 
 
-First the user enters a meeting title, chooses the type
+First, the user enters a meeting title, chooses the type
 of the meeting and crucially has to set a location. We use the cordova google maps plugin to do this and retrieve the
 latitude and longitude values from the plugin for setting the geofences later on. The user can also change the radius of
 the area, in which the meeting should take place.
 
-On the second page, the user can select the duration of the meeting and set the occurrence (daily, weekly or monthly).
+On the second app page, the user can select the duration of the meeting and set the occurrence (daily, weekly or monthly).
 
-On the third page, the user selects the participants of the meeting, which he added before planning the event. Hitting 
+On the third app page, the user selects the participants of the meeting, which he added before planning the event. Hitting 
 the save button, a bunch of actions are triggered. The mobile App sends a request to the backend containing all the 
 meeting information. Also, the meetings get's save in the local storage of the mobile device. The geofence plugin sets
 up a new Geofence for the newly planned meeting to monitor. The participants are contacted directly using the ionic 
