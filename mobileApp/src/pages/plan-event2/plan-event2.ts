@@ -24,8 +24,8 @@ export class PlanEvent2Page {
     this.durations = [15, 30, 60, 120];
   }
 
-  checkIfValuesAreSet(){
-    if(this.newEvent.reoccurrence !== null && this.newEvent.duration !== undefined){
+  checkIfValuesAreSet() {
+    if (this.newEvent.reoccurrence !== null && this.newEvent.duration !== undefined) {
       this.callingNextPage();
     }
   }

@@ -35,14 +35,14 @@ export class MyApp {
     this.initializeApp();
 
     if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
-      this.pages = [
+      this.pages = [ //mobile
         {title: 'Overview', component: HomePage},
         {title: 'Plan event', component: PlanEventPage},
         {title: 'Contacts', component: ContactsPage},
         {title: 'Settings', component: SettingsPage},
         {title: 'Licences', component: AboutPage},
       ];
-    } else { //desktop browser
+    } else { //desktop browser, limited functionality
       this.pages = [{title: 'Overview', component: HomePage}];
     }
 
@@ -211,6 +211,7 @@ export class MyApp {
   }
 
   initializeGeofences() {
+    //geofence mode for backgroud geoloation app, default settings for monitoring
     if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
       var that = this;
       if (this.platform.is("cordova")) {
@@ -229,6 +230,7 @@ export class MyApp {
           }
         });
         // Fired whenever a geofence transition occurs.
+        // sends request to the backend
         this.BackgroundGeolocation.on('geofence', function (params, taskId) {
           console.log("geofence transition --");
           console.log(params);
@@ -265,6 +267,7 @@ export class MyApp {
     }
   }
 
+  // deeplinks for navigation to our app. trigger navigation to the contacts page
   private initializeDeeplinks() {
     let that = this;
     let callbackFunction = function (eventData) {

@@ -53,14 +53,18 @@ export class PlanEventPage {
     this.loadMap();
   }
 
+  ionViewWillLeave() {
+    this.map.remove(); //remove map on page leave to free resources
+  }
+
   loadMap() {
     // create a new map by passing HTMLElement
     let element: HTMLElement = document.getElementById('map');
 
     this.map = this.googleMaps.create(element);
     console.log(this.map.getLicenseInfo());
+
     // listen to MAP_READY event
-    // You must wait for this event to fire before adding something to the map or modifying it in anyway
     let that = this;
     this.map.one(GoogleMapsEvent.MAP_READY).then(
       () => {
@@ -80,9 +84,6 @@ export class PlanEventPage {
         that.map.moveCamera(position);
       }
     );
-
-    // // create LatLng object
-
 
   }
 
@@ -167,49 +168,6 @@ export class PlanEventPage {
     });
   }
 
-  // ionic already does this for us, maybe need to change if search should be called less often
-  // searchbarChanged(){
-  //   clearTimeout(this.searchbarTimeout);
-  //   console.log("clearing timeout");
-  //   let that = this;
-  //   this.searchbarTimeout = setTimeout(function () {
-  //     that.showLocationOnTheMap();
-  //   }, 500);
-  // }
-
-  // showLocationOnTheMap() {
-  //   let headers = new Headers();
-  //   headers.append('Content-Type', 'application/x-www-form-urlencoded');
-  //   this.http.get(this.geocodingUrl + "?address=" + encodeURI(this.searchQuery) + "&key=" + this.geocodingAPIKey,
-  //     {"headers": headers})
-  //     .map(res => res.json())
-  //     .subscribe(data => {
-  //       switch (data.status) {
-  //         case "OK":
-  //           let location = data.results[0].geometry.location;
-  //           let latLng = new LatLng(location.lat, location.lng);
-  //           let position: CameraPosition = {
-  //             target: latLng,
-  //             zoom: 100,
-  //             tilt: 0
-  //           };
-  //           // move the map's camera to position
-  //           this.map.moveCamera(position);
-  //           break;
-  //         default:
-  //           console.log("An error occurred");
-  //           console.log(data);
-  //       }
-  //     });
-  //   console.log("show Location on the map called")
-  // }
-
-  // showSelectedEventLocation(eventLocation) {
-  //   this.newEvent.areas[0] = {
-  //     id: eventLocation
-  //   };
-  // }
-
   checkIfValuesAreSet() {
     return this.newEvent.name !== "" && this.newEvent.category !== undefined;
   }
@@ -218,10 +176,6 @@ export class PlanEventPage {
     this.navCtrl.push(PlanEvent2Page, {
       meeting: this.newEvent
     });
-  }
-
-  ionViewWillLeave() {
-    this.map.remove();
   }
 
 }
