@@ -70,6 +70,7 @@ Here are the links to respective files and folders the code:
 Used Plugins:
 - [Ionic oneSignal plugin](https://documentation.onesignal.com/v3.0/docs/ionic-sdk-setup)
 - [Storage](https://ionicframework.com/docs/storage/)
+- [Background-Geolocation plugin](https://github.com/transistorsoft/cordova-background-geolocation-lt)
 
 
 ## Deciding if a meeting should start
