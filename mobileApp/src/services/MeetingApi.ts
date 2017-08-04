@@ -73,7 +73,7 @@ export class MeetingApi {
         }
       });
   }
-1
+
     /**
      * Remove an existing meeting
      *

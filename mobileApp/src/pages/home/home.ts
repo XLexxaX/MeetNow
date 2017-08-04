@@ -17,9 +17,10 @@ import {User} from "../../gen/model/User";
 export class HomePage {
 
   selectedItem: any;
+  //All meetings the user participates in.
   plannedEvents: Array<LocalMeeting>;
+  //All meetings that will or are currently taking place.
   scheduledEvents: Array<LocalMeeting>;
-  aboutPage = AboutPage;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private meetingApi: MeetingApi,
     private storage: Storage, private calendar: Calendar, private alertCtrl: AlertController) {

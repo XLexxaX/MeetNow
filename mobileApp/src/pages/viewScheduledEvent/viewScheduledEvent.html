@@ -29,8 +29,8 @@
     <ion-row>
       <ion-col col-6><b>Participants:</b></ion-col>
       <ion-col col-6>
-        <p *ngFor="let person of item.meeting.participants">
-          {{person.name}}
+        <p *ngFor="let person of allItemsParticipants">
+          {{person}}
         </p>
       </ion-col>
     </ion-row>
@@ -43,6 +43,8 @@
       <ion-col col-6>{{item.meeting.nextScheduled}}</ion-col>
     </ion-row>
   </ion-grid>
+
+  <div #map id="map2"></div>
 
   <div class="bar bar-footer">
     <button ion-button full outline color="danger" (click)="removeEvent()">Cancel event</button>
@@ -65,3 +67,5 @@
       </button>
     </ion-fab-list>
   </ion-fab>
+
+

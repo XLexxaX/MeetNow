@@ -54,12 +54,43 @@ Used Plugins:
 - [Background-Geolocation plugin](https://github.com/transistorsoft/cordova-background-geolocation-lt)
 
 ## Retrieve a meeting over OneSignal
-@Alex please write a few sentences about how this works. (client side)
+After a user has created a meeting, all invited participants will receive a push 
+notification from OneSignal. This push notification contains the message, that one
+has been invited into a meeting along with all meeting details, e.g. description, location or duration.
+
+When receiving such a notification, the receiving device will save those meeting details 
+into its local storage and into internal variables, so that the user interface
+will update and show the respective meeting entry on the overview page. Furthermore, a Geofence is
+set based on the given location information.
+
+Here are the links to respective files and folders the code:
+- [AppComponent](./src/app/app.component.ts)
+- [HomePage](./src/pages/home/)
+
+Used Plugins:
+- [Ionic oneSignal plugin](https://documentation.onesignal.com/v3.0/docs/ionic-sdk-setup)
+- [Storage](https://ionicframework.com/docs/storage/)
 
 
 ## Deciding if a meeting should start
-@Alex please write a few sentences about how this works (client side), especially 
-posting the decision, retrieving the post notification meetings starts, setting up the meeting in the calender, ...
+When all participants of a meeting have entered a geofence area, the server immediately sends out push notifications
+with OneSignal. Thus, all participant devices will get a notification with the information that the
+corresponding meeting could start. Now it is up to the user to respond to this request manually. When receiving the request,
+a message box will appear asking whether he has time to attend or not. The users response is then sent back to the server. If all
+participants want to attend, they will get another push notification signalling that the meeting will start now.
+Meanwhile, the participant's devices will create a calendar entry if sufficient rights and interfaces are provided by the
+operating system. Additionally, the taking place of the meeting is saved into the storage and internal variables, so that
+the user interface is updated accordingly. Each time the user enters the overview-page the app will test whether the meeting
+is over now and if so it will remove the corresponding information from the participant's storage and internal variables again.
+
+Here are the links to respective files and folders the code:
+- [AppComponent](./src/app/app.component.ts)
+- [HomePage](./src/pages/home/)
+
+Used Plugins:
+- [Ionic oneSignal plugin](https://documentation.onesignal.com/v3.0/docs/ionic-sdk-setup)
+- [Storage](https://ionicframework.com/docs/storage/)
+
 
 
 ## Share a meeting
