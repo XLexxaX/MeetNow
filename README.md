@@ -77,7 +77,7 @@ one less to explore._**
 The credentials usually can be obtained in the mobileApp on the settings page (as shown [here](TODO)).
 
 ## Link to our individual Github repositories
-Florian Bunsmann:
+Florian Bunsmann: https://github.com/flodesflo/MobileDev
 
 Carmen Rannefeld: https://github.com/carmabell/MobileApp
 
