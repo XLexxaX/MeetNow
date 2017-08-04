@@ -1,6 +1,6 @@
 # MeetNow
 
-MeetNow is an mobile Application project in context of the lecture Platforms & Frameworks for Students of Business 
+MeetNow is a mobile application project in context of the lecture Platforms & Frameworks for Students of Business 
 Information Technology at the [DHBW Mannheim](https://www.dhbw-mannheim.de/).
 
 To get a quick overview, check out our 
@@ -10,7 +10,7 @@ To get a quick overview, check out our
 - [Use Case](#use-case)
 - [Architectural Overview](#architectural-overview)
 - [Browser App](#browser-app)
-- [URL's to our individual mobile App repositories (5. Semester)](#link-to-our-individual-github-repositories)
+- [URL's to our individual mobile App repositories (5th Semester)](#link-to-our-individual-github-repositories)
 - [Frontend](./mobileApp/README.md)
     + [Contacts](./mobileApp/README.md#contacts)
     + [Plan a meeting](./mobileApp/README.md#plan-a-meeting)
