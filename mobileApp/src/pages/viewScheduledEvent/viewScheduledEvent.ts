@@ -47,11 +47,9 @@ export class ViewScheduledEventPage {
 
     var that = this;
     this.storage.get('user').then((data) => {
-      var found = false;
 
       if (data) {
         if (data.id) {
-
 
           that.item.meeting.participants.forEach((value) => {
 
@@ -62,7 +60,7 @@ export class ViewScheduledEventPage {
             }
           });
 
-
+          var found = false;
           if (data.id === that.item.meeting.ownerId) {
             found = true;
             that.allItemsParticipants.push("Me");
@@ -72,9 +70,14 @@ export class ViewScheduledEventPage {
               if (datax && datax!=null) {
                 for (var i=0; i<datax.length; i++) {
                   if (datax[i].id === that.item.meeting.ownerId) {
+                    found = true;
                     that.allItemsParticipants.push(datax[i].name);
                   }
                 }
+              }
+
+              if (!found) {
+                that.allItemsParticipants.push("Unknown creator");
               }
             })
           }

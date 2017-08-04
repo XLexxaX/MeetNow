@@ -59,6 +59,7 @@ export class HomePage {
                   handler: data => {
                     that.meetingApi.getMeetings(data.UserID+"", data.Secret+"").subscribe((meetingsFromServer) => {
 
+
                       that.plannedEvents = [];
                       meetingsFromServer.forEach((item) =>{
                         let tmp_LocalMeeting: LocalMeeting = {meeting: item};
@@ -73,6 +74,7 @@ export class HomePage {
 
                       console.log("Successfully retrieved data from server.")
                     }, (err) => {
+                      alert("Apparently, your login credentials are invalid. Reload website to try again!")
                       console.log(err);
                     });
 
