@@ -137,7 +137,7 @@ https://meetnow.cfapps.eu10.hana.ondemand.com. Spring takes care of the static f
 necessary.
 
 ### Deployment
-We deploy our app to the [SAP Cloud Platform](https://cloudplatform.sap.com/index.html). SCP uses Cloud Foundry an open 
+We deploy our app to the [SAP Cloud Platform](https://cloudplatform.sap.com/index.html). SCP uses Cloud Foundry, an open 
 industry standard for cloud application platform that abstracts away infrastructure so you can focus on app innovation.
 Therefore, the Cloud Foundry command line interface can be used to deploy and monitor the application in the cloud. To
 deploy the app, there is a [manifest.yml](./manifest.yml) file to define parameters about the application for
