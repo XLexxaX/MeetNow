@@ -81,4 +81,4 @@ Florian Bunsmann: https://github.com/flodesflo/MobileDev
 
 Carmen Rannefeld: https://github.com/carmabell/MobileApp
 
-Alexander Lütke:
+Alexander Lütke: https://github.com/XLexxaX/MobileDevApp
