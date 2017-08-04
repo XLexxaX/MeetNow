@@ -30,6 +30,12 @@ export class ViewScheduledEventPage {
     this.allItemsParticipants = [];
 
     var that = this;
+
+    /*
+    * the following lines serve the only purpose of showing complete and User-friendly participants on UI.
+    * So try to get all names of the participants; therefore use all the data, the phone has collected about
+    * other participants and a meeting and transfer the names into an array (allItemParticipants).
+    * */
     this.storage.get('user').then((data) => {
 
       if (data) {
@@ -76,6 +82,10 @@ export class ViewScheduledEventPage {
 
   }
 
+
+  /*
+   * Remove an event in storage, internal variables and on server.
+   */
   removeEvent() {
     var that = this;
     this.meetingApi.removeMeeting(this.item.meeting).subscribe(
@@ -111,6 +121,9 @@ export class ViewScheduledEventPage {
     );
   }
 
+  /*
+  * Share the event by mail, whatsapp or SMS.
+  * */
   share(socialNet: string) {
 
     console.log("Sharing in", socialNet);

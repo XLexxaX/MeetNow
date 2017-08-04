@@ -91,6 +91,11 @@ export class PlanEvent3Page {
 
   }
 
+  /*
+  * This method collects all the information given within the course of planning a meeting and transfer it into
+  * one single object. This object is then sent to the server and stored in the phone's storage.
+  * Likewise a geofence is set and the chosen participant's are notified with OneSignal push notification.
+  * */
   saveMeeting() {
     //add participants to this.newEvent
     this.allContacts.filter((item) => {
@@ -131,6 +136,7 @@ export class PlanEvent3Page {
     //    })
     //  }
     //});
+
 
 
     let newLocalEvent: LocalMeeting = {meeting: this.newEvent};

@@ -16,6 +16,7 @@ import {User} from "../../gen/model/User";
 })
 export class HomePage {
 
+  //A meeting the user has clicked.
   selectedItem: any;
   //All meetings the user participates in.
   plannedEvents: Array<LocalMeeting>;
@@ -27,6 +28,7 @@ export class HomePage {
     // If we navigated to this page, we will have an item available as a nav param
 
 
+    //If this script is called by a webbrowser, do some other stuff than on mobile phones.
     if(!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)){
 
       this.plannedEvents = [];
@@ -37,6 +39,14 @@ export class HomePage {
         global.browser = true;
         var that = this;
 
+        /*
+        * With this comment, the next view lines shall be summarized:
+        * If user data is stored in the browser's storage, call the website with the saved credentials.
+        * If no user data is stored, the user is asked to provide his user-id (which is simila to the OneSignal PlayerID)
+        * and a previously server-generated secret-value you can look up in the app on the phone.
+        * If valid user data is given, save it into the browser's storage so that the user does not need to type it in
+        * each time he enters the page.
+        * */
         storage.get('user').then((user) => {
           if (!user || user==null) {
 
@@ -115,6 +125,8 @@ export class HomePage {
 
     }
 
+    //If a new meeting arrives (coming via app.component.ts from a push notification)
+    //read it out and set a new geofence.
     this.selectedItem = navParams.get('item');
     if (this.selectedItem) {
       var bgGeo = (<any>window).BackgroundGeolocation;
@@ -125,9 +137,15 @@ export class HomePage {
       });
     }
 
+    //If the user calls this script with a phone, perform the following lines of code.
     if (!global.browser) {
+      //Get possible parameters...
       var newMeetingArrived = navParams.get('newMeetingArrived');
       var scheduledMeetingId = navParams.get('scheduledMeetingId');
+      //...and check which parameter is given. That indicates which particular action is to be performed.
+
+      //The first one: A new meeting arrive.
+      //So save the meeting into storage and internal variables and update the user interface.
       if (newMeetingArrived != undefined) {
         this.plannedEvents = global.plannedEvents;
         this.scheduledEvents = global.scheduledEvents;
@@ -157,6 +175,9 @@ export class HomePage {
 
         });
 
+        //If a meeting takes place, save it into storage and internal variables and update the UI.
+        //Likewise try to set a calendar entry (operating system must ship a respective API; not all Android
+        // devices provide this.)
       } else if (scheduledMeetingId) {
 
         var that = this;
@@ -279,7 +300,10 @@ export class HomePage {
 
   }
 
-
+  /*
+  * Reads out all meetings from the phone's storage. Furthermore, it checks whether a event takes place
+  * just right now or in future, so that a meeting is shown in the correct sections on UI.
+  * */
   refreshMeetingsFromStorage() {
     this.plannedEvents = [];
     this.scheduledEvents = [];
@@ -307,12 +331,14 @@ export class HomePage {
 
   }
 
+  //Item is clicked by user. Change to detailled view.
   itemTapped(event, item) {
     this.navCtrl.push(ViewScheduledEventPage, {
       meeting: item
     });
   }
 
+  //Get UID for calendar entry.
   guid(){
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
       var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);

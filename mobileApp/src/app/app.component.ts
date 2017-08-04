@@ -71,9 +71,16 @@ export class MyApp {
 
         var currentPage = nav.getActive().component.name + "";
 
-
+        //Each push can have custom data attached. This data is later used.
         var payload = jsonData.notification.payload.additionalData;
+        /*
+        * Within the payload information (custom data) a json value, called 'operation' ist set.
+        * The operation value is an integer number indicating which action the push wants to trigger.
+        * I.e. invitation into a meeting, a meeting is taking place, ...
+        * */
         switch (payload.operation) {
+          //User was invited into a newly created event.
+          //home.ts is responsible for further handling
           case "0":
 
             if (payload.meeting && payload.meeting != null) {
@@ -81,11 +88,12 @@ export class MyApp {
             }
 
             break;
+
+          //Delete operation; tbd
           case "1":
-            //delete operation
             break;
+          //Another user has added this user.
           case "2":
-            console.log("opened notification to add user");
             that.storage.get("contact").then((contact) => {
               if (!payload.userId) {
                 let alert = that.alertCtrl.create({
@@ -119,6 +127,9 @@ export class MyApp {
               }
             });
             break;
+
+          //All participants are in the geofence area of a meeting. So the user needs to tell whether to participate in a
+          //potential meeting or not
           case "4":
             if (payload.id) {
 
@@ -166,6 +177,9 @@ export class MyApp {
               alert("An error occured after receiving a notification: Unsufficient information provided.");
             }
             break;
+
+          //All participants accepted the meeting so that the meeting takes place.
+          //home.ts is responsible for further handling
           case "5":
 
             nav.setRoot(HomePage, {'scheduledMeetingId': payload.id});
@@ -191,6 +205,7 @@ export class MyApp {
     }
   }
 
+  //Store user credentials in the phone's storage and global variables.
   initializeAppOnFirstStartUp() {
     this.storage.get("user").then(
       (user: User) => {
