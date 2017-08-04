@@ -15,7 +15,7 @@ Persistence is handled by [MongoDB](https://www.mongodb.com/), the app is hosted
 
 ## Setup Development Environment
 
-This is just for us working on the project.
+This is just for the development team working on the project.
 
 ### Maven
 1. If you don't have maven, download the binary zip archive from [here](https://maven.apache.org/download.cgi).
@@ -34,7 +34,7 @@ Variable.
  choose 
 `Build-Path`->`Use as source folder`.
 
-Your project structure should look as shown below now.
+Your project structure should look as shown below:
 
 ![folderStructure](./folderStructure.png "Folder structure in the maven project")
 
@@ -58,7 +58,7 @@ Enter the following line and save the file (the specified path has to match your
 If you want to run the bat file now, you right-click and choose `Open-With`->`System Editor`. After you've done this once, you can just double-click the file to start MongoDB.
 
 ### Postman
-1. Add the Postman Extension as a Chrome Plugin.
+1. Add the Postman Extension as a Chrome plug in.
 2. Open the Postman plugin by pressing the `windows key` and typing "postman". Choose the option `take me directly to the app`.
 
 ## Local Testing
